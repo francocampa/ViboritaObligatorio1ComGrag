@@ -15,8 +15,18 @@ GameController::GameController() {
 		}
 	}
 
+	GLfloat colores[] = {
+		0.20, 0.20, 0.20,
+		0.30, 0.30, 0.30,
+		0.50, 0.50, 0.50,
+		0.70, 0.70, 0.70,
+		0.90, 0.90, 0.90,
+		0.110, 0.110, 0.110
+	};
 	Vec3 applePos = { getGridPosition(3),getGridPosition(4),getGridPosition(3) };
 	grid[3][4][3] = new Apple(applePos);
+	Vec3 viboritaPos = { getGridPosition(5),getGridPosition(4),getGridPosition(5) };
+	grid[5][4][5] = new Viborita(viboritaPos, colores);
 
 	for (int x = 2; x < 7;x++) {
 		for (int y = 2; y < 4;y++) {

@@ -8,6 +8,7 @@
 #include "IGameEntity.h"
 #include "Block.h"
 #include "Apple.h"
+#include "Viborita.h"
 
 class GameController
 {

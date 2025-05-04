@@ -37,7 +37,7 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Viborita.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -53,11 +53,10 @@
     <ClInclude Include="IGameEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Viborita.h">
-=======
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Apple.h">
->>>>>>> 342da8ebfab2bcc57ba576a090b1cacfcfb366f3
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
