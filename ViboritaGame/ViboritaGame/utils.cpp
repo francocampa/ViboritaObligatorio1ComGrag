@@ -21,15 +21,15 @@ void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]) {
 }
 
 GLfloat baseCubeVertices[] = {
-	0.0f, 0.0f, 0.0f,  
-	1.0f, 0.0f, 0.0f,  
-	1.0f, 1.0f, 0.0f, 
-	0.0f, 1.0f, 0.0f,  
+	0.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 0.0f,
 
-	0.0f, 0.0f, 1.0f, 
-	1.0f, 0.0f, 1.0f,  
-	1.0f, 1.0f, 1.0f,  
-	0.0f, 1.0f, 1.0f   
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 1.0f,
+	1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 1.0f
 };
 
 GLfloat baseCubeColors[] = {
@@ -44,9 +44,9 @@ GLfloat baseCubeColors[] = {
 	0.20,0.20,0.20,
 
 	0.25,0.25,0.25,
-	
+
 	0.25,0.25,0.30,
-	
+
 	0.25,0.25,0.35,
 
 };

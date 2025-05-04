@@ -15,9 +15,9 @@ GameController::GameController() {
 		}
 	}
 
-	for (int x = 3; x < 5;x++) {
+	for (int x = 2; x < 7;x++) {
 		for (int y = 2; y < 4;y++) {
-			for (int z = 3; z < 5;z++) {
+			for (int z = 2; z < 7;z++) {
 				Vec3 blockPos = { getGridPosition(x),getGridPosition(y),getGridPosition(z) };
 				grid[x][y][z] = new Block(blockPos);
 			}
@@ -53,7 +53,7 @@ void GameController::processFrame(float deltaTime) {
 			}
 		}
 	}
-	
+
 }
 
 float GameController::getGridPosition(float a) {
