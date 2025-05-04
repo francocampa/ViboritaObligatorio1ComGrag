@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Classes">
+      <UniqueIdentifier>{d449b226-6c48-41a7-8f04-56c93044543f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViboritaGame.cpp">
@@ -21,14 +24,17 @@
     <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Block.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameController.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="IGameEntity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Apple.cpp">
+      <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Viborita.cpp">
       <Filter>Source Files</Filter>
@@ -47,7 +53,11 @@
     <ClInclude Include="IGameEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Viborita.h">
+=======
+    <ClInclude Include="Apple.h">
+>>>>>>> 342da8ebfab2bcc57ba576a090b1cacfcfb366f3
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

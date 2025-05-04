@@ -1,4 +1,3 @@
-#include "GameEntity.h"
 #include "Block.h"
 
 Block::Block(Vec3 position) {

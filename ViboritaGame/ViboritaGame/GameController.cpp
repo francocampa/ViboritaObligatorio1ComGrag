@@ -15,6 +15,9 @@ GameController::GameController() {
 		}
 	}
 
+	Vec3 applePos = { getGridPosition(3),getGridPosition(4),getGridPosition(3) };
+	grid[3][4][3] = new Apple(applePos);
+
 	for (int x = 2; x < 7;x++) {
 		for (int y = 2; y < 4;y++) {
 			for (int z = 2; z < 7;z++) {
@@ -33,16 +36,6 @@ GameController* GameController::getInstance() {
 }
 
 void GameController::processFrame(float deltaTime) {
-
-	glColor3f(0, 0, 0);
-	for (int x = 0; x < GRID_SIZE;x++) {
-		for (int y = 0; y < GRID_SIZE;y++) {
-			for (int z = 0; z < GRID_SIZE;z++) {
-				glVertex3f(getGridPosition(x), getGridPosition(y), getGridPosition(z));
-			}
-		}
-	}
-	glEnd();
 	for (int x = 0; x < GRID_SIZE;x++) {
 		for (int y = 0; y < GRID_SIZE;y++) {
 			for (int z = 0; z < GRID_SIZE;z++) {
@@ -53,7 +46,6 @@ void GameController::processFrame(float deltaTime) {
 			}
 		}
 	}
-
 }
 
 float GameController::getGridPosition(float a) {

@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Apple.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="IGameEntity.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="ViboritaGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="IGameEntity.h" />
