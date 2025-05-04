@@ -17,6 +17,7 @@ void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]) {
 		glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, &indices[i * 4]);
 	}
 
+	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
@@ -59,3 +60,41 @@ GLubyte baseCubeIndices[] = {
 	2, 3, 7, 6, // Top face
 	0, 3, 7, 4  // Bottom face
 };
+
+
+void drawPyramid(GLfloat vertices[12], GLfloat colors[12], GLuint indices[12]) {
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glColorPointer(3, GL_FLOAT, 0, colors);
+	for (int i = 0; i < 4; ++i) {
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indices[i * 3]);
+	}
+
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+GLfloat* basePyramidVertices = new GLfloat[12]{
+	0.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f, 
+	0.5f, 0.0f, 0.866f,
+	0.5f, 1.0f, 0.288f 
+};
+
+GLfloat* basePyramidColors = new GLfloat[12]{
+	1.0f, 0.388f, 0.278f,
+	1.0f, 0.288f, 0.278f,
+	1.0f, 0.388f, 0.278f,
+	1.0f, 0.288f, 0.278f,
+};
+
+GLuint basePyramydIndices[] = {
+	0, 1, 2,  // Base triangle (ABC)
+
+	0, 1, 3,  // Side triangle (AB + top)
+	1, 2, 3,  // Side triangle (BC + top)
+	2, 0, 3   // Side triangle (CA + top)
+};
+

@@ -7,6 +7,7 @@
 
 #include "IGameEntity.h"
 #include "Block.h"
+#include "Apple.h"
 
 class GameController
 {

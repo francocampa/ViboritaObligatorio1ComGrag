@@ -27,3 +27,11 @@ extern GLfloat baseCubeVertices[];
 extern GLfloat baseCubeColors[];
 
 extern GLubyte baseCubeIndices[];
+
+void drawPyramid(GLfloat vertices[12], GLfloat colors[12], GLuint indices[12]);
+
+extern GLfloat* basePyramidVertices;
+
+extern GLfloat* basePyramidColors;
+
+extern GLuint basePyramydIndices[];
