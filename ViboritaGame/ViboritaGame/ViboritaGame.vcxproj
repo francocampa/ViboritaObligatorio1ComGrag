@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL\include;C:\glm;C:\assimp-master\include;C:\glew-2.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\SDL\include;C:\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,6 +137,7 @@
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="IGameEntity.cpp" />
     <ClCompile Include="utils.cpp" />
+    <ClCompile Include="Viborita.cpp" />
     <ClCompile Include="ViboritaGame.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +145,7 @@
     <ClInclude Include="GameController.h" />
     <ClInclude Include="IGameEntity.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="Viborita.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
