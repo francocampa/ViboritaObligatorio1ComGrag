@@ -4,6 +4,6 @@ void IGameEntity::draw() {
 	
 }
 
-void IGameEntity::process() {
+void IGameEntity::process(float deltaTime) {
 
 }

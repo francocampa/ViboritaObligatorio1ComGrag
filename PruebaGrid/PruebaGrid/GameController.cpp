@@ -32,7 +32,7 @@ GameController* GameController::getInstance() {
 	return instance;
 }
 
-void GameController::processFrame() {
+void GameController::processFrame(float deltaTime) {
 	glBegin(GL_POINTS);
 	glColor3f(0, 0, 0);
 	for (int x = 0; x < GRID_SIZE;x++) {
@@ -47,7 +47,7 @@ void GameController::processFrame() {
 		for (int y = 0; y < GRID_SIZE;y++) {
 			for (int z = 0; z < GRID_SIZE;z++) {
 				if (grid[x][y][z] != NULL) {
-					grid[x][y][z]->process();
+					grid[x][y][z]->process(deltaTime);
 					grid[x][y][z]->draw();
 				}
 			}

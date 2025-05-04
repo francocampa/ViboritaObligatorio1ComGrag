@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
 			glRotatef(degrees, 1.0, 1.0, 0.0);
 		}
 
-		GameController::getInstance()->processFrame();
+		GameController::getInstance()->processFrame(deltaTime);
 
 		//drawCube(baseCubeVertices, baseCubeColors, baseCubeIndices);
 		//drawCube(cubever, baseCubeColors, baseCubeIndices);

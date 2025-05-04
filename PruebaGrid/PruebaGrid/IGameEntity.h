@@ -4,7 +4,7 @@
 class IGameEntity
 {
 	public:
-		virtual void process();
+		virtual void process(float deltaTime);
 		virtual void draw();
 };
 

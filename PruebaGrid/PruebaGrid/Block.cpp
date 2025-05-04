@@ -29,6 +29,6 @@ void Block::draw() {
 	drawCube(this->cube, baseCubeColors, baseCubeIndices);
 }
 
-void Block::process() {
+void Block::process(float deltaTime) {
 
 }

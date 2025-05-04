@@ -18,7 +18,7 @@ public:
 	int TILE_SIZE;
 	float GRID_OFFSET;
 	static GameController* getInstance();
-	void processFrame();
+	void processFrame(float deltaTime);
 	float getGridPosition(float a);
 };
 

@@ -10,7 +10,7 @@ private:
 	GLfloat cube[24];
 public:
 	Block(Vec3 position);
-	void process();
+	void process(float deltaTime);
 	void draw();
 };
 
