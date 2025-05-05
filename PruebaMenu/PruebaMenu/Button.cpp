@@ -41,7 +41,6 @@ void Button::handleClick()
 void Button::handleHover()
 {
 	hover = !hover;
-	printf(hover ? "isHovering\n":"notHovering\n");
 }
 
 bool Button::isHovering()
