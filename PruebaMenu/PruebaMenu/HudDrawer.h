@@ -11,6 +11,6 @@ private:
 	static HudDrawer* instance;
 public:
 	static HudDrawer* getInstance();
-	void drawHud(Vec2 mousePos);
+	void drawHud(Vec2 mousePos,bool click);
 };
 

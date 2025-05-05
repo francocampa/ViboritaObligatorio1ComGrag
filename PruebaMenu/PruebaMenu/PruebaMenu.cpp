@@ -41,6 +41,7 @@ int main(int argc, char* argv[]) {
 	float degrees = 0;
 	int mousex = 0;
 	int mousey = 0;
+	bool click = false;
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -52,6 +53,7 @@ int main(int argc, char* argv[]) {
 			case SDL_MOUSEBUTTONDOWN:
 				break;
 			case SDL_MOUSEBUTTONUP:
+				click = true;
 				break;
 			case SDL_QUIT:
 				fin = true;
@@ -61,8 +63,8 @@ int main(int argc, char* argv[]) {
 				mousey = event.motion.y;
 			}
 		}
-		HudDrawer::getInstance()->drawHud({mousex,mousey});
-
+		HudDrawer::getInstance()->drawHud({mousex,mousey},click);
+		click = false;
 		SDL_GL_SwapWindow(win);
 	} while (!fin);
 	SDL_GL_DeleteContext(context);

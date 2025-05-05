@@ -1,20 +1,21 @@
 #include "Button.h"
 
-Button::Button()
+Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)())
 {
 	bool hover = false;
 	
-	const char* texture = "./images/SoyUnBoton.png";
-	const char* textureHover = "./images/SoyUnBotonHover.png";
 
-	loadTexture(this->textureId,texture);
-	loadTexture(this->hoverTextureId,textureHover);
+	loadTexture(this->textureId,texturePath);
+	if(hoverPath != NULL)
+		loadTexture(this->hoverTextureId,hoverPath);
 
 	this->rectangle = new SDL_Rect();
-	this->rectangle->x = 200;
-	this->rectangle->y = 200;
-	this->rectangle->w = 300;
-	this->rectangle->h = 100;
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = callback;
 }
 
 void Button::draw()
@@ -34,6 +35,7 @@ void Button::draw()
 
 void Button::handleClick()
 {
+	this->callback();
 }
 
 void Button::handleHover()
@@ -50,8 +52,4 @@ bool Button::isHovering()
 SDL_Rect* Button::getRect()
 {
 	return this->rectangle;
-}
-
-bool Button::operator<(Button& other){
-	return textureId < other.textureId;
 }

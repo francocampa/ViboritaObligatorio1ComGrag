@@ -18,13 +18,13 @@ private:
 	GLuint hoverTextureId;
 	SDL_Rect* rectangle;
 	bool hover;
+	void (*callback)();
 public:
-	Button();
+	Button(const char*texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)());
 	virtual void draw();
 	virtual void handleClick();
 	virtual void handleHover();
 	bool isHovering();
 	SDL_Rect* getRect();
-	bool operator<(Button& other);
 };
 
