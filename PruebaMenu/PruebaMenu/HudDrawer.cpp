@@ -19,6 +19,12 @@ HudDrawer* HudDrawer::getInstance()
 
 void HudDrawer::drawHud(Vec2 mousePos)
 {
+    SDL_Rect mouse;
+    mouse.h = 20;
+    mouse.w = 20;
+    mouse.x = mousePos.x;
+    mouse.y = mousePos.y;
+
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();                     // Save current projection
     glLoadIdentity();
@@ -28,8 +34,12 @@ void HudDrawer::drawHud(Vec2 mousePos)
     glLoadIdentity();
 
     for (Button * btn : buttons) {
-        if (btn != NULL)
+        if (btn != NULL) {
+            bool mouseOver = SDL_HasIntersection(&mouse, btn->getRect());
+            if ((!mouseOver && btn->isHovering()) || (mouseOver && !btn->isHovering()))
+                btn->handleHover();
             btn->draw();
+        }
     }
 
     glPopMatrix();                      // Restore modelview

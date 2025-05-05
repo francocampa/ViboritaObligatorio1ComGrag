@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 		SDL_WINDOWPOS_CENTERED,
 		640, 480, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	SDL_GLContext context = SDL_GL_CreateContext(win);
-
+	IMG_Init(IMG_INIT_PNG);
 	glMatrixMode(GL_PROJECTION);
 
 	float color = 0;
@@ -39,11 +39,8 @@ int main(int argc, char* argv[]) {
 	y = 0;
 	z = 5;
 	float degrees = 0;
-	SDL_Rect mouse;
-	mouse.h = 20;
-	mouse.w = 20;
-	mouse.x = 0;
-	mouse.y = 0;
+	int mousex = 0;
+	int mousey = 0;
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -60,11 +57,11 @@ int main(int argc, char* argv[]) {
 				fin = true;
 				break;
 			case SDL_MOUSEMOTION:
-				mouse.x = event.motion.x;
-				mouse.y = event.motion.y;
+				mousex = event.motion.x;
+				mousey = event.motion.y;
 			}
 		}
-		HudDrawer::getInstance()->drawHud({mouse.x,mouse.y});
+		HudDrawer::getInstance()->drawHud({mousex,mousey});
 
 		SDL_GL_SwapWindow(win);
 	} while (!fin);

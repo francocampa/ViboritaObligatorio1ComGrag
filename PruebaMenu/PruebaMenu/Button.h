@@ -6,7 +6,8 @@
 #include <conio.h>
 #include <GL/glu.h>
 #include <SDL_image.h>
-
+#include "utils.h"
+#include <string>
 
 
 class Button
@@ -14,7 +15,8 @@ class Button
 private:
 	SDL_Surface* surface;
 	GLuint textureId;
-	SDL_Rect rectangle;
+	GLuint hoverTextureId;
+	SDL_Rect* rectangle;
 	bool hover;
 public:
 	Button();
@@ -22,6 +24,7 @@ public:
 	virtual void handleClick();
 	virtual void handleHover();
 	bool isHovering();
+	SDL_Rect* getRect();
 	bool operator<(Button& other);
 };
 
