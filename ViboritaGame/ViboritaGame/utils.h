@@ -15,6 +15,17 @@ struct Vec3 {
 	float x, y, z;
 };
 
+struct posList {
+	Vec3 positions;
+	posList* next;
+};
+
+struct header {
+	int size;
+	posList* head;
+	posList* tail;
+};
+
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};
 
 float distance(const Vec3& a, const Vec3& b);

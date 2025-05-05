@@ -22,6 +22,10 @@ private:
 	Viborita* viborita;
 	Settings* settings;
 	GameStats* stats;
+	bool up = false;
+	bool down = false;
+	bool left = false;
+	bool right = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -29,5 +33,9 @@ public:
 	static GameController* getInstance();
 	void processFrame(float deltaTime);
 	float getGridPosition(float a);
+	void setUP();
+	void setDOWN();
+	void setLEFT();
+	void setRIGHT();
 };
 

@@ -12,14 +12,20 @@ class Viborita :
 	public IGameEntity
 {
 private:
-	Vec3 *position;
 	float rotation[4]; // angle, x, y, z
 	GLfloat viborita[24];
 	GLfloat viboritaColors[24];
+	header positions;
+	int moving;
 public:
 	Viborita(Vec3, GLfloat colors[24] );
 	void process(float deltaTime);
 	void draw();
+	void setUp();
+	void setDown();
+	void setLeft();
+	void setRight();
+	void stopMoving();
 	~Viborita();
 };
 

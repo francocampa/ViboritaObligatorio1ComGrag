@@ -91,6 +91,34 @@ int main(int argc, char* argv[]) {
 				case SDLK_r:
 					rotate = !rotate;
 					break;
+				case SDLK_UP:
+					GameController::getInstance()->setUP();
+					break;
+				case SDLK_DOWN:
+					GameController::getInstance()->setDOWN();
+					break;
+				case SDLK_LEFT:
+					GameController::getInstance()->setLEFT();
+					break;
+				case SDLK_RIGHT:
+					GameController::getInstance()->setRIGHT();
+					break;
+				}
+				break;
+			case SDL_KEYDOWN:
+				switch (event.key.keysym.sym) {
+				case SDLK_UP:
+					GameController::getInstance()->setUP();
+					break;
+				case SDLK_DOWN:
+					GameController::getInstance()->setDOWN();
+					break;
+				case SDLK_LEFT:
+					GameController::getInstance()->setLEFT();
+					break;
+				case SDLK_RIGHT:
+					GameController::getInstance()->setRIGHT();
+					break;
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
