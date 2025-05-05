@@ -15,6 +15,8 @@ struct Vec3 {
 	float x, y, z;
 };
 
+enum TEX_SETTINGS {FACETADO, INTERPOLADO};
+
 float distance(const Vec3& a, const Vec3& b);
 
 void drawCube(GLfloat vertices[], GLfloat colors[], GLubyte indices[]);

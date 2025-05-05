@@ -9,13 +9,19 @@
 #include "Block.h"
 #include "Apple.h"
 #include "Viborita.h"
-
+#include "Settings.h"
+#include "GameStats.h"
+#include "IGameState.h"
 class GameController
 {
 private:
 	GameController();
 	static GameController* instance;
+	IGameState* state;
 	IGameEntity* grid[8][8][8];
+	Viborita* viborita;
+	Settings* settings;
+	GameStats* stats;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;

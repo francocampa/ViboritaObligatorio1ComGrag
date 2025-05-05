@@ -136,7 +136,15 @@
     <ClCompile Include="Apple.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="GameController.cpp" />
+    <ClCompile Include="GamePlay.cpp" />
+    <ClCompile Include="GameStats.cpp" />
+    <ClCompile Include="HudController.cpp" />
     <ClCompile Include="IGameEntity.cpp" />
+    <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="LoadLevel.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Settings.cpp" />
+    <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Viborita.cpp" />
     <ClCompile Include="ViboritaGame.cpp" />
@@ -145,7 +153,15 @@
     <ClInclude Include="Apple.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="GameController.h" />
+    <ClInclude Include="GamePlay.h" />
+    <ClInclude Include="GameStats.h" />
+    <ClInclude Include="HudController.h" />
     <ClInclude Include="IGameEntity.h" />
+    <ClInclude Include="IGameState.h" />
+    <ClInclude Include="LoadLevel.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Settings.h" />
+    <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Viborita.h" />
   </ItemGroup>

@@ -16,6 +16,24 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{d449b226-6c48-41a7-8f04-56c93044543f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\game_entities">
+      <UniqueIdentifier>{8f0f8472-a822-40bb-bee4-36fdcab45de0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game_states">
+      <UniqueIdentifier>{73632e17-36a0-43b2-9e5d-f51b544e0ffd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game_entities">
+      <UniqueIdentifier>{d0468335-f1a9-4eb0-9258-de37a406abca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game_states">
+      <UniqueIdentifier>{8c61e680-4de6-45cd-9f6d-73d9b3e58ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game_objects">
+      <UniqueIdentifier>{3ac88dc3-7606-47aa-a31d-659dd0aa5bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\game_objects">
+      <UniqueIdentifier>{deda6413-7528-4113-bc68-e326eb4b9268}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViboritaGame.cpp">
@@ -24,19 +42,43 @@
     <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="GameController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
-    <ClCompile Include="IGameEntity.cpp">
-      <Filter>Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Apple.cpp">
-      <Filter>Classes</Filter>
+      <Filter>Classes\game_entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Classes\game_entities</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameEntity.cpp">
+      <Filter>Classes\game_entities</Filter>
     </ClCompile>
     <ClCompile Include="Viborita.cpp">
+      <Filter>Classes\game_entities</Filter>
+    </ClCompile>
+    <ClCompile Include="IGameState.cpp">
+      <Filter>Classes\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="GamePlay.cpp">
+      <Filter>Classes\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadLevel.cpp">
+      <Filter>Classes\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Classes\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingsMenu.cpp">
+      <Filter>Classes\game_states</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStats.cpp">
+      <Filter>Classes\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Classes\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="HudController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,17 +89,41 @@
     <ClInclude Include="GameController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Apple.h">
+      <Filter>Header Files\game_entities</Filter>
+    </ClInclude>
     <ClInclude Include="Block.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game_entities</Filter>
     </ClInclude>
     <ClInclude Include="IGameEntity.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\game_entities</Filter>
     </ClInclude>
     <ClInclude Include="Viborita.h">
+      <Filter>Header Files\game_entities</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameState.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="GamePlay.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsMenu.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadLevel.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\game_states</Filter>
+    </ClInclude>
+    <ClInclude Include="HudController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Apple.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Settings.h">
+      <Filter>Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStats.h">
+      <Filter>Header Files\game_objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
