@@ -15,15 +15,16 @@ struct Vec3 {
 	float x, y, z;
 };
 
-struct posList {
-	Vec3 positions;
-	posList* next;
+struct  ViboritaPart{
+	Vec3 gridIndex;
+	Vec3 position;
+	ViboritaPart* next;
 };
 
-struct header {
+struct ViboritaBody {
 	int size;
-	posList* head;
-	posList* tail;
+	ViboritaPart* head;
+	ViboritaPart* tail;
 };
 
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};

@@ -6,13 +6,12 @@ class Apple :
     public IGameEntity
 {
 private:
-    Vec3 position;
     Vec3 pivot;
     bool movingUp;
     float angle;
     GLfloat pyramid[12];
 public:
-    Apple(Vec3 position);
+    Apple(Vec3 gridIndexes, Vec3 position);
     void process(float deltaTime);
     void draw();
 };

@@ -6,10 +6,9 @@ class Block :
 	public IGameEntity
 {
 private:
-	Vec3 position;
 	GLfloat cube[24];
 public:
-	Block(Vec3 position);
+	Block(Vec3 gridIndexes, Vec3 position);
 	void process(float deltaTime);
 	void draw();
 };

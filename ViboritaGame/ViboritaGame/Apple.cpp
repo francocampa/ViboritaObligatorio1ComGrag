@@ -1,7 +1,6 @@
 #include "Apple.h"
 
-Apple::Apple(Vec3 position) {
-	this->position = position;
+Apple::Apple(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position) {
 	this->angle = 0;
 	//this->pivot = { 0.5f + position.x, 0.5f + position.y, 0.433f +position.z};
 	this->pivot = { 0,0,0 };

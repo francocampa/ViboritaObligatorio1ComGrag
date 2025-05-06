@@ -1,97 +1,104 @@
 #include "Viborita.h"
+#include "GameController.h"
 
-Viborita::Viborita(Vec3 position, GLfloat colors[24]) {
+Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameEntity(gridIndexes,position) {
 	for (int i = 0; i < 24; i++) {
 		this->viboritaColors[i] = colors[i]; 
 	}
-	this->cola.x = position.x - 1;
-	this->cola.y = position.y;
-	this->cola.z = position.z;
-	this->positions.head = new posList;
-	this->positions.head->next = new posList;
-	this->positions.head->next->next = NULL;
-	this->positions.head->next->positions = this->cola;//posición inicial de la cola
-	this->positions.head->positions = position;
-	this->positions.tail = this->positions.head->next;
-	this->positions.size = 2;
-	this->moving = 0;
-	for (int i = 0; i < 24; i++) {
-		this->viborita[i] = baseCubeVertices[i];
-	}
+
+	ViboritaPart* head = new ViboritaPart;
+	head->gridIndex = gridIndexes;
+	head->position = position;
+	head->next = nullptr;
+
+	body.head = head;
+	body.tail = head;
+	body.size = 1;
+
+	prevMovement = { 0,0,0 };
 }
 
 //TODO: Agregar lógica para dibujar el cuerpo de tamaño n.
 void Viborita::draw() {
+	ViboritaPart* bodyPart = this->body.head;
+	while(bodyPart != NULL)
+	{
 		glPushMatrix();
-		glTranslatef(this->positions.head->positions.x, this->positions.head->positions.y, this->positions.head->positions.z);
-		drawCube(this->viborita, this->viboritaColors, baseCubeIndices);
+		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
+		drawCube(baseCubeVertices, this->viboritaColors, baseCubeIndices); //Como ya hice el translate dibujo el base cube nada m[as, sino va a estar doblemente corrido
 		glPopMatrix();
-		glPushMatrix();
-		glTranslatef(this->cola.x, this->cola.y, this->cola.z);
-		drawCube(this->viborita, this->viboritaColors, baseCubeIndices);
-		glPopMatrix();
+		bodyPart = bodyPart->next;
+	}
 }
 
 
 //TODO: Ajustar movimiento según la grilla
 void Viborita::process(float deltaTime) {
-		posList* aux = this->positions.head;
-		switch (moving) {
-		case 1:
-			this->cola = this->positions.head->positions;//la cola tomará la pos. del bloque siguiente
-			for (int i = 0; i < this->positions.size; i++) {
-				if (aux->positions.y <= this->positions.size) {
-					aux->positions.y += 0.5;
-					aux = aux->next;
-				}
-			}
-			moving = 0;
-			break;
-		case 2:
-			this->cola = this->positions.head->positions;
-			for (int i = 0; i < this->positions.size; i++) {
-				if (aux->positions.y - 0.5 >= 0) {
-					aux->positions.y -= 0.5;
-					aux = aux->next;
-				}
-			}
-			moving = 0;
-			break;
-		case 3:
-			this->cola = this->positions.head->positions;
-			for (int i = 0; i < this->positions.size; i++) {
-				aux->positions.x += 0.5;
-				aux = aux->next;
-			}
-			moving = 0;
-			break;
-		case 4:
-			this->cola = this->positions.head->positions;
-			for (int i = 0; i < this->positions.size; i++) {
-				aux->positions.x -= 0.5;
-				aux = aux->next;
-			}
-			moving = 0;
-			break;
-		}
-}
 
-void Viborita::setUp() {
-	this->moving = 1;
-}
+	Vec3* movementDir = new Vec3;
+	movementDir->x = 0;
+	movementDir->y = 0;
+	movementDir->z = 0;
 
-void Viborita::setDown() {
-	this->moving = 2;
-}
+	if (GameController::getInstance()->isArrowUp())
+		movementDir->z = 1; 
+	else if (GameController::getInstance()->isArrowDown())
+		movementDir->z = -1;
+	else if (GameController::getInstance()->isArrowLeft())
+		movementDir->x = 1;
+	else if (GameController::getInstance()->isArrowRight())
+		movementDir->x = -1;
 
-void Viborita::setRight() {
-	this->moving = 3;
-}
+	if (movementDir->x == 0 && movementDir->y == 0 && movementDir->z == 0) 
+		return;
+	if (movementDir->x + prevMovement.x == 0 && movementDir->y + prevMovement.y == 0 && movementDir->z + prevMovement.z == 0)
+		return;
 
-void Viborita::setLeft() {
-	this->moving = 4;
-}
+	prevMovement = { movementDir->x,movementDir->y,movementDir->z };
+	Vec3* prevPos = new Vec3;
+	prevPos->x = this->body.head->position.x;
+	prevPos->y = this->body.head->position.y;
+	prevPos->z = this->body.head->position.z;
+	Vec3* prevGrid = new Vec3;
+	prevGrid->x = this->body.head->gridIndex.x;
+	prevGrid->y = this->body.head->gridIndex.y;
+	prevGrid->z = this->body.head->gridIndex.z;
 
-void Viborita::stopMoving() {
-	this->moving = 0;
+	this->body.head->position.x += GameController::getInstance()->TILE_SIZE * movementDir->x;
+	this->body.head->position.y += GameController::getInstance()->TILE_SIZE * movementDir->y;
+	this->body.head->position.z += GameController::getInstance()->TILE_SIZE * movementDir->z;
+
+	this->body.head->gridIndex.x += movementDir->x;
+	this->body.head->gridIndex.y += movementDir->y;
+	this->body.head->gridIndex.z += movementDir->z;
+
+	ViboritaPart* aux = this->body.head->next;
+	ViboritaPart* tail = this->body.head;
+	while (aux != NULL) {
+		tail = aux;
+		Vec3 auxPos = { aux->position.x,aux->position.y,aux->position.z };
+		Vec3 auxGrid = { aux->gridIndex.x,aux->gridIndex.y,aux->gridIndex.z };
+		aux->position = { prevPos->x,prevPos->y,prevPos->z };
+		aux->gridIndex = { prevGrid->x,prevGrid->y,prevGrid->z };
+
+		prevPos->x = auxPos.x;
+		prevPos->y = auxPos.y;
+		prevPos->z = auxPos.z;
+		prevGrid->x = auxGrid.x;
+		prevGrid->y = auxGrid.y;
+		prevGrid->z = auxGrid.z;
+		aux = aux->next;
+	}
+
+	if (GameController::getInstance()->tileHasApple(body.head->gridIndex.x, body.head->gridIndex.y, body.head->gridIndex.z)) {
+		GameController::getInstance()->clearTile(body.head->gridIndex.x, body.head->gridIndex.y, body.head->gridIndex.z);
+		
+		ViboritaPart* newTail = new ViboritaPart;
+		newTail->position = { prevPos->x,prevPos->y,prevPos->z };
+		newTail->gridIndex = { prevGrid->x,prevGrid->y,prevGrid->z };
+		newTail->next = NULL;
+		tail->next = newTail;
+		this->body.tail = newTail;
+		this->body.size++;
+	}
 }

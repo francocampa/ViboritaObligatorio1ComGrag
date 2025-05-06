@@ -38,8 +38,10 @@ int main(int argc, char* argv[]) {
 	bool quit = false;
 	bool move = false;
 	bool rotate = false;
+	bool alreadyMoved = false;
 	int speed = 1;
 	SDL_Event event;
+	float cameraVel = 0.1f;
 	float cameraAngle = 0.0;
 	Vec3 cameraPos = { 0,0,30 };
 	Vec3 center = { 0,0,0 };
@@ -62,22 +64,18 @@ int main(int argc, char* argv[]) {
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
+		
 		currentTime = SDL_GetPerformanceCounter();
 		float deltaTime = (currentTime - lastTime) / (float)SDL_GetPerformanceFrequency();
 		lastTime = currentTime;
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
-
-		if (rotate) {
-			degrees = degrees + 1.0f;
-			glRotatef(degrees, 1.0, 1.0, 0.0);
-		}
-
 		GameController::getInstance()->processFrame(deltaTime);
-
-		glRotatef(0, 0, 0, 0);
-
+		GameController::getInstance()->setArrowRight(false);
+		GameController::getInstance()->setArrowLeft(false);
+		GameController::getInstance()->setArrowDown(false);
+		GameController::getInstance()->setArrowUp(false);
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
@@ -88,36 +86,34 @@ int main(int argc, char* argv[]) {
 				case SDLK_ESCAPE:
 					quit = true;
 					break;
-				case SDLK_r:
-					rotate = !rotate;
-					break;
 				case SDLK_UP:
-					GameController::getInstance()->getViborita()->setUp();
-					break;
 				case SDLK_DOWN:
-					GameController::getInstance()->getViborita()->setDown();
-					break;
 				case SDLK_LEFT:
-					GameController::getInstance()->getViborita()->setLeft();
-					break;
 				case SDLK_RIGHT:
-					GameController::getInstance()->getViborita()->setRight();
-					break;
+					alreadyMoved = false;
 				}
 				break;
 			case SDL_KEYDOWN:
+				if (alreadyMoved)
+					break;
+				
+
 				switch (event.key.keysym.sym) {
 				case SDLK_UP:
-					GameController::getInstance()->getViborita()->setUp();
+					GameController::getInstance()->setArrowUp(true);
+					alreadyMoved = true;
 					break;
 				case SDLK_DOWN:
-					GameController::getInstance()->getViborita()->setDown();
+					GameController::getInstance()->setArrowDown(true);
+					alreadyMoved = true;
 					break;
 				case SDLK_LEFT:
-					GameController::getInstance()->getViborita()->setLeft();
+					GameController::getInstance()->setArrowLeft(true);
+					alreadyMoved = true;
 					break;
 				case SDLK_RIGHT:
-					GameController::getInstance()->getViborita()->setRight();
+					GameController::getInstance()->setArrowRight(true);
+					alreadyMoved = true;
 					break;
 				}
 				break;
@@ -168,6 +164,7 @@ int main(int argc, char* argv[]) {
 			}
 
 		}
+
 		SDL_GL_SwapWindow(win);
 	} while (!quit);
 
