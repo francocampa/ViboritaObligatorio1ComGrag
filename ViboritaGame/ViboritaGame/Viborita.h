@@ -13,17 +13,17 @@ class Viborita :
 private:
 	GLfloat viboritaColors[24];
 	ViboritaBody body;
-<<<<<<< Updated upstream
 	Vec3 headDirection;
-=======
 	Vec3 prevMovement;
 	ViboritaPart* prePosition;
->>>>>>> Stashed changes
 public:
 	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24] );
 	void process(float deltaTime);
 	void draw();
-<<<<<<< Updated upstream
+	ViboritaPart* getHead();
+	ViboritaPart* getPreHead();
+	void setHead(ViboritaPart*);
+	void grow(Vec3 direction);
 	Vec3* getMovementDirection();
 	void handleMovement(Vec3* movementDir);
 	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);
@@ -31,11 +31,5 @@ public:
 	void handleFall();
 	void handleDeath();
 	GAME_ENTITY_TYPE getType();
-=======
-	ViboritaPart* getHead();
-	ViboritaPart* getPreHead();
-	void setHead(ViboritaPart*);
-	void grow(Vec3 direction);
->>>>>>> Stashed changes
 };
 

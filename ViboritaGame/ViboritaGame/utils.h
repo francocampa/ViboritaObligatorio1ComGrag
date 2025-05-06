@@ -27,24 +27,19 @@ struct ViboritaPart {
    ViboritaPart* next;  
 };  
 
-<<<<<<< Updated upstream
-enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL};
-enum TEX_SETTINGS {FACETADO, INTERPOLADO};
-
-Vec3* getVec3FromVec3(Vec3 vecPrev);
-
-float distance(const Vec3& a, const Vec3& b);
-=======
 struct ViboritaBody {  
    int size;  
    ViboritaPart* head;  
    ViboritaPart* tail;  
 };  
 
+enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL};
+enum TEX_SETTINGS {FACETADO, INTERPOLADO};
 enum TEX_SETTINGS { FACETADO, INTERPOLADO };  
->>>>>>> Stashed changes
 
-float distance(const Vec3& a, const Vec3& b);  
+Vec3* getVec3FromVec3(Vec3 vecPrev);
+
+float distance(const Vec3& a, const Vec3& b);
 
 void drawCube(GLfloat vertices[], GLfloat colors[], GLubyte indices[]);  
 

@@ -71,11 +71,8 @@ void Viborita::handleMovement(Vec3* movementDir) {
 	this->body.head->gridIndex = nextGridIndex;
 
 	ViboritaPart* aux = this->body.head->next;
-<<<<<<< Updated upstream
-=======
 	ViboritaPart* tail = this->body.head;
 	this->body.head->prePosition = this->body.tail;
->>>>>>> Stashed changes
 	while (aux != NULL) {
 		Vec3 auxPos = { aux->position.x,aux->position.y,aux->position.z };
 		Vec3 auxGrid = { aux->gridIndex.x,aux->gridIndex.y,aux->gridIndex.z };
@@ -180,6 +177,17 @@ void Viborita::process(float deltaTime) {
 		this->handleEatApple(oldTailPos,oldTailGrid);
 
 	GameController::getInstance()->addViborita(this->body.head->gridIndex);
+	if (GameController::getInstance()->tileHasApple(body.head->gridIndex.x, body.head->gridIndex.y, body.head->gridIndex.z)) {
+		GameController::getInstance()->clearTile(body.head->gridIndex.x, body.head->gridIndex.y, body.head->gridIndex.z);
+		
+		ViboritaPart* newTail = new ViboritaPart;
+		newTail->position = { prevPos->x,prevPos->y,prevPos->z };
+		newTail->gridIndex = { prevGrid->x,prevGrid->y,prevGrid->z };
+		newTail->next = NULL;
+		tail->next = newTail;
+		this->body.tail = newTail;
+		this->body.size++;
+	}
 }
 
 ViboritaPart* Viborita::getHead() {
