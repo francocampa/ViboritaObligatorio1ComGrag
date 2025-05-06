@@ -96,10 +96,6 @@ void Viborita::handleEatApple(Vec3* lastTailPos, Vec3* lastTailGrid)
 	GameController::getInstance()->addViborita(newTail->gridIndex);
 }
 
-void Viborita::handleViboritaAteItself()
-{
-}
-
 bool Viborita::hasFloor()
 {
 	ViboritaPart* aux = this->body.head;
