@@ -10,20 +10,17 @@ Viborita::Viborita(Vec3 position, GLfloat colors[24]) {
 	this->positions.head = new posList;
 	this->positions.head->next = new posList;
 	this->positions.head->next->next = NULL;
-	this->positions.head->next->positions = this->cola;
+	this->positions.head->next->positions = this->cola;//posición inicial de la cola
 	this->positions.head->positions = position;
 	this->positions.tail = this->positions.head->next;
 	this->positions.size = 2;
-	this->rotation[0] = 0;
-	this->rotation[1] = 1;
-	this->rotation[2] = 0;
-	this->rotation[3] = 0;
 	this->moving = 0;
 	for (int i = 0; i < 24; i++) {
 		this->viborita[i] = baseCubeVertices[i];
 	}
 }
 
+//TODO: Agregar lógica para dibujar el cuerpo de tamaño n.
 void Viborita::draw() {
 		glPushMatrix();
 		glTranslatef(this->positions.head->positions.x, this->positions.head->positions.y, this->positions.head->positions.z);
@@ -35,11 +32,13 @@ void Viborita::draw() {
 		glPopMatrix();
 }
 
+
+//TODO: Ajustar movimiento según la grilla
 void Viborita::process(float deltaTime) {
 		posList* aux = this->positions.head;
 		switch (moving) {
 		case 1:
-			this->cola = this->positions.head->positions;
+			this->cola = this->positions.head->positions;//la cola tomará la pos. del bloque siguiente
 			for (int i = 0; i < this->positions.size; i++) {
 				if (aux->positions.y <= this->positions.size) {
 					aux->positions.y += 0.5;

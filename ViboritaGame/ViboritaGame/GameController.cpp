@@ -15,6 +15,7 @@ GameController::GameController() {
 		}
 	}
 
+	//colores de la viborita
 	GLfloat colores[] = {
 		0.20, 0.20, 0.20,
 		0.30, 0.30, 0.30,
@@ -27,7 +28,7 @@ GameController::GameController() {
 	grid[3][4][3] = new Apple(applePos);
 	Vec3 viboritaPos = { getGridPosition(5),getGridPosition(4),getGridPosition(5) };
 	grid[5][4][5] = new Viborita(viboritaPos, colores);
-	this->viborita = (Viborita*)grid[5][4][5];
+	this->viborita = (Viborita*)grid[5][4][5]; //posición donde empieza la viborita
 
 	for (int x = 2; x < 10;x++) {
 		for (int y = 2; y < 4;y++) {
