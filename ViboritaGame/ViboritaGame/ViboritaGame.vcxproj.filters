@@ -81,6 +81,9 @@
     <ClCompile Include="HudController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Goal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="GameStats.h">
       <Filter>Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Goal.h">
+      <Filter>Header Files\game_entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -37,6 +37,9 @@ GameController::GameController() {
 	Vec3 viboritaIndexes = { 5,4,5 };
 	this->viborita = new Viborita(viboritaIndexes, viboritaPos, colores); 
 	grid[5][4][5] = this->viborita;//posición donde empieza la viborita
+	Vec3 goalPos = { getGridPosition(2),getGridPosition(4),getGridPosition(2) };
+	Vec3 goalIndexes = { 2,4,2 };
+	grid[2][4][2] = new Goal(goalIndexes, goalPos);
 
 	for (int x = 0; x < 6;x++) {
 		for (int y = 2; y < 4;y++) {

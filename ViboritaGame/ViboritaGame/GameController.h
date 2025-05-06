@@ -12,6 +12,7 @@
 #include "Settings.h"
 #include "GameStats.h"
 #include "IGameState.h"
+#include "Goal.h"
 class GameController
 {
 private:

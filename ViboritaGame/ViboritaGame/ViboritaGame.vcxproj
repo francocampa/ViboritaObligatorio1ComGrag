@@ -138,6 +138,7 @@
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="GameStats.cpp" />
+    <ClCompile Include="Goal.cpp" />
     <ClCompile Include="HudController.cpp" />
     <ClCompile Include="IGameEntity.cpp" />
     <ClCompile Include="IGameState.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="GameStats.h" />
+    <ClInclude Include="Goal.h" />
     <ClInclude Include="HudController.h" />
     <ClInclude Include="IGameEntity.h" />
     <ClInclude Include="IGameState.h" />

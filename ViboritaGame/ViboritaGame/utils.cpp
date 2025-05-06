@@ -106,3 +106,7 @@ GLuint basePyramydIndices[] = {
 	2, 0, 3   // Side triangle (CA + top)
 };
 
+
+
+
+	

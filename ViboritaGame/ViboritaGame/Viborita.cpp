@@ -10,6 +10,7 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	head->gridIndex = gridIndexes;
 	head->position = position;
 	head->next = nullptr;
+	head->prePosition = nullptr;
 
 	body.head = head;
 	body.tail = head;
@@ -70,6 +71,11 @@ void Viborita::handleMovement(Vec3* movementDir) {
 	this->body.head->gridIndex = nextGridIndex;
 
 	ViboritaPart* aux = this->body.head->next;
+<<<<<<< Updated upstream
+=======
+	ViboritaPart* tail = this->body.head;
+	this->body.head->prePosition = this->body.tail;
+>>>>>>> Stashed changes
 	while (aux != NULL) {
 		Vec3 auxPos = { aux->position.x,aux->position.y,aux->position.z };
 		Vec3 auxGrid = { aux->gridIndex.x,aux->gridIndex.y,aux->gridIndex.z };
@@ -174,4 +180,19 @@ void Viborita::process(float deltaTime) {
 		this->handleEatApple(oldTailPos,oldTailGrid);
 
 	GameController::getInstance()->addViborita(this->body.head->gridIndex);
+}
+
+ViboritaPart* Viborita::getHead() {
+	return this->body.head;
+}
+
+void Viborita::setHead(ViboritaPart* newHead) {
+	ViboritaPart* aux = this->body.head;
+	this->body.head = newHead;
+	this->body.size--;
+	delete aux;
+}
+
+ViboritaPart* Viborita::getPreHead() {
+	return this->body.head->prePosition;
 }
