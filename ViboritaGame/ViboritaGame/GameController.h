@@ -33,9 +33,6 @@ public:
 	static GameController* getInstance();
 	void processFrame(float deltaTime);
 	float getGridPosition(float a);
-	void setUP();
-	void setDOWN();
-	void setLEFT();
-	void setRIGHT();
+	Viborita* getViborita();
 };
 

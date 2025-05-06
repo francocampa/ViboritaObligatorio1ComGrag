@@ -17,6 +17,7 @@ private:
 	GLfloat viboritaColors[24];
 	header positions;
 	int moving;
+	Vec3 cola;
 public:
 	Viborita(Vec3, GLfloat colors[24] );
 	void process(float deltaTime);

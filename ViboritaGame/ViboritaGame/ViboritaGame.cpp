@@ -92,32 +92,32 @@ int main(int argc, char* argv[]) {
 					rotate = !rotate;
 					break;
 				case SDLK_UP:
-					GameController::getInstance()->setUP();
+					GameController::getInstance()->getViborita()->setUp();
 					break;
 				case SDLK_DOWN:
-					GameController::getInstance()->setDOWN();
+					GameController::getInstance()->getViborita()->setDown();
 					break;
 				case SDLK_LEFT:
-					GameController::getInstance()->setLEFT();
+					GameController::getInstance()->getViborita()->setLeft();
 					break;
 				case SDLK_RIGHT:
-					GameController::getInstance()->setRIGHT();
+					GameController::getInstance()->getViborita()->setRight();
 					break;
 				}
 				break;
 			case SDL_KEYDOWN:
 				switch (event.key.keysym.sym) {
 				case SDLK_UP:
-					GameController::getInstance()->setUP();
+					GameController::getInstance()->getViborita()->setUp();
 					break;
 				case SDLK_DOWN:
-					GameController::getInstance()->setDOWN();
+					GameController::getInstance()->getViborita()->setDown();
 					break;
 				case SDLK_LEFT:
-					GameController::getInstance()->setLEFT();
+					GameController::getInstance()->getViborita()->setLeft();
 					break;
 				case SDLK_RIGHT:
-					GameController::getInstance()->setRIGHT();
+					GameController::getInstance()->getViborita()->setRight();
 					break;
 				}
 				break;

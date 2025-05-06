@@ -4,14 +4,13 @@ Viborita::Viborita(Vec3 position, GLfloat colors[24]) {
 	for (int i = 0; i < 24; i++) {
 		this->viboritaColors[i] = colors[i]; 
 	}
-	Vec3 cola;
-	cola.x = position.x - 1;
-	cola.y = position.y;
-	cola.z = position.z;
+	this->cola.x = position.x - 1;
+	this->cola.y = position.y;
+	this->cola.z = position.z;
 	this->positions.head = new posList;
 	this->positions.head->next = new posList;
 	this->positions.head->next->next = NULL;
-	this->positions.head->next->positions = cola;
+	this->positions.head->next->positions = this->cola;
 	this->positions.head->positions = position;
 	this->positions.tail = this->positions.head->next;
 	this->positions.size = 2;
@@ -26,48 +25,56 @@ Viborita::Viborita(Vec3 position, GLfloat colors[24]) {
 }
 
 void Viborita::draw() {
-	posList* aux = this->positions.head;
-	while (aux != NULL) {
 		glPushMatrix();
-		glTranslatef(aux->positions.x, aux->positions.y, aux->positions.z);
-		glRotatef(this->rotation[0], this->rotation[1], this->rotation[2], this->rotation[3]);
+		glTranslatef(this->positions.head->positions.x, this->positions.head->positions.y, this->positions.head->positions.z);
 		drawCube(this->viborita, this->viboritaColors, baseCubeIndices);
 		glPopMatrix();
-		aux = aux->next;
-		
-	}
+		glPushMatrix();
+		glTranslatef(this->cola.x, this->cola.y, this->cola.z);
+		drawCube(this->viborita, this->viboritaColors, baseCubeIndices);
+		glPopMatrix();
 }
 
 void Viborita::process(float deltaTime) {
-	while (this->moving != 0) {
 		posList* aux = this->positions.head;
 		switch (moving) {
 		case 1:
+			this->cola = this->positions.head->positions;
 			for (int i = 0; i < this->positions.size; i++) {
-				aux->positions.x += 0.5f;
-				aux = aux->next;
+				if (aux->positions.y <= this->positions.size) {
+					aux->positions.y += 0.5;
+					aux = aux->next;
+				}
 			}
+			moving = 0;
 			break;
 		case 2:
+			this->cola = this->positions.head->positions;
 			for (int i = 0; i < this->positions.size; i++) {
-				aux->positions.x -= 0.5f;
-				aux = aux->next;
+				if (aux->positions.y - 0.5 >= 0) {
+					aux->positions.y -= 0.5;
+					aux = aux->next;
+				}
 			}
+			moving = 0;
 			break;
 		case 3:
+			this->cola = this->positions.head->positions;
 			for (int i = 0; i < this->positions.size; i++) {
-				aux->positions.z += 0.5f;
+				aux->positions.x += 0.5;
 				aux = aux->next;
 			}
+			moving = 0;
 			break;
 		case 4:
+			this->cola = this->positions.head->positions;
 			for (int i = 0; i < this->positions.size; i++) {
-				aux->positions.z -= 0.5f;
+				aux->positions.x -= 0.5;
 				aux = aux->next;
 			}
+			moving = 0;
 			break;
 		}
-	}
 }
 
 void Viborita::setUp() {
