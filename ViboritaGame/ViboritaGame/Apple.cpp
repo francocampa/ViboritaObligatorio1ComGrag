@@ -34,6 +34,11 @@ void Apple::draw() {
 	glPopMatrix();
 }
 
+GAME_ENTITY_TYPE Apple::getType()
+{
+	return APPLE;
+}
+
 void Apple::process(float deltaTime) {
 	float movement = deltaTime * 0.5f;
 	if (movingUp) {

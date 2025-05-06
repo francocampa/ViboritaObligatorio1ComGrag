@@ -34,9 +34,13 @@ public:
 	void processFrame(float deltaTime);
 	float getGridPosition(float a);
 	Viborita* getViborita();
-	bool tileHasApple(int x, int y, int z);
-	void clearTile(int x, int y, int z);
-	
+	bool tileHasApple(Vec3 indices);
+	void clearTile(Vec3 indices);
+	bool validTile(Vec3 indices);
+	bool hasSolidBlock(Vec3 indices);
+	bool hasViborita(Vec3 indices);
+	void addViborita(Vec3 indices);
+
 	void setArrowUp(bool up);
 	void setArrowDown(bool down);
 	void setArrowLeft(bool left);

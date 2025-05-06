@@ -21,6 +21,14 @@ void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]) {
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+Vec3* getVec3FromVec3(Vec3 vecPrev) {
+	Vec3* vec = new Vec3;
+	vec->x = vecPrev.x;
+	vec->y = vecPrev.y;
+	vec->z = vecPrev.z;
+	return vec;
+}
+
 GLfloat baseCubeVertices[] = {
 	0.0f, 0.0f, 0.0f,
 	1.0f, 0.0f, 0.0f,

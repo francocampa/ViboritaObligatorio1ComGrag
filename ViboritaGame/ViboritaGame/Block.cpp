@@ -27,6 +27,11 @@ void Block::draw() {
 	drawCube(this->cube, baseCubeColors, baseCubeIndices);
 }
 
+GAME_ENTITY_TYPE Block::getType()
+{
+	return BLOCK;
+}
+
 void Block::process(float deltaTime) {
 
 }

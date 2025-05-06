@@ -14,11 +14,17 @@ class Viborita :
 private:
 	GLfloat viboritaColors[24];
 	ViboritaBody body;
-	Vec3 prevMovement;
+	Vec3 headDirection;
 public:
 	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24] );
 	void process(float deltaTime);
 	void draw();
-	void grow(Vec3 direction);
+	Vec3* getMovementDirection();
+	void handleMovement(Vec3* movementDir);
+	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);
+	bool hasFloor();
+	void handleFall();
+	void handleDeath();
+	GAME_ENTITY_TYPE getType();
 };
 

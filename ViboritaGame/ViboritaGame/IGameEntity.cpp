@@ -4,6 +4,11 @@ void IGameEntity::draw() {
 
 }
 
+GAME_ENTITY_TYPE IGameEntity::getType()
+{
+	return GAME_ENTITY_TYPE();
+}
+
 IGameEntity::IGameEntity(Vec3 gridIndexes, Vec3 position)
 {
 	this->gridIndexes = gridIndexes;

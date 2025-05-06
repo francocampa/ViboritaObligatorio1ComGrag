@@ -30,7 +30,7 @@ GameController::GameController() {
 	Vec3 applePos2 = { getGridPosition(3),getGridPosition(4),getGridPosition(4) };
 	Vec3 appleIndexes2 = { 3,4,4 };
 	grid[3][4][4] = new Apple(appleIndexes2, applePos2);
-	Vec3 applePos3 = { getGridPosition(3),getGridPosition(4),getGridPosition(4) };
+	Vec3 applePos3 = { getGridPosition(3),getGridPosition(4),getGridPosition(5) };
 	Vec3 appleIndexes3 = { 3,4,5 };
 	grid[3][4][5] = new Apple(appleIndexes3, applePos3);
 	Vec3 viboritaPos = { getGridPosition(5),getGridPosition(4),getGridPosition(5) };
@@ -38,9 +38,9 @@ GameController::GameController() {
 	this->viborita = new Viborita(viboritaIndexes, viboritaPos, colores); 
 	grid[5][4][5] = this->viborita;//posición donde empieza la viborita
 
-	for (int x = 2; x < 10;x++) {
+	for (int x = 0; x < 6;x++) {
 		for (int y = 2; y < 4;y++) {
-			for (int z = 2; z < 7;z++) {
+			for (int z = 0; z < 6;z++) {
 				Vec3 blockPos = { getGridPosition(x),getGridPosition(y),getGridPosition(z) };
 				Vec3 blocIndexes = { x,y,z };
 				grid[x][y][z] = new Block(blocIndexes, blockPos);
@@ -79,14 +79,52 @@ Viborita* GameController::getViborita() {
 	return this->viborita;
 }
 
-bool GameController::tileHasApple(int x, int y, int z)
+bool GameController::tileHasApple(Vec3 indices)
 {
-	return this->grid[x][y][z] != NULL && this->grid[x][y][z] != this->viborita; //Ta mal, habr[ia que agregar en gameEntity un getType para que te retorne si es unbloque o si es una manzana o la meta o yqs
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == APPLE; //Ta mal, habr[ia que agregar en gameEntity un getType para que te retorne si es unbloque o si es una manzana o la meta o yqs
 }
 
-void GameController::clearTile(int x, int y, int z)
+void GameController::clearTile(Vec3 indices)
 {
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
 	this->grid[x][y][z] = NULL;
+}
+
+bool GameController::validTile(Vec3 indices)
+{
+	bool xOutside = indices.x < 0 || indices.x >= GRID_SIZE;
+	bool yOutside = indices.y < 0 || indices.y >= GRID_SIZE;
+	bool zOutside = indices.z < 0 || indices.z >= GRID_SIZE;
+	return !(xOutside || yOutside || zOutside);
+}
+
+bool GameController::hasSolidBlock(Vec3 indices)
+{
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	return grid[x][y][z]!= NULL && grid[x][y][z]->getType() == BLOCK;
+}
+
+bool GameController::hasViborita(Vec3 indices)
+{
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	return grid[x][y][z] != NULL && grid[x][y][z]->getType() == VIBORITA;
+}
+
+void GameController::addViborita(Vec3 indices)
+{
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	grid[x][y][z] = this->viborita;
 }
 
 void GameController::setArrowUp(bool up)
