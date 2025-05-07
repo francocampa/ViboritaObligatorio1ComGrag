@@ -54,8 +54,8 @@ int main(int argc, char* argv[]) {
 	Vec3 cameraPos = { 0,0,30 };
 	Vec3 center = { 0,0,0 };
 	float objDistance = distance(cameraPos, center);
-	Uint64 currentTime = SDL_GetPerformanceCounter();
-	Uint64 lastTime = currentTime;
+	Uint64 currentTick = SDL_GetPerformanceCounter();
+	Uint64 lastTick = currentTick;
 	float degrees = 0;
 	float cameraRadius = 20;
 
@@ -65,6 +65,7 @@ int main(int argc, char* argv[]) {
 	}
 	float theta = 0;
 	float phi = M_PI / 2;
+	float sensitivity = 0.5f;
 
 	cameraPos.x = cameraRadius * sin(phi) * cos(theta);
 	cameraPos.y = cameraRadius * cos(phi);
@@ -73,9 +74,10 @@ int main(int argc, char* argv[]) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 		
-		currentTime = SDL_GetPerformanceCounter();
-		float deltaTime = (currentTime - lastTime) / (float)SDL_GetPerformanceFrequency();
-		lastTime = currentTime;
+		currentTick = SDL_GetPerformanceCounter();
+
+		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
+		lastTick = currentTick;
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
@@ -154,11 +156,11 @@ int main(int argc, char* argv[]) {
 					int deltaX = event.motion.xrel;
 					int deltaY = event.motion.yrel;
 
-					int horDir = deltaX != 0 ? deltaX / abs(deltaX) : 0;
-					int verDir = deltaY != 0 ? deltaY / abs(deltaY) : 0;
+					/*int horDir = deltaX != 0 ? deltaX / abs(deltaX) : 0;
+					int verDir = deltaY != 0 ? deltaY / abs(deltaY) : 0;*/ //Noble but flawed idea sadly :c
 
-					theta += deltaTime * horDir;
-					phi += sin(deltaTime * verDir);
+					theta += sensitivity * deltaTime * deltaX;
+					phi += sensitivity * sin(deltaTime * deltaY);
 
 					float epsilon = 0.5f;
 					if (phi < epsilon) phi = epsilon;

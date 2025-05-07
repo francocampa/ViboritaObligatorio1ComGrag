@@ -6,6 +6,7 @@ GameStats::GameStats(int maxScore, bool levelAlreadyBeat)
 	this->maxScore = maxScore;
 	this->levelAlreadyBeat = levelAlreadyBeat;
 	this->timerStartTime = 0;
+	this->timer = 0;
 }
 
 void GameStats::ateAnApple()
@@ -18,6 +19,11 @@ void GameStats::levelJustStarted()
 	
 }
 
+void GameStats::addSecond()
+{
+	this->timer++;
+}
+
 void GameStats::beatLevel(int level)
 {
 }
@@ -25,6 +31,11 @@ void GameStats::beatLevel(int level)
 int GameStats::getScore()
 {
 	return score;
+}
+
+int GameStats::getTimer()
+{
+	return timer;
 }
 
 int GameStats::getMaxScore()

@@ -24,9 +24,14 @@ void GamePlay::eatApple()
 
 }
 
-void GamePlay::changeTimer(const char* time)
+void GamePlay::changeTimer(int time)
 {
-	timerText->updateText(time);
+	int minutes = time / 60;
+	int seconds = time - minutes * 60;
+	std::string mString = minutes < 10 ? "0" + std::to_string(minutes) : std::to_string(minutes);
+	std::string sString = seconds < 10 ? "0"+std::to_string(seconds) : std::to_string(seconds) ;
+	std::string text = mString + ":"+ sString;
+	timerText->updateText(text.c_str());
 }
 
 void GamePlay::beatLevel()

@@ -4,7 +4,8 @@
 Goal::Goal(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes, position)
 {
 	this->position = position;
-	this->angle = 0;
+	this->angle = 0.0f;
+	this->angle += 0.05f;
 }
 
 void Goal::draw()
@@ -16,8 +17,14 @@ void Goal::draw()
 	glPopMatrix();
 }
 
+GAME_ENTITY_TYPE Goal::getType()
+{
+	return GOAL;
+}
+
 void Goal::process(float deltaTime){  
-	this->angle += 0.05f;  
+	this->angle = this->angle + 20.0f * deltaTime; 
+	printf("%f\n",angle);
 	Viborita* body = GameController::getInstance()->getViborita();  
 	Vec3 goalGridIndex = { 2,4,2 };  
 	if (body->getHead() != NULL && body->getHead()->gridIndex == goalGridIndex) {  

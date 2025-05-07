@@ -15,7 +15,7 @@ public:
 	GamePlay();
 	void process();
 	void eatApple();
-	void changeTimer(const char* time);
+	void changeTimer(int time);
 	void beatLevel();
 	void resetLevel();
 	void draw();

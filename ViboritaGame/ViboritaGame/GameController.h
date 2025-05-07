@@ -32,6 +32,7 @@ private:
 	Settings* settings;
 	GameStats* stats;
 	Vec2 mousePos;
+	float timeCounter;
 	bool up = false;
 	bool down = false;
 	bool left = false;

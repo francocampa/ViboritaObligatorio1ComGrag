@@ -16,6 +16,7 @@ GameController::GameController() {
 	}
 	state = new GamePlay();
 	stats = new GameStats(3,false);
+	timeCounter = 0.0f;
 
 	//colores de la viborita
 	GLfloat colores[] = {
@@ -41,7 +42,7 @@ GameController::GameController() {
 	grid[5][4][5] = this->viborita;//posición donde empieza la viborita
 	Vec3 goalPos = { getGridPosition(2),getGridPosition(4),getGridPosition(2) };
 	Vec3 goalIndexes = { 2,4,2 };
-	grid[1][4][1] = new Goal(goalIndexes, goalPos);
+	grid[2][4][2] = new Goal(goalIndexes, goalPos);
 
 	for (int x = 0; x < 6;x++) {
 		for (int y = 2; y < 4;y++) {
@@ -71,6 +72,12 @@ GameController* GameController::getInstance() {
 }
 
 void GameController::processFrame(float deltaTime) {
+	timeCounter += deltaTime;
+	if (timeCounter >= 1.0) {
+		timeCounter -= 1.0;
+		stats->addSecond();
+		((GamePlay*)state)->changeTimer(stats->getTimer());
+	}
 	HudController::getInstance()->process();
 	for (int x = 0; x < GRID_SIZE;x++) {
 		for (int y = 0; y < GRID_SIZE;y++) {
