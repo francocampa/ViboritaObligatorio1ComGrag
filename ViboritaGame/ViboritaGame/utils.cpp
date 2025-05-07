@@ -48,6 +48,22 @@ void loadTexture(GLuint& textureId, const char* path) {
 	SDL_FreeSurface(converted);
 }
 
+void loadTextTexture(GLuint& textureId, const char* text,TTF_Font* font) {
+	SDL_Surface* surfaceText = TTF_RenderText_Blended(font, text, {255,255,255});
+
+	glGenTextures(1, &textureId);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surfaceText->w, surfaceText->h, 0,
+		GL_RGBA, GL_UNSIGNED_BYTE, surfaceText->pixels);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	SDL_FreeSurface(surfaceText);
+}
+
 GLfloat baseCubeVertices[] = {
 	0.0f, 0.0f, 0.0f,
 	1.0f, 0.0f, 0.0f,

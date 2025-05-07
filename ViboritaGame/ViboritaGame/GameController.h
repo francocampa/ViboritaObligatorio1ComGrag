@@ -54,6 +54,7 @@ public:
 	bool hasSolidBlock(Vec3 indices);
 	bool hasViborita(Vec3 indices);
 	void addViborita(Vec3 indices);
+	void ateApple();
 
 	void setMousePos(Vec2 mousePos);
 	void setArrowUp(bool up);
@@ -63,7 +64,9 @@ public:
 	void setZKey(bool z);
 	void setXKey(bool x);
 	void setClick(bool click);
-
+	
+	IGameState* getState();
+	GameStats* getStats();
 	Vec2 getMousePos();
 	bool isArrowUp();
 	bool isArrowDown();

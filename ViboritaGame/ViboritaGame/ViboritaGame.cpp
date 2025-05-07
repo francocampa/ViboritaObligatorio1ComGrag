@@ -1,10 +1,12 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <GL/glu.h>
 #include <iostream>
 #include "utils.h"
 #include "GameController.h"
+
 
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
@@ -18,13 +20,19 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 
-	SDL_Window* win = SDL_CreateWindow("Prueba grid",
+	SDL_Window* win = SDL_CreateWindow("Viborita",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		WINDOW_WIDTH, WINDOW_HEIGHT,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	SDL_GLContext context = SDL_GL_CreateContext(win);
 	IMG_Init(IMG_INIT_PNG);
+	TTF_Init();
+
+	TTF_Font* mainFont = TTF_OpenFont("fonts/Sans Serif Shaded.ttf", 32);
+	if (mainFont == NULL)
+		printf("Failed to load font");
+	HudController::getInstance()->setFont(mainFont);
 
 	//Camera setup
 	glMatrixMode(GL_PROJECTION);
@@ -188,6 +196,7 @@ int main(int argc, char* argv[]) {
 
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(win);
+	TTF_CloseFont(mainFont);
 	SDL_Quit();
 	return 0;
 }

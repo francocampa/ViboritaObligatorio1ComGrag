@@ -49,3 +49,14 @@ void HudController::process()
     glPopMatrix();                      // Restore projection
     glMatrixMode(GL_MODELVIEW);         // Back to 3D
 }
+
+void HudController::setFont(TTF_Font* mainFont)
+{
+    this->mainFont = mainFont;
+    Button::setFont(mainFont);
+}
+
+TTF_Font* HudController::getFont()
+{
+    return mainFont;
+}

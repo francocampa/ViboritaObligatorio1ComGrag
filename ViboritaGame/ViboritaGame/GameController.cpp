@@ -15,6 +15,7 @@ GameController::GameController() {
 		}
 	}
 	state = new GamePlay();
+	stats = new GameStats(3,false);
 
 	//colores de la viborita
 	GLfloat colores[] = {
@@ -146,6 +147,12 @@ void GameController::addViborita(Vec3 indices)
 	grid[x][y][z] = this->viborita;
 }
 
+void GameController::ateApple()
+{
+	GamePlay* gp = (GamePlay*)getState();
+	gp->eatApple();
+}
+
 void GameController::setMousePos(Vec2 mousePos)
 {
 	this->mousePos = mousePos;
@@ -183,6 +190,15 @@ void GameController::setXKey(bool x)
 void GameController::setClick(bool click)
 {
 	this->click = click;
+}
+
+GameStats* GameController::getStats()
+{
+	return stats;
+}
+IGameState* GameController::getState()
+{
+	return state;
 }
 
 Vec2 GameController::getMousePos()

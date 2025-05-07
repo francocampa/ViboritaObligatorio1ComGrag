@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 struct Vec3 {  
    float x, y, z;  
@@ -44,6 +45,7 @@ struct Vec2 {
 };
 
 void loadTexture(GLuint& textureId, const char* path);
+void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font);
 
 float distance(const Vec3& a, const Vec3& b);
 

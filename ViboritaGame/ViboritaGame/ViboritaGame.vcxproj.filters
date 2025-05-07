@@ -34,6 +34,12 @@
     <Filter Include="Classes\game_objects">
       <UniqueIdentifier>{deda6413-7528-4113-bc68-e326eb4b9268}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Classes\hud_element">
+      <UniqueIdentifier>{c0c665e7-089c-4963-ae31-f71d0215ba3a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\hud_element">
+      <UniqueIdentifier>{18ec51a2-6ae0-41e4-b0eb-55b4ed8396cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ViboritaGame.cpp">
@@ -82,10 +88,10 @@
       <Filter>Classes</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
-    	<Filter>Source Files</Filter>
+      <Filter>Classes\hud_element</Filter>
     </ClCompile>
     <ClCompile Include="Goal.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Classes\game_entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -131,11 +137,11 @@
     <ClInclude Include="GameStats.h">
       <Filter>Header Files\game_objects</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Goal.h">
       <Filter>Header Files\game_entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\hud_element</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

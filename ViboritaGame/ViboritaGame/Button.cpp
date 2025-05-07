@@ -1,13 +1,14 @@
 #include "Button.h"
 
+TTF_Font* Button::font = nullptr;
+
 Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)())
-{
+{//Btn con hover
 	bool hover = false;
 
 
 	loadTexture(this->textureId, texturePath);
-	if (hoverPath != NULL)
-		loadTexture(this->hoverTextureId, hoverPath);
+	loadTexture(this->hoverTextureId, hoverPath);
 
 	this->rectangle = new SDL_Rect();
 	this->rectangle->x = x;
@@ -18,9 +19,41 @@ Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int
 	this->callback = callback;
 }
 
+Button::Button(const char* texturePath, int x, int y, int width, int height, void(*callback)())
+{//Btn sin hover
+	bool hover = false;
+
+
+	loadTexture(this->textureId, texturePath);
+	this->hoverTextureId = NULL;
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = callback;
+}
+
+Button::Button(const char* text, int x, int y, int width, int height)
+{//Renderizador de texto xdxd
+	bool hover = false;
+
+	loadTextTexture(this->textureId, text, font);
+	this->hoverTextureId = NULL;
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+	this->callback = NULL;
+}
+
 void Button::draw()
 {
-	glBindTexture(GL_TEXTURE_2D, isHovering() ? hoverTextureId : textureId); // Use your loaded texture ID
+	glBindTexture(GL_TEXTURE_2D, isHovering() ? hoverTextureId : textureId);
 	glEnable(GL_TEXTURE_2D);
 
 	glBegin(GL_QUADS);
@@ -35,7 +68,8 @@ void Button::draw()
 
 void Button::handleClick()
 {
-	this->callback();
+	if(callback != NULL)
+		this->callback();
 }
 
 void Button::handleHover()
@@ -45,10 +79,28 @@ void Button::handleHover()
 
 bool Button::isHovering()
 {
-	return hover;
+	return hoverTextureId != NULL && hover;
+}
+
+void Button::updateText(const char* newText)
+{
+	glDeleteTextures(1, &textureId);
+	loadTextTexture(this->textureId, newText, font);
 }
 
 SDL_Rect* Button::getRect()
 {
 	return this->rectangle;
+}
+
+void Button::setFont(TTF_Font* font)
+{
+	Button::font = font;
+}
+
+Button::~Button()
+{
+	glDeleteTextures(1, &textureId);
+	if(hoverTextureId != NULL)
+		glDeleteTextures(1, &hoverTextureId);
 }

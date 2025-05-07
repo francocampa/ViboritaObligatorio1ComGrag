@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "SDL.h"
+#include "SDL_ttf.h"
 #include "SDL_opengl.h"
 #include <iostream>
 #include <stdio.h>
@@ -17,8 +18,11 @@ class HudController
 private:
 	static HudController* instance;
 	HudController();
+	TTF_Font* mainFont;
 public:
 	static HudController* getInstance();
 	void process(); //Draw hud and check for button clicks
+	void setFont(TTF_Font* mainFont);
+	TTF_Font* getFont();
 };
 
