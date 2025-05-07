@@ -24,9 +24,9 @@ int main(int argc, char* argv[]) {
 		WINDOW_WIDTH, WINDOW_HEIGHT,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 	SDL_GLContext context = SDL_GL_CreateContext(win);
+	IMG_Init(IMG_INIT_PNG);
 
 	//Camera setup
-	SDL_SetRelativeMouseMode(SDL_TRUE);
 	glMatrixMode(GL_PROJECTION);
 
 	glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
 	glMatrixMode(GL_MODELVIEW);
 
 	bool quit = false;
-	bool move = false;
+	bool moveCamera = false;
 	bool rotate = false;
 	bool alreadyMoved = false;
 	int speed = 1;
@@ -76,6 +76,10 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setArrowLeft(false);
 		GameController::getInstance()->setArrowDown(false);
 		GameController::getInstance()->setArrowUp(false);
+		GameController::getInstance()->setZKey(false);
+		GameController::getInstance()->setXKey(false);
+		GameController::getInstance()->setClick(false);
+
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
@@ -90,6 +94,8 @@ int main(int argc, char* argv[]) {
 				case SDLK_DOWN:
 				case SDLK_LEFT:
 				case SDLK_RIGHT:
+				case SDLK_x:
+				case SDLK_z:
 					alreadyMoved = false;
 				}
 				break;
@@ -115,16 +121,28 @@ int main(int argc, char* argv[]) {
 					GameController::getInstance()->setArrowRight(true);
 					alreadyMoved = true;
 					break;
+				case SDLK_z:
+					GameController::getInstance()->setZKey(true);
+					alreadyMoved = true;
+					break;
+				case SDLK_x:
+					GameController::getInstance()->setXKey(true);
+					alreadyMoved = true;
+					break;
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
-				move = true;
+				moveCamera = true;
+				SDL_SetRelativeMouseMode(SDL_TRUE);
 				break;
 			case SDL_MOUSEBUTTONUP:
-				move = false;
+				moveCamera = false;
+				GameController::getInstance()->setClick(true);
+				SDL_SetRelativeMouseMode(SDL_FALSE);
 				break;
 			case SDL_MOUSEMOTION:
-				if (move) {
+				GameController::getInstance()->setMousePos({ event.motion.x, event.motion.y });
+				if (moveCamera) {
 					int deltaX = event.motion.xrel;
 					int deltaY = event.motion.yrel;
 

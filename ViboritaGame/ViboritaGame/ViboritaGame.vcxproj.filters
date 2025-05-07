@@ -81,6 +81,9 @@
     <ClCompile Include="HudController.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+    	<Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Goal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -127,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="GameStats.h">
       <Filter>Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Goal.h">
       <Filter>Header Files\game_entities</Filter>

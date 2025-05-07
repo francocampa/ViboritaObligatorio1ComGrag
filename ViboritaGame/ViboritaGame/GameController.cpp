@@ -14,6 +14,7 @@ GameController::GameController() {
 			}
 		}
 	}
+	state = new GamePlay();
 
 	//colores de la viborita
 	GLfloat colores[] = {
@@ -50,6 +51,15 @@ GameController::GameController() {
 			}
 		}
 	}
+	for (int x = 4; x < 7;x++) {
+		for (int y = 4; y < 5;y++) {
+			for (int z = 1; z < 3;z++) {
+				Vec3 blockPos = { getGridPosition(x),getGridPosition(y),getGridPosition(z) };
+				Vec3 blocIndexes = { x,y,z };
+				grid[x][y][z] = new Block(blocIndexes, blockPos);
+			}
+		}
+	}
 }
 
 GameController* GameController::getInstance() {
@@ -60,6 +70,7 @@ GameController* GameController::getInstance() {
 }
 
 void GameController::processFrame(float deltaTime) {
+	HudController::getInstance()->process();
 	for (int x = 0; x < GRID_SIZE;x++) {
 		for (int y = 0; y < GRID_SIZE;y++) {
 			for (int z = 0; z < GRID_SIZE;z++) {
@@ -78,6 +89,11 @@ float GameController::getGridPosition(float a) {
 	return a * TILE_SIZE - GRID_OFFSET;
 }
 
+std::vector<Button*> GameController::getHudButtons()
+{
+	return state->getHudButtons();
+}
+
 Viborita* GameController::getViborita() {
 	return this->viborita;
 }
@@ -87,7 +103,7 @@ bool GameController::tileHasApple(Vec3 indices)
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == APPLE; //Ta mal, habr[ia que agregar en gameEntity un getType para que te retorne si es unbloque o si es una manzana o la meta o yqs
+	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == APPLE;
 }
 
 void GameController::clearTile(Vec3 indices)
@@ -130,6 +146,11 @@ void GameController::addViborita(Vec3 indices)
 	grid[x][y][z] = this->viborita;
 }
 
+void GameController::setMousePos(Vec2 mousePos)
+{
+	this->mousePos = mousePos;
+}
+
 void GameController::setArrowUp(bool up)
 {
 	this->up = up;
@@ -150,6 +171,25 @@ void GameController::setArrowRight(bool right)
 	this->right = right;
 }
 
+void GameController::setZKey(bool z)
+{
+	this->z = z;
+}
+void GameController::setXKey(bool x)
+{
+	this->x = x;
+}
+
+void GameController::setClick(bool click)
+{
+	this->click = click;
+}
+
+Vec2 GameController::getMousePos()
+{
+	return this->mousePos;
+}
+
 bool GameController::isArrowUp()
 {
 	return up;
@@ -165,4 +205,19 @@ bool GameController::isArrowLeft()
 bool GameController::isArrowRight()
 {
 	return right;
+}
+
+bool GameController::isZKey()
+{
+	return z;
+}
+
+bool GameController::isXKey()
+{
+	return x;
+}
+
+bool GameController::clicked()
+{
+	return click;
 }

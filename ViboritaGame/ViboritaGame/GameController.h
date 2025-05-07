@@ -4,15 +4,23 @@
 #include <iostream>
 #include <GL/glu.h>
 
+#include "HudController.h"
+#include "GameStats.h"
+#include "Settings.h"
+#include "Button.h"
 
 #include "IGameEntity.h"
 #include "Block.h"
 #include "Apple.h"
 #include "Viborita.h"
-#include "Settings.h"
-#include "GameStats.h"
-#include "IGameState.h"
 #include "Goal.h"
+#include "IGameState.h"
+#include "GamePlay.h"
+#include "MainMenu.h"
+#include "LoadLevel.h"
+#include "MainMenu.h"
+#include "SettingsMenu.h"
+
 class GameController
 {
 private:
@@ -23,10 +31,14 @@ private:
 	Viborita* viborita;
 	Settings* settings;
 	GameStats* stats;
+	Vec2 mousePos;
 	bool up = false;
 	bool down = false;
 	bool left = false;
 	bool right = false;
+	bool z = false;
+	bool x = false;
+	bool click = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -34,6 +46,7 @@ public:
 	static GameController* getInstance();
 	void processFrame(float deltaTime);
 	float getGridPosition(float a);
+	virtual std::vector<Button*> getHudButtons();
 	Viborita* getViborita();
 	bool tileHasApple(Vec3 indices);
 	void clearTile(Vec3 indices);
@@ -42,14 +55,22 @@ public:
 	bool hasViborita(Vec3 indices);
 	void addViborita(Vec3 indices);
 
+	void setMousePos(Vec2 mousePos);
 	void setArrowUp(bool up);
 	void setArrowDown(bool down);
 	void setArrowLeft(bool left);
 	void setArrowRight(bool right);
+	void setZKey(bool z);
+	void setXKey(bool x);
+	void setClick(bool click);
 
+	Vec2 getMousePos();
 	bool isArrowUp();
 	bool isArrowDown();
 	bool isArrowLeft();
 	bool isArrowRight();
+	bool isZKey();
+	bool isXKey();
+	bool clicked();
 };
 

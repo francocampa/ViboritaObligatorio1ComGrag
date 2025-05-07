@@ -1,5 +1,7 @@
 #pragma once
 #include "IGameState.h"
+#include "Button.h"
+
 class GamePlay :
     public IGameState
 {
@@ -11,5 +13,6 @@ private:
 public:
 	void process();
 	void draw();
+	std::vector<Button*> getHudButtons();
 };
 

@@ -1,15 +1,16 @@
-#pragma once  
-#include <SDL.h>  
-#include <SDL_opengl.h>  
-#include <cmath>  
-#include <GL/glu.h>  
-#include <glm/glm.hpp>  
-#include <glm/gtc/matrix_transform.hpp>  
-#include <glm/gtc/type_ptr.hpp>  
-#include <vector>  
-#include <fstream>  
-#include <string>  
-#include <sstream>  
+#pragma once
+#include <SDL.h>
+#include <SDL_opengl.h>
+#include <cmath>
+#include <GL/glu.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <SDL_image.h>
 
 struct Vec3 {  
    float x, y, z;  
@@ -37,9 +38,16 @@ enum TEX_SETTINGS {FACETADO, INTERPOLADO};
 
 Vec3* getVec3FromVec3(Vec3 vecPrev);
 
+
+struct Vec2 {
+	int x, y;
+};
+
+void loadTexture(GLuint& textureId, const char* path);
+
 float distance(const Vec3& a, const Vec3& b);
 
-void drawCube(GLfloat vertices[], GLfloat colors[], GLubyte indices[]);  
+void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]);
 
 extern GLfloat baseCubeVertices[];  
 

@@ -18,7 +18,7 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	headDirection = { 0,0,0 };
 }
 
-//TODO: Agregar lógica para dibujar el cuerpo de tamaño n.
+//TODO: Agregar lï¿½gica para dibujar el cuerpo de tamaï¿½o n.
 void Viborita::draw() {
 	ViboritaPart* bodyPart = this->body.head;
 	while(bodyPart != NULL)
@@ -46,11 +46,15 @@ Vec3* Viborita::getMovementDirection()
 		movementDir->x = 1;
 	else if (GameController::getInstance()->isArrowRight())
 		movementDir->x = -1;
+	else if (GameController::getInstance()->isZKey())
+		movementDir->y = 1;
+	else if (GameController::getInstance()->isXKey())
+		movementDir->y = -1;
 	return movementDir;
 }
 
 void Viborita::handleMovement(Vec3* movementDir) {
-	Vec3 nextGridIndex = { this->body.head->gridIndex.x + movementDir->x,this->body.head->gridIndex.y += movementDir->y,this->body.head->gridIndex.z + movementDir->z };
+	Vec3 nextGridIndex = { this->body.head->gridIndex.x + movementDir->x,this->body.head->gridIndex.y + movementDir->y,this->body.head->gridIndex.z + movementDir->z };
 
 	if (!GameController::getInstance()->validTile(nextGridIndex) 
 		|| GameController::getInstance()->hasSolidBlock(nextGridIndex)) //Se choca con un bloque
@@ -59,6 +63,8 @@ void Viborita::handleMovement(Vec3* movementDir) {
 		handleDeath();
 		return;
 	}
+
+	headDirection = { movementDir->x,movementDir->y,movementDir->z };
 
 	Vec3* prevPos = getVec3FromVec3(this->body.head->position);
 	Vec3* prevGrid = getVec3FromVec3(this->body.head->gridIndex);
@@ -163,8 +169,6 @@ void Viborita::process(float deltaTime) {
 		return;
 	if (movementDir->x + headDirection.x == 0 && movementDir->y + headDirection.y == 0 && movementDir->z + headDirection.z == 0) //The user tried to move in the opossite direction
 		return;
-
-	headDirection = { movementDir->x,movementDir->y,movementDir->z };
 
 	Vec3* oldTailPos = getVec3FromVec3(this->body.tail->position);
 	Vec3* oldTailGrid = getVec3FromVec3(this->body.tail->gridIndex);
