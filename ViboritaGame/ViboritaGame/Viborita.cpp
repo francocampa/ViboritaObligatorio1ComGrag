@@ -10,11 +10,10 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	head->gridIndex = gridIndexes;
 	head->position = position;
 	head->next = nullptr;
-	head->prePosition = nullptr;
 
 	body.head = head;
 	body.tail = head;
-	body.size = 1;
+	body.size = 2;
 
 	headDirection = { 0,0,0 };
 }
@@ -72,7 +71,6 @@ void Viborita::handleMovement(Vec3* movementDir) {
 
 	ViboritaPart* aux = this->body.head->next;
 	ViboritaPart* tail = this->body.head;
-	this->body.head->prePosition = this->body.tail;
 	while (aux != NULL) {
 		Vec3 auxPos = { aux->position.x,aux->position.y,aux->position.z };
 		Vec3 auxGrid = { aux->gridIndex.x,aux->gridIndex.y,aux->gridIndex.z };
@@ -167,40 +165,34 @@ void Viborita::process(float deltaTime) {
 		return;
 
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
-	
+
 	Vec3* oldTailPos = getVec3FromVec3(this->body.tail->position);
 	Vec3* oldTailGrid = getVec3FromVec3(this->body.tail->gridIndex);
 
 	this->handleMovement(movementDir);
 
 	if (GameController::getInstance()->tileHasApple(body.head->gridIndex))
-		this->handleEatApple(oldTailPos,oldTailGrid);
+		this->handleEatApple(oldTailPos, oldTailGrid);
 
 	GameController::getInstance()->addViborita(this->body.head->gridIndex);
-	if (GameController::getInstance()->tileHasApple(body.head->gridIndex.x, body.head->gridIndex.y, body.head->gridIndex.z)) {
-		GameController::getInstance()->clearTile(body.head->gridIndex.x, body.head->gridIndex.y, body.head->gridIndex.z);
-		
-		ViboritaPart* newTail = new ViboritaPart;
-		newTail->position = { prevPos->x,prevPos->y,prevPos->z };
-		newTail->gridIndex = { prevGrid->x,prevGrid->y,prevGrid->z };
-		newTail->next = NULL;
-		tail->next = newTail;
-		this->body.tail = newTail;
-		this->body.size++;
-	}
 }
 
 ViboritaPart* Viborita::getHead() {
 	return this->body.head;
 }
 
-void Viborita::setHead(ViboritaPart* newHead) {
-	ViboritaPart* aux = this->body.head;
-	this->body.head = newHead;
-	this->body.size--;
-	delete aux;
-}
-
-ViboritaPart* Viborita::getPreHead() {
-	return this->body.head->prePosition;
+void Viborita::setHead() {
+	if (this->body.head != NULL) {
+		ViboritaPart* aux = this->body.head;
+		this->body.head = this->body.head->next;
+		if (this->body.head != NULL) {
+			this->body.head->gridIndex = aux->gridIndex;
+			this->body.head->position = this->body.head->position;
+			this->body.size--;
+		}
+		delete aux;
+	}
+	else {
+		std::cout << "No hay partes en el cuerpo de la viborita" << std::endl;
+	}
 }

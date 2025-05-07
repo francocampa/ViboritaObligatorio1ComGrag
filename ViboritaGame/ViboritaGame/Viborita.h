@@ -15,14 +15,12 @@ private:
 	ViboritaBody body;
 	Vec3 headDirection;
 	Vec3 prevMovement;
-	ViboritaPart* prePosition;
 public:
 	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24] );
 	void process(float deltaTime);
 	void draw();
 	ViboritaPart* getHead();
-	ViboritaPart* getPreHead();
-	void setHead(ViboritaPart*);
+	void setHead();
 	void grow(Vec3 direction);
 	Vec3* getMovementDirection();
 	void handleMovement(Vec3* movementDir);

@@ -23,7 +23,6 @@ struct Vec3 {
 struct ViboritaPart {  
    Vec3 gridIndex;  
    Vec3 position;
-   ViboritaPart* prePosition;
    ViboritaPart* next;  
 };  
 
@@ -35,7 +34,6 @@ struct ViboritaBody {
 
 enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL};
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};
-enum TEX_SETTINGS { FACETADO, INTERPOLADO };  
 
 Vec3* getVec3FromVec3(Vec3 vecPrev);
 

@@ -16,12 +16,11 @@ void Goal::draw()
 	glPopMatrix();
 }
 
-void Goal::process(float deltaTime)  
-{  
+void Goal::process(float deltaTime){  
 	this->angle += 0.05f;  
 	Viborita* body = GameController::getInstance()->getViborita();  
 	Vec3 goalGridIndex = { 2,4,2 };  
-	if (body->getHead()->gridIndex == goalGridIndex) {  
-		body->setHead(body->getPreHead());
+	if (body->getHead() != NULL && body->getHead()->gridIndex == goalGridIndex) {  
+		body->setHead();
 	}  
 }
