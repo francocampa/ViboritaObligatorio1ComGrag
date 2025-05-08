@@ -7,7 +7,6 @@ Block::Block(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 		switch (module) {
 		case 0:
 			toAdd = position.x;
-			printf("\n");
 			break;
 		case 1:
 			toAdd = position.y;
@@ -18,9 +17,7 @@ Block::Block(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 		}
 
 		this->cube[i] = baseCubeVertices[i] + toAdd;
-		printf("%f, ", this->cube[i]);
 	}
-	printf("\n\n");
 }
 
 void Block::draw() {

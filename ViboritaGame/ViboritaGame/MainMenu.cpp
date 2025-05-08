@@ -35,6 +35,7 @@ void MainMenu::startLevel(std::string levelName)
 		if (level->getName() == levelName) {
 			GamePlay* gp = new GamePlay(level);
 			GameController::getInstance()->setState(gp);
+			GameController::getInstance()->setGamePlay(gp);
 			return;
 		}
 	}
@@ -42,6 +43,7 @@ void MainMenu::startLevel(std::string levelName)
 		if (level->getName() == levelName) {
 			GamePlay* gp = new GamePlay(level);
 			GameController::getInstance()->setState(gp);
+			GameController::getInstance()->setGamePlay(gp);
 			return;
 		}
 	}

@@ -11,7 +11,6 @@ Apple::Apple(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 		switch (module) {
 		case 0:
 			toAdd = position.x;
-			printf("\n");
 			break;
 		case 1:
 			toAdd = position.y;
@@ -23,7 +22,6 @@ Apple::Apple(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 
 		this->pyramid[i] = basePyramidVertices[i] + toAdd;
 	}
-	printf("\n\n");
 }
 
 void Apple::draw() {
