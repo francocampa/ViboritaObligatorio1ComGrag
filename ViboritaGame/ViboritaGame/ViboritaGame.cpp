@@ -166,7 +166,6 @@ int main(int argc, char* argv[]) {
 					if (phi < epsilon) phi = epsilon;
 					if (phi > M_PI - epsilon) phi = M_PI - epsilon;
 
-					// Convert spherical to Cartesian coordinates
 					cameraPos.x = cameraRadius * sin(phi) * cos(theta);
 					cameraPos.y = cameraRadius * cos(phi);
 					cameraPos.z = cameraRadius * sin(phi) * sin(theta);

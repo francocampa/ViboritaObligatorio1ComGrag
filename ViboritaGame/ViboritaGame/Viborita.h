@@ -6,22 +6,27 @@
 #include "utils.h"
 #include <vector>
 #include "IGameEntity.h"
+//#include "GamePlay.h"
+
+class GamePlay;
 
 class Viborita :
 	public IGameEntity
 {
 private:
+	GamePlay* gameContext;
 	GLfloat viboritaColors[24];
 	ViboritaBody body;
 	Vec3 headDirection;
 	Vec3 prevMovement;
 public:
-	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24] );
+	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24]);
+	void setGameContext(GamePlay* context);
 	void process(float deltaTime);
 	void draw();
 	ViboritaPart* getHead();
 	void setHead();
-	void grow(Vec3 direction);
+	void addTail(Vec3 gridPosition);
 	Vec3* getMovementDirection();
 	void handleMovement(Vec3* movementDir);
 	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);

@@ -17,11 +17,14 @@ class Button
 private:
 	GLuint textureId;
 	GLuint hoverTextureId;
+	GLuint selectedTextureId;
 	SDL_Rect* rectangle;
 	bool hover;
+	bool selected;
 	void (*callback)();
 	static TTF_Font* font;
 public:
+	Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void (*callback)()); //Button ocn hover
 	Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)()); //Button ocn hover
 	Button(const char* texturePath, int x, int y, int width, int height, void (*callback)()); //Button sin hover
 	Button(const char* texturePath, int x, int y, int width, int height); //Renderiza solo texto

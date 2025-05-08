@@ -8,6 +8,7 @@
 #include "GameStats.h"
 #include "Settings.h"
 #include "Button.h"
+#include "Level.h"
 
 #include "IGameEntity.h"
 #include "Block.h"
@@ -26,11 +27,9 @@ class GameController
 private:
 	GameController();
 	static GameController* instance;
+	GamePlay* game;
 	IGameState* state;
-	IGameEntity* grid[8][8][8];
-	Viborita* viborita;
 	Settings* settings;
-	GameStats* stats;
 	Vec2 mousePos;
 	float timeCounter;
 	bool up = false;
@@ -44,18 +43,10 @@ public:
 	int GRID_SIZE;
 	int TILE_SIZE;
 	float GRID_OFFSET;
+	float getGridPosition(float a);
 	static GameController* getInstance();
 	void processFrame(float deltaTime);
-	float getGridPosition(float a);
 	virtual std::vector<Button*> getHudButtons();
-	Viborita* getViborita();
-	bool tileHasApple(Vec3 indices);
-	void clearTile(Vec3 indices);
-	bool validTile(Vec3 indices);
-	bool hasSolidBlock(Vec3 indices);
-	bool hasViborita(Vec3 indices);
-	void addViborita(Vec3 indices);
-	void ateApple();
 
 	void setMousePos(Vec2 mousePos);
 	void setArrowUp(bool up);
@@ -65,9 +56,9 @@ public:
 	void setZKey(bool z);
 	void setXKey(bool x);
 	void setClick(bool click);
+	void setGamePlay(GamePlay* game);
 	
 	IGameState* getState();
-	GameStats* getStats();
 	Vec2 getMousePos();
 	bool isArrowUp();
 	bool isArrowDown();
@@ -76,5 +67,10 @@ public:
 	bool isZKey();
 	bool isXKey();
 	bool clicked();
+
+
+	//De ac[a a abajo son cosas que son temporales, hay que irlas borrando cuando no se necesiten
+	Level* getLevel1();
+	Level* getLevel2();
 };
 

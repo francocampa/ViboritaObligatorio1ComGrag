@@ -1,6 +1,7 @@
 #pragma once
 #include "IGameState.h"
 #include "Button.h"
+#include "Level.h"
 #include "GameStats.h"
 #include "GameController.h"
 
@@ -11,14 +12,28 @@ private:
 	Button* settings;
 	Button* scoreText;
 	Button* timerText;
+	Level* level;
+	IGameEntity* grid[8][8][8];
+	Viborita* viborita;
+	GameStats* stats;
+
 public:
-	GamePlay();
-	void process();
-	void eatApple();
+	GamePlay(Level* level);
+	void process(float deltaTime);
 	void changeTimer(int time);
 	void beatLevel();
 	void resetLevel();
+	void addSecond();
 	void draw();
 	std::vector<Button*> getHudButtons();
+
+	Viborita* getViborita();
+	bool tileHasApple(Vec3 indices);
+	void clearTile(Vec3 indices);
+	bool validTile(Vec3 indices);
+	bool hasSolidBlock(Vec3 indices);
+	bool hasViborita(Vec3 indices);
+	void addViborita(Vec3 indices);
+	void ateApple();
 };
 

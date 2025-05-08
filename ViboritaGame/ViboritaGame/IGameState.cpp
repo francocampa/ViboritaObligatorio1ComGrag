@@ -1,6 +1,6 @@
 #include "IGameState.h"
 
-void IGameState::process()
+void IGameState::process(float deltaTime)
 {
 }
 

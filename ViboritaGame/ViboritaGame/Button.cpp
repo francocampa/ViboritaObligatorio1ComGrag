@@ -2,6 +2,24 @@
 
 TTF_Font* Button::font = nullptr;
 
+Button::Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void(*callback)())
+{
+	bool hover = false;
+
+
+	loadTexture(this->textureId, texturePath);
+	loadTexture(this->hoverTextureId, hoverPath);
+	loadTexture(this->selectedTextureId, selectedPath);
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = callback;
+}
+
 Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)())
 {//Btn con hover
 	bool hover = false;
@@ -9,6 +27,7 @@ Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int
 
 	loadTexture(this->textureId, texturePath);
 	loadTexture(this->hoverTextureId, hoverPath);
+	this->selectedTextureId = NULL;
 
 	this->rectangle = new SDL_Rect();
 	this->rectangle->x = x;
@@ -26,6 +45,7 @@ Button::Button(const char* texturePath, int x, int y, int width, int height, voi
 
 	loadTexture(this->textureId, texturePath);
 	this->hoverTextureId = NULL;
+	this->selectedTextureId = NULL;
 
 	this->rectangle = new SDL_Rect();
 	this->rectangle->x = x;

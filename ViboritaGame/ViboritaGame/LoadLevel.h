@@ -11,7 +11,7 @@ private:
 	void processLevel();
 	void startGameplay();
 public:
-	void process();
+	void process(float deltaTime);
 	void draw();
 	virtual std::vector<Button*> getHudButtons();
 };

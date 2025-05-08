@@ -25,11 +25,11 @@ void HudController::process()
     mouse.y = mousePos.y;
 
     glMatrixMode(GL_PROJECTION);
-    glPushMatrix();                     // Save current projection
+    glPushMatrix();                    
     glLoadIdentity();
-    glOrtho(0, 640, 480, 0, -1, 1);     // Match SDL window coordinates
+    glOrtho(0, 640, 480, 0, -1, 1);     
     glMatrixMode(GL_MODELVIEW);
-    glPushMatrix();                     // Save modelview
+    glPushMatrix();                     
     glLoadIdentity();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -44,10 +44,10 @@ void HudController::process()
         }
     }
     glDisable(GL_BLEND);
-    glPopMatrix();                      // Restore modelview
+    glPopMatrix();                      
     glMatrixMode(GL_PROJECTION);
-    glPopMatrix();                      // Restore projection
-    glMatrixMode(GL_MODELVIEW);         // Back to 3D
+    glPopMatrix();                      
+    glMatrixMode(GL_MODELVIEW);        
 }
 
 void HudController::setFont(TTF_Font* mainFont)

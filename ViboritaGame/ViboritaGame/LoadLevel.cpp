@@ -12,7 +12,7 @@ void LoadLevel::startGameplay()
 {
 }
 
-void LoadLevel::process()
+void LoadLevel::process(float deltaTime)
 {
 }
 

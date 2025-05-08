@@ -9,10 +9,17 @@ std::set<int> MainMenu::getLevelsList()
 	return std::set<int>();
 }
 
-void MainMenu::process()
+void MainMenu::process(float deltaTime)
 {
 }
 
 void MainMenu::draw()
 {
+}
+
+std::vector<Button*> MainMenu::getHudButtons()
+{
+	std::vector<Button*> buttons;
+
+	return std::vector<Button*>();
 }

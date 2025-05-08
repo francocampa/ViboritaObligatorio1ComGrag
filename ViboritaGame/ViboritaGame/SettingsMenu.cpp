@@ -16,7 +16,7 @@ void SettingsMenu::changeLightingSettings()
 {
 }
 
-void SettingsMenu::process()
+void SettingsMenu::process(float deltaTime)
 {
 }
 

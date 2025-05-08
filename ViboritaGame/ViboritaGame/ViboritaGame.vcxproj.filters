@@ -93,6 +93,12 @@
     <ClCompile Include="Goal.cpp">
       <Filter>Classes\game_entities</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Classes\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Classes\hud_element</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -141,6 +147,12 @@
       <Filter>Header Files\game_entities</Filter>
     </ClInclude>
     <ClInclude Include="Button.h">
+      <Filter>Header Files\hud_element</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
       <Filter>Header Files\hud_element</Filter>
     </ClInclude>
   </ItemGroup>

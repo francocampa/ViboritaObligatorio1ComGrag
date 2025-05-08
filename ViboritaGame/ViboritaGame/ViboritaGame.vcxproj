@@ -143,10 +143,12 @@
     <ClCompile Include="HudController.cpp" />
     <ClCompile Include="IGameEntity.cpp" />
     <ClCompile Include="IGameState.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoadLevel.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Viborita.cpp" />
     <ClCompile Include="ViboritaGame.cpp" />
@@ -162,10 +164,12 @@
     <ClInclude Include="HudController.h" />
     <ClInclude Include="IGameEntity.h" />
     <ClInclude Include="IGameState.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="LoadLevel.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsMenu.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Viborita.h" />
   </ItemGroup>

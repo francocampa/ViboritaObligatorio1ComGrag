@@ -10,7 +10,7 @@ private:
 	void startLevel();
 	std::set<int> getLevelsList();
 public:
-	void process();
+	void process(float deltaTime);
 	void draw();
 	virtual std::vector<Button*> getHudButtons();
 };

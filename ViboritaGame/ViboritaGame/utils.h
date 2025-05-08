@@ -64,3 +64,4 @@ extern GLfloat* basePyramidVertices;
 extern GLfloat* basePyramidColors;  
 
 extern GLuint basePyramydIndices[];
+

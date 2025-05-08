@@ -5,7 +5,7 @@
 
 class IGameState {
 public:
-	virtual void process();
+	virtual void process(float deltaTime);
 	virtual void draw();
 	virtual std::vector<Button*> getHudButtons();
 };
