@@ -57,6 +57,8 @@ public:
 	void setXKey(bool x);
 	void setClick(bool click);
 	
+	Settings* getSettings();
+	void setSettings(Settings* settings);
 	IGameState* getState();
 	void setState(IGameState* state);
 	Vec2 getMousePos();

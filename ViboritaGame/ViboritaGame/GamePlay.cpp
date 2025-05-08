@@ -1,7 +1,7 @@
 #include "GamePlay.h"
 
 void openSettings() {
-	printf("i wanna go to the settings pls");
+	GameController::getInstance()->setState(new SettingsMenu(GameController::getInstance()->getSettings()));
 }
 void resetLevelCallback() {
 	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();

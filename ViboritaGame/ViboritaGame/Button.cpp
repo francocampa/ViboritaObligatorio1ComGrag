@@ -40,6 +40,26 @@ Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int
 	this->strcallback = NULL;
 }
 
+Button::Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void(*callback)(std::string arg), std::string arg)
+{
+	hover = false;
+	selected = false;
+
+	loadTexture(this->textureId, texturePath);
+	loadTexture(this->hoverTextureId, hoverPath);
+	loadTexture(this->selectedTextureId, selectedPath);
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = NULL;
+	this->strcallback = callback;
+	this->arg = arg;
+}
+
 Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void(*callback)(std::string arg),std::string arg)
 {
 	hover = false;
@@ -161,6 +181,11 @@ SDL_Rect* Button::getRect()
 void Button::setFont(TTF_Font* font)
 {
 	Button::font = font;
+}
+
+void Button::setSelected(bool selected)
+{
+	this->selected = selected;
 }
 
 Button::~Button()

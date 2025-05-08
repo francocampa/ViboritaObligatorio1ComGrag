@@ -44,6 +44,8 @@ int main(int argc, char* argv[]) {
 	glMatrixMode(GL_MODELVIEW);
 
 	GameController::getInstance()->setState(new MainMenu());
+	Settings* settings = new Settings();
+	GameController::getInstance()->setSettings(settings);
 
 	bool quit = false;
 	bool moveCamera = false;
@@ -79,6 +81,7 @@ int main(int argc, char* argv[]) {
 		currentTick = SDL_GetPerformanceCounter();
 
 		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
+		deltaTime *= settings->getGameSpeed();
 		lastTick = currentTick;
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
