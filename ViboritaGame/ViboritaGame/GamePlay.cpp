@@ -31,6 +31,7 @@ void GamePlay::changeTimer(int time)
 
 void GamePlay::beatLevel()
 {
+	std::cout << "Level completed!" << std::endl;
 }
 
 void GamePlay::startLevel()

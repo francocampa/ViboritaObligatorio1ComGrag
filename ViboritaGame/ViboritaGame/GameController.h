@@ -60,6 +60,7 @@ public:
 	
 	IGameState* getState();
 	Vec2 getMousePos();
+	GamePlay* getGamePlay();
 	bool isArrowUp();
 	bool isArrowDown();
 	bool isArrowLeft();

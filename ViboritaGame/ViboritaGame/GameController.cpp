@@ -94,6 +94,11 @@ Vec2 GameController::getMousePos()
 	return this->mousePos;
 }
 
+GamePlay* GameController::getGamePlay()
+{
+	return this->game;
+}
+
 bool GameController::isArrowUp()
 {
 	return up;
@@ -160,7 +165,7 @@ Level* GameController::getLevel1()
 	viborita = new Viborita(viboritaIndexes, viboritaPos, colores);
 	Vec3 goalPos = { getGridPosition(2),getGridPosition(4),getGridPosition(2) };
 	Vec3 goalIndexes = { 2,4,2 };
-	grid[2][4][2] = new Goal(goalIndexes, goalPos);
+	grid[1][4][1] = new Goal(goalIndexes, goalPos);//por ahora lo dejo en [1][4][1] porque no interactúa bien en [2][4][2]/ osea, se come el bloque
 
 	for (int x = 0; x < 6;x++) {
 		for (int y = 2; y < 4;y++) {

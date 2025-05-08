@@ -207,6 +207,10 @@ ViboritaPart* Viborita::getHead() {
 	return this->body.head;
 }
 
+int Viborita::getSize() {
+	return this->body.size;
+}
+
 void Viborita::setHead() {
 	if (this->body.head != NULL) {
 		ViboritaPart* aux = this->body.head;

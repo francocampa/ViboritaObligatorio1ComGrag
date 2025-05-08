@@ -25,6 +25,7 @@ public:
 	void process(float deltaTime);
 	void draw();
 	ViboritaPart* getHead();
+	int getSize();
 	void setHead();
 	void addTail(Vec3 gridPosition);
 	void loadInGrid();
