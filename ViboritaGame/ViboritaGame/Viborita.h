@@ -27,12 +27,14 @@ public:
 	ViboritaPart* getHead();
 	void setHead();
 	void addTail(Vec3 gridPosition);
+	void loadInGrid();
 	Vec3* getMovementDirection();
-	void handleMovement(Vec3* movementDir);
+	bool handleMovement(Vec3* movementDir);
 	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);
 	bool hasFloor();
 	void handleFall();
 	void handleDeath();
+	Viborita* deepCopy();
 	GAME_ENTITY_TYPE getType();
 };
 

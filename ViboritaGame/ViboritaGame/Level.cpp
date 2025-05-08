@@ -29,7 +29,7 @@ IGameEntity* Level::getInitialGridPosition(int x, int y, int z)
 
 Viborita* Level::getInitialViborita()
 {
-	return initialViborita;
+	return initialViborita->deepCopy();
 }
 
 int Level::getMaxScore()

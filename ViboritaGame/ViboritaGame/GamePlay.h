@@ -10,6 +10,7 @@ class GamePlay :
 {
 private:
 	Button* settings;
+	Button* reset;
 	Button* scoreText;
 	Button* timerText;
 	Level* level;
@@ -22,6 +23,7 @@ public:
 	void process(float deltaTime);
 	void changeTimer(int time);
 	void beatLevel();
+	void startLevel();
 	void resetLevel();
 	void addSecond();
 	void draw();

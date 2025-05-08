@@ -158,7 +158,6 @@ Level* GameController::getLevel1()
 	Vec3 viboritaPos = { getGridPosition(5),getGridPosition(4),getGridPosition(5) };
 	Vec3 viboritaIndexes = { 5,4,5 };
 	viborita = new Viborita(viboritaIndexes, viboritaPos, colores);
-	grid[5][4][5] = viborita;//posición donde empieza la viborita
 	Vec3 goalPos = { getGridPosition(2),getGridPosition(4),getGridPosition(2) };
 	Vec3 goalIndexes = { 2,4,2 };
 	grid[2][4][2] = new Goal(goalIndexes, goalPos);
@@ -219,7 +218,7 @@ Level* GameController::getLevel2()
 	Vec3 viboritaPos = { getGridPosition(5),getGridPosition(4),getGridPosition(5) };
 	Vec3 viboritaIndexes = { 5,4,5 };
 	viborita = new Viborita(viboritaIndexes, viboritaPos, colores);
-	grid[5][4][5] = viborita;//posición donde empieza la viborita
+
 	Vec3 goalPos = { getGridPosition(2),getGridPosition(4),getGridPosition(2) };
 	Vec3 goalIndexes = { 2,4,2 };
 	grid[2][4][2] = new Goal(goalIndexes, goalPos);

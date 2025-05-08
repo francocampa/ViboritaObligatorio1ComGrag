@@ -58,15 +58,15 @@ Vec3* Viborita::getMovementDirection()
 	return movementDir;
 }
 
-void Viborita::handleMovement(Vec3* movementDir) {
+bool Viborita::handleMovement(Vec3* movementDir) {
 	Vec3 nextGridIndex = { this->body.head->gridIndex.x + movementDir->x,this->body.head->gridIndex.y + movementDir->y,this->body.head->gridIndex.z + movementDir->z };
 
 	if (!gameContext->validTile(nextGridIndex)
 		|| gameContext->hasSolidBlock(nextGridIndex)) //Se choca con un bloque
-		return;
+		return false;
 	if (gameContext->hasViborita(nextGridIndex)) {
 		handleDeath();
-		return;
+		return false;
 	}
 
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
@@ -94,6 +94,7 @@ void Viborita::handleMovement(Vec3* movementDir) {
 		prevGrid = getVec3FromVec3(auxGrid);
 		aux = aux->next;
 	}
+	return true;
 }
 
 void Viborita::handleEatApple(Vec3* lastTailPos, Vec3* lastTailGrid)
@@ -157,6 +158,18 @@ void Viborita::handleDeath()
 	gameContext->resetLevel();
 }
 
+Viborita* Viborita::deepCopy()
+{
+	Viborita* copy = new Viborita(body.head->gridIndex,body.head->position,viboritaColors);
+	ViboritaPart* aux = body.head->next;
+	while (aux != NULL)
+	{
+		copy->addTail(aux->gridIndex);
+		aux = aux->next;
+	}
+	return copy;
+}
+
 GAME_ENTITY_TYPE Viborita::getType()
 {
 	return VIBORITA;
@@ -180,12 +193,14 @@ void Viborita::process(float deltaTime) {
 	Vec3* oldTailPos = getVec3FromVec3(this->body.tail->position);
 	Vec3* oldTailGrid = getVec3FromVec3(this->body.tail->gridIndex);
 
-	this->handleMovement(movementDir);
+	bool moved = this->handleMovement(movementDir);
 
-	if (gameContext->tileHasApple(body.head->gridIndex))
-		this->handleEatApple(oldTailPos, oldTailGrid);
+	if (moved) {
+		if (gameContext->tileHasApple(body.head->gridIndex))
+			this->handleEatApple(oldTailPos, oldTailGrid);
 
-	gameContext->addViborita(this->body.head->gridIndex);
+		gameContext->addViborita(this->body.head->gridIndex);
+	}
 }
 
 ViboritaPart* Viborita::getHead() {
@@ -218,4 +233,14 @@ void Viborita::addTail(Vec3 gridIndex)
 	this->body.tail->next = newTail;
 	this->body.tail = newTail;
 	gameContext->addViborita(newTail->gridIndex);
+}
+
+void Viborita::loadInGrid()
+{
+	ViboritaPart* aux = body.head;
+	while (aux != NULL)
+	{
+		gameContext->addViborita(aux->gridIndex);
+		aux = aux->next;
+	}
 }

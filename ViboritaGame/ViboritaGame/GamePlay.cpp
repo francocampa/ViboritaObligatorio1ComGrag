@@ -3,25 +3,20 @@
 void openSettings() {
 	printf("i wanna go to the settings pls");
 }
-
+void resetLevelCallback() {
+	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();
+	gp->resetLevel();
+}
 GamePlay::GamePlay(Level* level)
 {
 	this->level = level;
 	settings = new Button("images/settings.png", "images/settingsHover.png", 580, 10, 50, 50, openSettings);
+	reset = new Button("images/restart.png", "images/restartHover.png", 520, 10, 50, 50, resetLevelCallback);
 	std::string sText = "0/" + std::to_string(level->getMaxScore());
 	scoreText = new Button(sText.c_str(), 10, 10, 50, 50);
 	timerText = new Button("00:00", 280, 10, 80, 50);
-	this->stats = new GameStats(level->getMaxScore(),false);
-
-	for (int x = 0; x < 8;x++) {
-		for (int y = 0; y < 8;y++) {
-			for (int z = 0; z < 8;z++) {
-				this->grid[x][y][z] = level->getInitialGridPosition(x,y,z);
-			}
-		}
-	}
-	this->viborita = level->getInitialViborita();
-	this->viborita->setGameContext(this);
+	
+	startLevel();
 }
 
 void GamePlay::changeTimer(int time)
@@ -38,8 +33,36 @@ void GamePlay::beatLevel()
 {
 }
 
+void GamePlay::startLevel()
+{
+	std::string sText = "0/" + std::to_string(level->getMaxScore());
+	scoreText->updateText(sText.c_str());
+	timerText->updateText("00:00");
+
+	this->stats = new GameStats(level->getMaxScore(), false);
+
+	for (int x = 0; x < 8;x++) {
+		for (int y = 0; y < 8;y++) {
+			for (int z = 0; z < 8;z++) {
+				this->grid[x][y][z] = level->getInitialGridPosition(x, y, z);
+			}
+		}
+	}
+	this->viborita = level->getInitialViborita();
+	this->viborita->setGameContext(this);
+	this->viborita->loadInGrid();
+}
+
 void GamePlay::resetLevel()
 {
+	for (int x = 0; x < 8;x++) {
+		for (int y = 0; y < 8;y++) {
+			for (int z = 0; z < 8;z++) {
+				this->grid[x][y][z] = NULL;
+			}
+		}
+	}
+	startLevel();
 }
 
 void GamePlay::addSecond()
@@ -72,6 +95,7 @@ std::vector<Button*> GamePlay::getHudButtons()
 {
 	std::vector<Button*> buttons;
 	buttons.push_back(settings);
+	buttons.push_back(reset);
 	buttons.push_back(scoreText);
 	buttons.push_back(timerText);
 	return buttons;
