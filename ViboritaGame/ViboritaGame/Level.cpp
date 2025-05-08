@@ -1,8 +1,9 @@
 #include "Level.h"
 
-Level::Level(std::string name, IGameEntity* initialGrid[8][8][8], int maxScore, Viborita* initialViborita)
+Level::Level(std::string name, std::string nextLevelName, IGameEntity* initialGrid[8][8][8], int maxScore, Viborita* initialViborita)
 {
 	this->name = name;
+	this->nextLevelName = nextLevelName;
 	this->initialViborita = initialViborita;
 	this->maxScore = maxScore;
 	for (int x = 0; x < 8;x++) {
@@ -35,5 +36,15 @@ Viborita* Level::getInitialViborita()
 int Level::getMaxScore()
 {
 	return maxScore;
+}
+
+std::string Level::getName()
+{
+	return name;
+}
+
+std::string Level::getNextLevelName()
+{
+	return nextLevelName;
 }
 

@@ -31,7 +31,14 @@ void GamePlay::changeTimer(int time)
 
 void GamePlay::beatLevel()
 {
-	std::cout << "Level completed!" << std::endl;
+	std::string nextLevelName = level->getNextLevelName();
+	MainMenu* mm = new MainMenu();
+	GameController::getInstance()->setGamePlay(NULL);
+	GameController::getInstance()->setState(mm);
+
+	if (nextLevelName != "") {
+		mm->startLevel(nextLevelName);
+	}
 }
 
 void GamePlay::startLevel()
@@ -113,6 +120,14 @@ bool GamePlay::tileHasApple(Vec3 indices)
 	int y = indices.y;
 	int z = indices.z;
 	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == APPLE;
+}
+
+bool GamePlay::hasGoal(Vec3 indices)
+{
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == GOAL;
 }
 
 void GamePlay::clearTile(Vec3 indices)

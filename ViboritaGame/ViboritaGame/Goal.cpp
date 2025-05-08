@@ -4,6 +4,7 @@
 Goal::Goal(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes, position)
 {
 	this->position = position;
+	this->gridIndex = gridIndexes;
 	this->angle = 0.0f;
 	this->angle += 0.05f;
 }
@@ -24,12 +25,11 @@ GAME_ENTITY_TYPE Goal::getType()
 
 void Goal::process(float deltaTime){  
 	this->angle = this->angle + 20.0f * deltaTime; 
-	Viborita* body = GameController::getInstance()->getGamePlay()->getViborita();  
-	Vec3 goalGridIndex = { 2,4,2 };  
-	if (body->getHead() != NULL && body->getHead()->gridIndex == goalGridIndex) {  
+	/*Viborita* body = GameController::getInstance()->getGamePlay()->getViborita();  
+	if (body->getHead() != NULL && body->getHead()->gridIndex == gridIndex) {  
 		body->setHead();
 		if (body->getSize() == 0) {
 			GameController::getInstance()->getGamePlay()->beatLevel();
 		}
-	}  
+	}  */
 }

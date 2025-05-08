@@ -56,10 +56,11 @@ public:
 	void setZKey(bool z);
 	void setXKey(bool x);
 	void setClick(bool click);
-	void setGamePlay(GamePlay* game);
 	
 	IGameState* getState();
+	void setState(IGameState* state);
 	Vec2 getMousePos();
+	void setGamePlay(GamePlay* game);
 	GamePlay* getGamePlay();
 	bool isArrowUp();
 	bool isArrowDown();

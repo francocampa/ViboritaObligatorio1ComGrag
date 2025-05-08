@@ -4,8 +4,8 @@ TTF_Font* Button::font = nullptr;
 
 Button::Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void(*callback)())
 {
-	bool hover = false;
-
+	hover = false;
+	selected = false;
 
 	loadTexture(this->textureId, texturePath);
 	loadTexture(this->hoverTextureId, hoverPath);
@@ -18,12 +18,13 @@ Button::Button(const char* texturePath, const char* hoverPath, const char* selec
 	this->rectangle->h = height;
 
 	this->callback = callback;
+	this->strcallback = NULL;
 }
 
 Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)())
 {//Btn con hover
-	bool hover = false;
-
+	hover = false;
+	selected = false;
 
 	loadTexture(this->textureId, texturePath);
 	loadTexture(this->hoverTextureId, hoverPath);
@@ -36,12 +37,33 @@ Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int
 	this->rectangle->h = height;
 
 	this->callback = callback;
+	this->strcallback = NULL;
+}
+
+Button::Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void(*callback)(std::string arg),std::string arg)
+{
+	hover = false;
+	selected = false;
+
+	loadTexture(this->textureId, texturePath);
+	loadTexture(this->hoverTextureId, hoverPath);
+	this->selectedTextureId = NULL;
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = NULL;
+	this->strcallback = callback;
+	this->arg = arg;
 }
 
 Button::Button(const char* texturePath, int x, int y, int width, int height, void(*callback)())
 {//Btn sin hover
-	bool hover = false;
-
+	hover = false;
+	selected = false;
 
 	loadTexture(this->textureId, texturePath);
 	this->hoverTextureId = NULL;
@@ -54,11 +76,13 @@ Button::Button(const char* texturePath, int x, int y, int width, int height, voi
 	this->rectangle->h = height;
 
 	this->callback = callback;
+	this->strcallback = NULL;
 }
 
 Button::Button(const char* text, int x, int y, int width, int height)
 {//Renderizador de texto xdxd
-	bool hover = false;
+	hover = false;
+	selected = false;
 
 	loadTextTexture(this->textureId, text, font);
 	this->hoverTextureId = NULL;
@@ -69,11 +93,30 @@ Button::Button(const char* text, int x, int y, int width, int height)
 	this->rectangle->w = width;
 	this->rectangle->h = height;
 	this->callback = NULL;
+	this->strcallback = NULL;
+}
+
+Button::Button(const char* text, int x, int y, int width, int height, void(*callback)(std::string arg), std::string arg)
+{
+	hover = false;
+	selected = false;
+
+	loadTextTexture(this->textureId, text, font);
+	this->hoverTextureId = NULL;
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+	this->callback = NULL;
+	this->strcallback = callback;
+	this->arg = arg;
 }
 
 void Button::draw()
 {
-	glBindTexture(GL_TEXTURE_2D, isHovering() ? hoverTextureId : textureId);
+	glBindTexture(GL_TEXTURE_2D, selected ? selectedTextureId : isHovering() ? hoverTextureId : textureId);
 	glEnable(GL_TEXTURE_2D);
 
 	glBegin(GL_QUADS);
@@ -90,6 +133,8 @@ void Button::handleClick()
 {
 	if(callback != NULL)
 		this->callback();
+	if (strcallback != NULL)
+		this->strcallback(arg);
 }
 
 void Button::handleHover()
@@ -123,4 +168,6 @@ Button::~Button()
 	glDeleteTextures(1, &textureId);
 	if(hoverTextureId != NULL)
 		glDeleteTextures(1, &hoverTextureId);
+	if(selectedTextureId != NULL)
+		glDeleteTextures(1, &selectedTextureId);
 }

@@ -7,10 +7,9 @@ GameController::GameController() {
 	TILE_SIZE = 1;
 	GRID_OFFSET = GRID_SIZE / 2;
 
-	game = new GamePlay(getLevel1());
-	state = game;
+	game = NULL;
+	state = NULL;
 	timeCounter = 0.0f;
-
 }
 
 GameController* GameController::getInstance() {
@@ -84,19 +83,24 @@ void GameController::setGamePlay(GamePlay* game)
 	this->game = game;
 }
 
+GamePlay* GameController::getGamePlay()
+{
+	return game;
+}
+
 IGameState* GameController::getState()
 {
 	return state;
 }
 
+void GameController::setState(IGameState* state)
+{
+	this->state = state;
+}
+
 Vec2 GameController::getMousePos()
 {
 	return this->mousePos;
-}
-
-GamePlay* GameController::getGamePlay()
-{
-	return this->game;
 }
 
 bool GameController::isArrowUp()
@@ -165,7 +169,7 @@ Level* GameController::getLevel1()
 	viborita = new Viborita(viboritaIndexes, viboritaPos, colores);
 	Vec3 goalPos = { getGridPosition(2),getGridPosition(4),getGridPosition(2) };
 	Vec3 goalIndexes = { 2,4,2 };
-	grid[1][4][1] = new Goal(goalIndexes, goalPos);//por ahora lo dejo en [1][4][1] porque no interactúa bien en [2][4][2]/ osea, se come el bloque
+	grid[2][4][2] = new Goal(goalIndexes, goalPos);
 
 	for (int x = 0; x < 6;x++) {
 		for (int y = 2; y < 4;y++) {
@@ -186,7 +190,7 @@ Level* GameController::getLevel1()
 		}
 	}
 
-	return new Level("Level 1", grid, 3, viborita);
+	return new Level("Level 1", "Level 2", grid, 3, viborita);
 }
 Level* GameController::getLevel2()
 {
@@ -238,5 +242,5 @@ Level* GameController::getLevel2()
 		}
 	}
 
-	return new Level("Level 2", grid, 4, viborita);
+	return new Level("Level 2","", grid, 4, viborita);
 }

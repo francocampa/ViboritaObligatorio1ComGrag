@@ -6,6 +6,7 @@ class Goal :
 {
 private:
 	Vec3 position;
+	Vec3 gridIndex;
 	float angle;
 	GLfloat goal[12];
 public:

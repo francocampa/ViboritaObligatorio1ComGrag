@@ -43,6 +43,8 @@ int main(int argc, char* argv[]) {
 
 	glMatrixMode(GL_MODELVIEW);
 
+	GameController::getInstance()->setState(new MainMenu());
+
 	bool quit = false;
 	bool moveCamera = false;
 	bool rotate = false;

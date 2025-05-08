@@ -68,6 +68,10 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 		handleDeath();
 		return false;
 	}
+	if (gameContext->hasGoal(nextGridIndex)) {
+		gameContext->beatLevel();
+		return false;
+	}
 
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
 
@@ -129,6 +133,7 @@ void Viborita::handleFall()
 	int minY = GameController::getInstance()->GRID_SIZE + 1;
 	while (aux != NULL)
 	{
+		
 		gameContext->clearTile(aux->gridIndex);
 		Vec3 positionUnderPart = { aux->position.x,aux->position.y - GameController::getInstance()->TILE_SIZE,aux->position.z};
 		Vec3 indexUnderPart = { aux->gridIndex.x,aux->gridIndex.y - 1,aux->gridIndex.z };
@@ -136,6 +141,12 @@ void Viborita::handleFall()
 		aux->gridIndex = indexUnderPart;
 		if (indexUnderPart.y < minY)
 			minY = indexUnderPart.y;
+
+		if (gameContext->hasGoal(aux->gridIndex)) { //Si te caes arriba de la meta xd
+			gameContext->beatLevel();
+			return;
+		}
+
 		gameContext->addViborita(aux->gridIndex);
 		aux = aux->next;
 	}
