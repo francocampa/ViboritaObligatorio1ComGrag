@@ -16,9 +16,9 @@ void calculateArrowKeysPos(Vec3 cameraPos, Vec3 center, Vec3& arrowKeyPos) {
 	Vec3 up = normalize(crossProduct(right, forward));
 
 	//Offsets
-	float distance = 20;
-	float xOffset = 7;
-	float yOffset = -5;
+	float distance = 30;
+	float xOffset = 12;
+	float yOffset = -10;
 
 	arrowKeyPos = {
 		cameraPos.x + forward.x*distance + right.x*xOffset + up.x*yOffset,
