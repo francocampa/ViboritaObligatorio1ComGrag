@@ -75,6 +75,17 @@ GLfloat baseCubeVertices[] = {
 	1.0f, 1.0f, 1.0f,
 	0.0f, 1.0f, 1.0f
 };
+GLfloat baseKeyboardKeyVertices[] = {
+	0.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.5f, 0.0f,
+	0.0f, 0.5f, 0.0f,
+
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 1.0f,
+	1.0f, 0.5f, 1.0f,
+	0.0f, 0.5f, 1.0f
+};
 
 GLfloat baseCubeColors[] = {
 	0,0,0,
@@ -140,3 +151,40 @@ GLuint basePyramydIndices[] = {
 	1, 2, 3,  // Side triangle (BC + top)
 	2, 0, 3   // Side triangle (CA + top)
 };
+
+void drawArrowKeys(Vec3 position) {
+	glPushMatrix();
+	glTranslatef(position.x - 1.7, position.y, position.z - 1.1);
+
+	glTranslatef(1.2f,0,0);
+	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // ^
+	
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(position.x - 1.7, position.y, position.z - 1.1);
+	glTranslatef(0, 0, -1.2f);
+	drawCube(baseKeyboardKeyVertices,baseCubeColors,baseCubeIndices); // <
+	
+	glTranslatef(1.2f, 0, 0);
+	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // \/
+
+	glTranslatef(1.2f, 0, 0);
+	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // >
+	glPopMatrix();
+
+}
+
+Vec3 crossProduct(Vec3 a, Vec3 b) {
+	return {
+		a.y * b.z - a.z * b.y,
+		a.z * b.x - a.x * b.z,
+		a.x * b.y - a.y * b.x
+	};
+}
+
+Vec3 normalize(Vec3 v) {
+	float length = std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	if (length == 0.0f) return { 0, 0, 0 }; // avoid division by zero
+	return { v.x / length, v.y / length, v.z / length };
+}

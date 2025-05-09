@@ -65,3 +65,10 @@ extern GLfloat* basePyramidColors;
 
 extern GLuint basePyramydIndices[];
 
+extern GLfloat baseKeyboardKeyVertices[];
+
+void drawArrowKeys(Vec3 position);
+
+Vec3 crossProduct(Vec3 a, Vec3 b);
+
+Vec3 normalize(Vec3 v);

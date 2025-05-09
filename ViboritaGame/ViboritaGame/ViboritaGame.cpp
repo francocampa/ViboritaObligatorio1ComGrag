@@ -8,6 +8,26 @@
 #include "GameController.h"
 
 
+void calculateArrowKeysPos(Vec3 cameraPos, Vec3 center, Vec3& arrowKeyPos) {
+	
+	//Normalized directions with respect to the vector from your face to the center of the viewport
+	Vec3 forward = normalize({ center.x - cameraPos.x,center.y - cameraPos.y ,center.z - cameraPos.z });
+	Vec3 right = normalize(crossProduct(forward,{0,1,0}));
+	Vec3 up = normalize(crossProduct(right, forward));
+
+	//Offsets
+	float distance = 20;
+	float xOffset = 7;
+	float yOffset = -5;
+
+	arrowKeyPos = {
+		cameraPos.x + forward.x*distance + right.x*xOffset + up.x*yOffset,
+		cameraPos.y + forward.y * distance + right.y * xOffset + up.y * yOffset,
+		cameraPos.z + forward.z * distance + right.z * xOffset + up.z * yOffset
+	};
+}
+
+
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
 
@@ -74,6 +94,11 @@ int main(int argc, char* argv[]) {
 	cameraPos.x = cameraRadius * sin(phi) * cos(theta);
 	cameraPos.y = cameraRadius * cos(phi);
 	cameraPos.z = cameraRadius * sin(phi) * sin(theta);
+
+	Vec3 arrowKeysPos = { 0,0,0 };
+
+	calculateArrowKeysPos(cameraPos,center, arrowKeysPos);
+
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -83,6 +108,8 @@ int main(int argc, char* argv[]) {
 		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
 		deltaTime *= settings->getGameSpeed();
 		lastTick = currentTick;
+
+		
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
@@ -94,6 +121,8 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setZKey(false);
 		GameController::getInstance()->setXKey(false);
 		GameController::getInstance()->setClick(false);
+
+		drawArrowKeys(arrowKeysPos);
 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -175,6 +204,7 @@ int main(int argc, char* argv[]) {
 					cameraPos.y = cameraRadius * cos(phi);
 					cameraPos.z = cameraRadius * sin(phi) * sin(theta);
 
+					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
 
 				break;
