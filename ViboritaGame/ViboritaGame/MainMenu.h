@@ -5,6 +5,9 @@
 #include "GamePlay.h"
 #include "Button.h"
 #include "Level.h"
+#include "pugixml.hpp"
+#include <iostream>
+#include <filesystem>
 
 class MainMenu :
     public IGameState

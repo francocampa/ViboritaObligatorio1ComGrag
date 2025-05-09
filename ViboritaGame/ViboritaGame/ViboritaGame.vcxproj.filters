@@ -99,6 +99,9 @@
     <ClCompile Include="Slider.cpp">
       <Filter>Classes\hud_element</Filter>
     </ClCompile>
+    <ClCompile Include="pugixml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">

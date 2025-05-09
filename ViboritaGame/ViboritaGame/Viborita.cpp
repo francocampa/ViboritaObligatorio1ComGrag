@@ -247,7 +247,6 @@ void Viborita::addTail(Vec3 gridIndex)
 
 	this->body.tail->next = newTail;
 	this->body.tail = newTail;
-	gameContext->addViborita(newTail->gridIndex);
 }
 
 void Viborita::loadInGrid()

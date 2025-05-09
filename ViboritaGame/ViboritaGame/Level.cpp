@@ -15,14 +15,6 @@ Level::Level(std::string name, std::string nextLevelName, IGameEntity* initialGr
 	}
 }
 
-Level::Level(std::string fileName, bool customLevel)
-{
-	//TODO: definir qu[e tipo de archivo y el formato
-	//Pa mi un .txt pelado con un formato nuestro ser[ia lo m[as f[acil de hacer a mano
-	//Si no investigar una librer[ia de json/xml y ver si lo podemos armar para que al cargarlo cree
-	//un objeto Level
-}
-
 IGameEntity* Level::getInitialGridPosition(int x, int y, int z)
 {
 	return initialGrid[x][y][z];

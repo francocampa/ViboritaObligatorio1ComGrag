@@ -164,6 +164,8 @@ bool GamePlay::hasViborita(Vec3 indices)
 
 void GamePlay::addViborita(Vec3 indices)
 {
+	if (this->viborita == NULL)
+		return;
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;

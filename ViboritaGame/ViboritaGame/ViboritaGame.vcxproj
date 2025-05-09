@@ -104,7 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL_image\include;C:\SDL\include;C:\glm;C:\freetype\include;C:\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\pugixml\src;C:\SDL_image\include;C:\SDL\include;C:\glm;C:\freetype\include;C:\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +122,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL_image\include;C:\SDL\include;C:\glm;C:\freetype\include;C:\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\pugixml\src;C:\SDL_image\include;C:\SDL\include;C:\glm;C:\freetype\include;C:\SDL2_ttf\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +148,7 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LoadLevel.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="Slider.cpp" />
