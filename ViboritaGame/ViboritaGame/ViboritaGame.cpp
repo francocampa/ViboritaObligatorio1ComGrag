@@ -71,6 +71,7 @@ int main(int argc, char* argv[]) {
 	bool moveCamera = false;
 	bool rotate = false;
 	bool alreadyMoved = false;
+	bool paused = false;
 	int speed = 1;
 	SDL_Event event;
 	float cameraVel = 0.1f;
@@ -102,7 +103,7 @@ int main(int argc, char* argv[]) {
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
-		
+
 		currentTick = SDL_GetPerformanceCounter();
 
 		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
@@ -113,7 +114,9 @@ int main(int argc, char* argv[]) {
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
-		GameController::getInstance()->processFrame(deltaTime);
+		if(!paused)
+			GameController::getInstance()->processFrame(deltaTime);
+
 		GameController::getInstance()->setArrowRight(false);
 		GameController::getInstance()->setArrowLeft(false);
 		GameController::getInstance()->setArrowDown(false);
@@ -122,7 +125,13 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setXKey(false);
 		GameController::getInstance()->setClick(false);
 
-		drawArrowKeys(arrowKeysPos);
+		drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
+		/*glPointSize(10.0f); //Debug arrow center jiji
+		glBegin(GL_POINTS);
+		glColor3f(0, 1, 0);
+		glVertex3f(arrowKeysPos.x, arrowKeysPos.y, arrowKeysPos.z);
+		glEnd();
+		glColor3f(1, 1, 1);*/
 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -131,18 +140,23 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_KEYUP:
 				switch (event.key.keysym.sym) {
-				case SDLK_ESCAPE:
-					quit = true;
-					break;
-				case SDLK_UP:
-				case SDLK_DOWN:
-				case SDLK_LEFT:
-				case SDLK_RIGHT:
-				case SDLK_x:
-				case SDLK_z:
-					alreadyMoved = false;
+					case SDLK_p:
+						paused = !paused;
+						printf(paused ? "pausado" : "despausao");
+						break;
+					case SDLK_ESCAPE:
+						quit = true;
+						break;
+					case SDLK_UP:
+					case SDLK_DOWN:
+					case SDLK_LEFT:
+					case SDLK_RIGHT:
+					case SDLK_x:
+					case SDLK_z:
+						alreadyMoved = false;
 				}
 				break;
+			
 			case SDL_KEYDOWN:
 				if (alreadyMoved)
 					break;

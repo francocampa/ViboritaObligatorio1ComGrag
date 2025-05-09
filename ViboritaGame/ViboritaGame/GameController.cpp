@@ -32,7 +32,13 @@ void GameController::processFrame(float deltaTime) {
 		if(game != NULL)
 			game->addSecond();
 	}
+	
+	if(settings->isWireframe())
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	state->process(deltaTime);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	HudController::getInstance()->process();
 }
 

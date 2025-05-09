@@ -154,7 +154,7 @@ GLuint basePyramydIndices[] = {
 
 void drawArrowKeys(Vec3 position) {
 	glPushMatrix();
-	glTranslatef(position.x - 1.7, position.y, position.z - 1.1);
+	glTranslatef(position.x, position.y, position.z);
 
 	glTranslatef(1.2f,0,0);
 	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // ^
@@ -162,7 +162,7 @@ void drawArrowKeys(Vec3 position) {
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(position.x - 1.7, position.y, position.z - 1.1);
+	glTranslatef(position.x, position.y, position.z);
 	glTranslatef(0, 0, -1.2f);
 	drawCube(baseKeyboardKeyVertices,baseCubeColors,baseCubeIndices); // <
 	
