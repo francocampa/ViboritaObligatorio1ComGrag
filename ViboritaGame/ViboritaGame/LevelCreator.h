@@ -4,12 +4,15 @@
 #include "IGameEntity.h"
 #include "Viborita.h"
 #include <filesystem>
+#include "pugixml.hpp"
 
 class LevelCreator :
     public IGameState
 {
 private:
     static int autoId;
+
+    int noOfApples;
 
     IGameEntity* grid[8][8][8];
     Viborita* viborita;

@@ -31,6 +31,7 @@ int LevelCreator::autoId = 0;
 LevelCreator::LevelCreator()
 {
 	int maxId = 0;
+	noOfApples = 0;
 	//for (const auto& entry : std::filesystem::directory_iterator("customLevels")) {
 	//	if (entry.is_regular_file()) {
 	//		std::string fileName = entry.path().filename().string();
@@ -101,6 +102,7 @@ std::vector<Button*> LevelCreator::getHudButtons()
 	btns.push_back(goalButton);
 	btns.push_back(viboritaButton);
 	btns.push_back(erasorButton);
+	btns.push_back(saveButton);
 	btns.push_back(mainMenuButton);
 	return btns;
 }
@@ -116,8 +118,60 @@ void LevelCreator::setErase(bool erase)
 	this->erase = erase;
 }
 
+std::string entityTypeString(GAME_ENTITY_TYPE type) {
+	switch (type) {
+	case BLOCK:
+		return "block";
+	case VIBORITA:
+		return "viborita";
+	case APPLE:
+		return "apple";
+	case GOAL:
+		return "goal";
+	default:
+		return "";
+	}
+}
 void LevelCreator::saveLevel()
 {
+	GameController* gc = GameController::getInstance();
+
+	pugi::xml_document* root = new pugi::xml_document();
+	pugi::xml_node levelNode = root->append_child("Level");
+	levelNode.append_attribute("name").set_value(autoId);
+	levelNode.append_attribute("maxScore").set_value(noOfApples);
+	levelNode.append_attribute("nextLevel").set_value(autoId+1);
+	
+	
+
+	pugi::xml_node gridNode = levelNode.append_child("Grid");;
+	for (int x = 0; x < gc->GRID_SIZE;x++)
+		for (int y = 0; y < gc->GRID_SIZE;y++)
+			for (int z = 0; z < gc->GRID_SIZE;z++) {
+				if (grid[x][y][z] != NULL && grid[x][y][z] != this->viborita) {
+					pugi::xml_node entityNode = gridNode.append_child("GameEntity");
+					entityNode.append_attribute("type").set_value(entityTypeString(grid[x][y][z]->getType()));
+					entityNode.append_attribute("x").set_value(x);
+					entityNode.append_attribute("y").set_value(y);
+					entityNode.append_attribute("z").set_value(z);
+				}
+			}
+
+	pugi::xml_node viboritaNode = levelNode.append_child("Viborita");
+	ViboritaPart* aux = this->viborita->getHead();
+	while (aux != NULL) {
+		pugi::xml_node bodyPartNode =  viboritaNode.append_child("BodyPart");
+		bodyPartNode.append_attribute("x").set_value(aux->gridIndex.x);
+		bodyPartNode.append_attribute("y").set_value(aux->gridIndex.y);
+		bodyPartNode.append_attribute("z").set_value(aux->gridIndex.z);
+		aux = aux->next;
+	}
+
+	std::string filePath = "customLevels/" + std::to_string(autoId) + ".xml";
+	
+	root->save_file(filePath.c_str());
+
+	autoId++;
 }
 
 void LevelCreator::clearGrid()
@@ -162,6 +216,9 @@ void LevelCreator::handlePlaceEntity()
 	if (this->erase) {
 		IGameEntity* toDelete = grid[x][y][z];
 		grid[x][y][z] = NULL;
+		if(toDelete->getType() == APPLE)
+			noOfApples--;
+
 		//TODO: ver por qu[e crashea con el delete toDelete;
 		return;
 	}
@@ -182,6 +239,7 @@ void LevelCreator::handlePlaceEntity()
 		break;
 	case APPLE:
 		grid[x][y][z] = new Apple(gridIndex, position);
+		noOfApples++;
 		break;
 	case GOAL:
 		grid[x][y][z] = new Goal(gridIndex, position);

@@ -20,6 +20,7 @@ private:
 	std::vector<Button*> customLevelsButtons;
 	std::vector<Level*> customLevels;
 	void loadLevels();
+	void loadFromXML(pugi::xml_node root);
 public:
 	MainMenu();
 	void process(float deltaTime);
