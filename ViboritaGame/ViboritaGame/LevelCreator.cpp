@@ -32,12 +32,20 @@ LevelCreator::LevelCreator()
 {
 	int maxId = 0;
 	noOfApples = 0;
-	//for (const auto& entry : std::filesystem::directory_iterator("customLevels")) {
-	//	if (entry.is_regular_file()) {
-	//		std::string fileName = entry.path().filename().string();
-	//		fileName.
-	//	}
-	//} SEPARAR UN PUTO STRING COMO EN JAVA CON UN .SPLIT ES UN HUEVO, TODOS PUTOS
+	for (const auto& entry : std::filesystem::directory_iterator("customLevels")) 
+		if (entry.is_regular_file()) {
+			std::string fileName = entry.path().filename().string();
+			int newId = 0;
+			try {
+				newId = std::stoi(fileName.substr(0, fileName.size() - 3));
+			}catch(std::invalid_argument){}
+			if (newId > maxId) {
+				maxId = newId;
+			}
+		}
+
+	autoId= maxId+1;
+
 	createButtons();
 	selectedGridIndex = { 0,0,0 };
 	selectedEntityType = BLOCK;
