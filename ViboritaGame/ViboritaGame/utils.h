@@ -72,3 +72,5 @@ void drawArrowKeys(Vec3 position);
 Vec3 crossProduct(Vec3 a, Vec3 b);
 
 Vec3 normalize(Vec3 v);
+
+extern GLfloat baseViboritaColors[24];

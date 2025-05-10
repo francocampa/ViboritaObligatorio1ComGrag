@@ -6,6 +6,7 @@
 #include <iostream>
 #include "utils.h"
 #include "GameController.h"
+#include "LevelCreator.h"
 
 
 void calculateArrowKeysPos(Vec3 cameraPos, Vec3 center, Vec3& arrowKeyPos) {
@@ -124,6 +125,7 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setZKey(false);
 		GameController::getInstance()->setXKey(false);
 		GameController::getInstance()->setClick(false);
+		GameController::getInstance()->setSpaceKey(false);
 
 		drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
 		/*glPointSize(10.0f); //Debug arrow center jiji
@@ -153,6 +155,7 @@ int main(int argc, char* argv[]) {
 					case SDLK_RIGHT:
 					case SDLK_x:
 					case SDLK_z:
+					case SDLK_SPACE:
 						alreadyMoved = false;
 				}
 				break;
@@ -185,6 +188,10 @@ int main(int argc, char* argv[]) {
 					break;
 				case SDLK_x:
 					GameController::getInstance()->setXKey(true);
+					alreadyMoved = true;
+					break;
+				case SDLK_SPACE:
+					GameController::getInstance()->setSpaceKey(true);
 					alreadyMoved = true;
 					break;
 				}

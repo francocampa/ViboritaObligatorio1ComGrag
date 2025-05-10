@@ -1,0 +1,192 @@
+#include "LevelCreator.h"
+
+void selectEntityCallback(std::string entity) {
+	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
+	if (entity == "block") {
+		lc->setEntityTipe(BLOCK);
+	}
+	else if(entity == "apple"){
+		lc->setEntityTipe(APPLE);
+	}
+	else if (entity == "goal") {
+		lc->setEntityTipe(GOAL);
+	}
+	else if (entity == "viborita") {
+		lc->setEntityTipe(VIBORITA);
+	}
+}
+void selectEraseCallback(std::string z) {
+	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
+	lc->setErase(true);
+}
+void goToMainMenuFromLevelCreatorCallback(std::string z) {
+	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
+	lc->goBackToMainMenu();
+}
+void saveLevelCallback(std::string z) {
+	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
+	lc->saveLevel();
+}
+int LevelCreator::autoId = 0;
+LevelCreator::LevelCreator()
+{
+	int maxId = 0;
+	//for (const auto& entry : std::filesystem::directory_iterator("customLevels")) {
+	//	if (entry.is_regular_file()) {
+	//		std::string fileName = entry.path().filename().string();
+	//		fileName.
+	//	}
+	//} SEPARAR UN PUTO STRING COMO EN JAVA CON UN .SPLIT ES UN HUEVO, TODOS PUTOS
+	createButtons();
+	selectedGridIndex = { 0,0,0 };
+	selectedEntityType = BLOCK;
+	this->viborita = NULL;
+	for (int x = 0; x < 8;x++)
+		for (int y = 0; y < 8;y++)
+			for (int z = 0; z < 8;z++)
+				grid[x][y][z] = NULL;
+}
+void LevelCreator::createButtons()
+{
+	blockButton = new Button("Bloque", 10, 10, 100, 32, selectEntityCallback, "block");
+	appleButton = new Button("Manzana", 10, 52, 100, 32, selectEntityCallback, "apple");
+	goalButton = new Button("Meta", 10, 94, 100, 32, selectEntityCallback, "goal");
+	viboritaButton = new Button("Viborita", 10, 136, 100, 32, selectEntityCallback, "viborita");
+	erasorButton = new Button("Borrador", 10, 178, 100, 32, selectEraseCallback, "");
+	
+	saveButton = new Button("Guardar", 10, 350, 100, 32, saveLevelCallback, "");
+	mainMenuButton = new Button("Volver al menu", 10, 392, 100, 32, goToMainMenuFromLevelCreatorCallback, "");
+	//erasorButton = new Button("Borrador",10,178,100,32,selectEraseCallback,"");
+}
+void LevelCreator::process(float deltaTime)
+{
+	GameController* gc = GameController::getInstance();
+	handleSelectedIndexMovement();
+	handlePlaceEntity();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glPushMatrix();
+	GLfloat bigCube[24];
+	for (int i = 0;i < 24;i++) {
+		bigCube[i] = baseCubeVertices[i] * gc->TILE_SIZE * gc->GRID_SIZE;
+	}
+	float offset = -gc->GRID_SIZE*gc->TILE_SIZE/2;
+	glTranslatef(offset,offset,offset);
+	drawCube(bigCube, baseCubeColors, baseCubeIndices);
+	glPopMatrix();
+	glPushMatrix();
+	glTranslatef(gc->getGridPosition(selectedGridIndex.x), gc->getGridPosition(selectedGridIndex.y), gc->getGridPosition(selectedGridIndex.z));
+	drawCube(baseCubeVertices, baseCubeColors, baseCubeIndices);
+	glPopMatrix();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	for (int x = 0; x < gc->GRID_SIZE;x++) 
+		for (int y = 0; y < gc->GRID_SIZE;y++) 
+			for (int z = 0; z < gc->GRID_SIZE;z++) 
+				if (grid[x][y][z] != NULL && grid[x][y][z] != this->viborita) 
+					grid[x][y][z]->draw();
+				
+	if(this->viborita != NULL)
+		this->viborita->draw();	
+}
+
+void LevelCreator::draw()
+{
+}
+
+std::vector<Button*> LevelCreator::getHudButtons()
+{
+	std::vector<Button*> btns;
+	btns.push_back(blockButton);
+	btns.push_back(appleButton);
+	btns.push_back(goalButton);
+	btns.push_back(viboritaButton);
+	btns.push_back(erasorButton);
+	btns.push_back(mainMenuButton);
+	return btns;
+}
+
+void LevelCreator::setEntityTipe(GAME_ENTITY_TYPE type)
+{
+	this->selectedEntityType = type;
+	this->erase = false;
+}
+
+void LevelCreator::setErase(bool erase)
+{
+	this->erase = erase;
+}
+
+void LevelCreator::saveLevel()
+{
+}
+
+void LevelCreator::clearGrid()
+{
+}
+
+void LevelCreator::goBackToMainMenu()
+{
+	MainMenu* mm = new MainMenu();
+	GameController::getInstance()->setState(mm);
+}
+
+void LevelCreator::handleSelectedIndexMovement()
+{
+	GameController* gc = GameController::getInstance();
+	if (gc->isArrowUp() && selectedGridIndex.z + 1 < gc->GRID_SIZE)
+		selectedGridIndex.z += 1;
+	else if (gc->isArrowDown() && selectedGridIndex.z - 1 >= 0)
+		selectedGridIndex.z += -1;
+	else if (gc->isArrowLeft() && selectedGridIndex.x + 1 < gc->GRID_SIZE)
+		selectedGridIndex.x += 1;
+	else if (gc->isArrowRight() && selectedGridIndex.x - 1 >= 0)
+		selectedGridIndex.x += -1;
+	else if (gc->isZKey() && selectedGridIndex.y + 1 < gc->GRID_SIZE)
+		selectedGridIndex.y += 1;
+	else if (gc->isXKey() && selectedGridIndex.y - 1 >= 0)
+		selectedGridIndex.y += -1;
+}
+
+void LevelCreator::handlePlaceEntity()
+{
+	GameController* gc = GameController::getInstance();
+	if (!gc->isSpaceKey())
+		return;
+
+	int x = selectedGridIndex.x;
+	int y = selectedGridIndex.y;
+	int z = selectedGridIndex.z;
+	/*if (grid[x][y][z] != NULL) {
+		delete grid[x][y][z];
+	}*/
+	if (this->erase) {
+		IGameEntity* toDelete = grid[x][y][z];
+		grid[x][y][z] = NULL;
+		//TODO: ver por qu[e crashea con el delete toDelete;
+		return;
+	}
+	Vec3 gridIndex = { x,y,z };
+	Vec3 position = {gc->getGridPosition(x),gc->getGridPosition(y) ,gc->getGridPosition(z) };
+	switch (selectedEntityType)
+	{
+	case BLOCK:
+		grid[x][y][z] = new Block(gridIndex,position);
+		break;
+	case VIBORITA:
+		if (this->viborita == NULL) {
+			this->viborita = new Viborita(gridIndex,position,baseViboritaColors);
+		}
+		else {
+			this->viborita->addTail(gridIndex);
+		}
+		break;
+	case APPLE:
+		grid[x][y][z] = new Apple(gridIndex, position);
+		break;
+	case GOAL:
+		grid[x][y][z] = new Goal(gridIndex, position);
+		break;
+	default:
+		break;
+	}
+}

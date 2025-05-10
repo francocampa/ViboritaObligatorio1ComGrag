@@ -69,9 +69,6 @@
     <ClCompile Include="GamePlay.cpp">
       <Filter>Classes\game_states</Filter>
     </ClCompile>
-    <ClCompile Include="LoadLevel.cpp">
-      <Filter>Classes\game_states</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Classes\game_states</Filter>
     </ClCompile>
@@ -102,6 +99,9 @@
     <ClCompile Include="pugixml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LevelCreator.cpp">
+      <Filter>Classes\game_states</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -131,9 +131,6 @@
     <ClInclude Include="SettingsMenu.h">
       <Filter>Header Files\game_states</Filter>
     </ClInclude>
-    <ClInclude Include="LoadLevel.h">
-      <Filter>Header Files\game_states</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files\game_states</Filter>
     </ClInclude>
@@ -157,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Slider.h">
       <Filter>Header Files\hud_element</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelCreator.h">
+      <Filter>Header Files\game_states</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

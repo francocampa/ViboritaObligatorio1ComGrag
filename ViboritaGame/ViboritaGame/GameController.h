@@ -39,6 +39,7 @@ private:
 	bool z = false;
 	bool x = false;
 	bool click = false;
+	bool space = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -55,6 +56,7 @@ public:
 	void setArrowRight(bool right);
 	void setZKey(bool z);
 	void setXKey(bool x);
+	void setSpaceKey(bool space);
 	void setClick(bool click);
 	
 	Settings* getSettings();
@@ -70,6 +72,7 @@ public:
 	bool isArrowRight();
 	bool isZKey();
 	bool isXKey();
+	bool isSpaceKey();
 	bool clicked();
 
 

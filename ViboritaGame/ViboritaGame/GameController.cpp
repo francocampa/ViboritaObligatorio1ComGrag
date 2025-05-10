@@ -85,6 +85,11 @@ void GameController::setXKey(bool x)
 	this->x = x;
 }
 
+void GameController::setSpaceKey(bool space)
+{
+	this->space = space;
+}
+
 void GameController::setClick(bool click)
 {
 	this->click = click;
@@ -152,6 +157,11 @@ bool GameController::isXKey()
 	return x;
 }
 
+bool GameController::isSpaceKey()
+{
+	return space;
+}
+
 bool GameController::clicked()
 {
 	return click;
@@ -212,7 +222,7 @@ Level* GameController::getLevel1()
 		}
 	}
 
-	return new Level("Level 1", "Level 2", grid, 3, viborita);
+	return new Level("Level 2", "Level 3", grid, 3, viborita);
 }
 Level* GameController::getLevel2()
 {
@@ -264,5 +274,5 @@ Level* GameController::getLevel2()
 		}
 	}
 
-	return new Level("Level 2","", grid, 4, viborita);
+	return new Level("Level 3","", grid, 4, viborita);
 }

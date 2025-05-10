@@ -146,7 +146,7 @@
     <ClCompile Include="IGameEntity.cpp" />
     <ClCompile Include="IGameState.cpp" />
     <ClCompile Include="Level.cpp" />
-    <ClCompile Include="LoadLevel.cpp" />
+    <ClCompile Include="LevelCreator.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Settings.cpp" />
@@ -168,7 +168,7 @@
     <ClInclude Include="IGameEntity.h" />
     <ClInclude Include="IGameState.h" />
     <ClInclude Include="Level.h" />
-    <ClInclude Include="LoadLevel.h" />
+    <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsMenu.h" />

@@ -5,9 +5,14 @@ void loadLevel(std::string levelName) {
 
 	mm->startLevel(levelName);
 }
+void goToLevelCreatorFromMainMenuCallback(std::string z) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->goToLevelCreator();
+}
 
 MainMenu::MainMenu() {
-	
+	levelCreatorButton = new Button("Creador de niveles", 10, 10, 100, 32, goToLevelCreatorFromMainMenuCallback, "");
+
 	loadLevels();
 
 	std::vector<Button*> btns;
@@ -49,6 +54,12 @@ void MainMenu::startLevel(std::string levelName)
 
 }
 
+void MainMenu::goToLevelCreator()
+{
+	LevelCreator* lc = new LevelCreator();
+	GameController::getInstance()->setState(lc);
+}
+
 void parseCoordsFromXMLNode(pugi::xml_node node, Vec3 &gridIndex, Vec3 &position) {
 	float x = std::stoi(node.attribute("x").value());
 	float y = std::stoi(node.attribute("y").value());
@@ -62,7 +73,7 @@ void MainMenu::loadLevels()
 	std::vector<std::string> levelFiles;
 
 	for (const auto& entry : std::filesystem::directory_iterator("levels")) {
-		if (entry.is_regular_file()) { // Only include files, not directories
+		if (entry.is_regular_file()) { 
 			levelFiles.push_back(entry.path().filename().string());
 		}
 	}
@@ -127,17 +138,8 @@ void MainMenu::loadLevels()
 		Vec3 gridIndex = { 0,0,0 };
 		Vec3 position = { 0,0,0 };
 		parseCoordsFromXMLNode(viboritaHeadNode, gridIndex, position);
-		GLfloat greenShades[24] = {
-			0.0f, 0.25f, 0.0f,   
-			0.0f, 0.30f, 0.0f,  
-			0.0f, 0.35f, 0.0f,
-			0.0f, 0.40f, 0.0f, 
-			0.0f, 0.45f, 0.0f,  
-			0.0f, 0.50f, 0.0f, 
-			0.0f, 0.55f, 0.0f,
-			0.0f, 0.60f, 0.0f  
-		};
-		Viborita* viborita = new Viborita(gridIndex,position, greenShades);
+		
+		Viborita* viborita = new Viborita(gridIndex,position, baseViboritaColors);
 		Vec3 voidVec = { 0,0,0 };
 		for (pugi::xml_node viboritaBodyPartNode = viboritaHeadNode.next_sibling(); viboritaBodyPartNode; viboritaBodyPartNode = viboritaBodyPartNode.next_sibling("BodyPart")) {
 			Vec3 partGridIndex = { 0,0,0 };
@@ -149,8 +151,8 @@ void MainMenu::loadLevels()
 		levels.push_back(level);
 	}
 
-	/*levels.push_back(GameController::getInstance()->getLevel1());
-	levels.push_back(GameController::getInstance()->getLevel2());*/
+	levels.push_back(GameController::getInstance()->getLevel1());
+	levels.push_back(GameController::getInstance()->getLevel2());
 }
 
 void MainMenu::process(float deltaTime)
@@ -164,6 +166,7 @@ void MainMenu::draw()
 std::vector<Button*> MainMenu::getHudButtons()
 {
 	std::vector<Button*> buttons;
+	buttons.push_back(levelCreatorButton);
 	for (Button* button : this->levelButtons)
 		buttons.push_back(button);
 	return buttons;

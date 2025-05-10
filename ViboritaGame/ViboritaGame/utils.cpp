@@ -188,3 +188,14 @@ Vec3 normalize(Vec3 v) {
 	if (length == 0.0f) return { 0, 0, 0 }; // avoid division by zero
 	return { v.x / length, v.y / length, v.z / length };
 }
+
+GLfloat baseViboritaColors[24] = {
+			0.0f, 0.25f, 0.0f,
+			0.0f, 0.30f, 0.0f,
+			0.0f, 0.35f, 0.0f,
+			0.0f, 0.40f, 0.0f,
+			0.0f, 0.45f, 0.0f,
+			0.0f, 0.50f, 0.0f,
+			0.0f, 0.55f, 0.0f,
+			0.0f, 0.60f, 0.0f
+};

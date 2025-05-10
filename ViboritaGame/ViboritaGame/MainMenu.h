@@ -8,11 +8,13 @@
 #include "pugixml.hpp"
 #include <iostream>
 #include <filesystem>
+#include "LevelCreator.h"
 
 class MainMenu :
     public IGameState
 {
 private:
+	Button* levelCreatorButton;
 	std::vector<Button*> levelButtons;
 	std::vector<Level*> levels;
 	std::vector<Button*> customLevelsButtons;
@@ -23,6 +25,7 @@ public:
 	void process(float deltaTime);
 	void draw();
 	void startLevel(std::string levelName);
+	void goToLevelCreator();
 	virtual std::vector<Button*> getHudButtons();
 };
 
