@@ -1,4 +1,3 @@
-
 #include "utils.h"
 
 float distance(const Vec3& a, const Vec3& b) {
@@ -16,7 +15,6 @@ void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]) {
 	for (int i = 0; i < 6; ++i) {
 		glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, &indices[i * 4]);
 	}
-
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -199,3 +197,117 @@ GLfloat baseViboritaColors[24] = {
 			0.0f, 0.55f, 0.0f,
 			0.0f, 0.60f, 0.0f
 };
+
+std::vector<modelInfo> modelsInfo;
+std::vector<setBuff> setBuffs;
+
+void cargarModelo(std::string& filePath, std::string name,int pos) {
+
+	// Implementación de cargarModelo
+	// Aquí puedes cargar el modelo desde el archivo filePath
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(filePath,
+		aiProcess_Triangulate |
+		aiProcess_GenNormals |
+		aiProcess_FlipUVs | // Opcional: puede ser necesario para algunos formatos/texturas
+		aiProcess_JoinIdenticalVertices);
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+		std::cerr << "Error al cargar el archivo OBJ con Assimp: " << importer.GetErrorString() << std::endl;
+		return ;
+	}
+
+	std::vector<VertexData> vertices;
+	std::vector<unsigned int> indices;
+
+	// Procesar cada malla en la escena
+	for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
+		const aiMesh* mesh = scene->mMeshes[i];;
+		unsigned int materialIndex = mesh->mMaterialIndex;
+
+		// Procesar vértices
+		for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
+			VertexData vertex;
+
+			// Posición
+			vertex.position.x = mesh->mVertices[j].x;
+			vertex.position.y = mesh->mVertices[j].y;
+			vertex.position.z = mesh->mVertices[j].z;
+
+			// Normales (asegurarse de que existan)
+			if (mesh->HasNormals()) {
+				vertex.normal.x = mesh->mNormals[j].x;
+				vertex.normal.y = mesh->mNormals[j].y;
+				vertex.normal.z = mesh->mNormals[j].z;
+			}
+			else {
+				vertex.normal = glm::vec3(0.0f, 0.0f, 0.0f); // Si no hay normales, ponerlas a cero
+			}
+
+			// Coordenadas de Textura (UVs) - Tomamos el primer conjunto si existe
+			if (mesh->HasTextureCoords(0)) {
+				vertex.texCoord.x = mesh->mTextureCoords[0][j].x;
+				vertex.texCoord.y = mesh->mTextureCoords[0][j].y;
+			}
+			else {
+				vertex.texCoord = glm::vec2(0.0f, 0.0f);
+			}
+
+			// Colores de Vértice - Tomamos el primer conjunto si existe
+			if (mesh->HasVertexColors(0)) {
+				vertex.color.r = mesh->mColors[0][j].r;
+				vertex.color.g = mesh->mColors[0][j].g;
+				vertex.color.b = mesh->mColors[0][j].b;
+				vertex.color.a = mesh->mColors[0][j].a;
+			}
+			else {
+				vertex.color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f); // Color blanco por defecto
+			}
+
+			vertices.push_back(vertex);
+		}
+
+		// Procesar caras (índices)
+		for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
+			const aiFace& face = mesh->mFaces[j];
+			for (unsigned int k = 0; k < face.mNumIndices; ++k) {
+				indices.push_back(face.mIndices[k]);
+			}
+		}
+
+	}
+
+	if (modelsInfo.size() <= pos) {
+		modelsInfo.resize(pos + 1);
+	}
+
+	// Guardar el VAO para usarlo en el bucle de renderizado
+	modelsInfo[pos].name = name;
+	modelsInfo[pos].vertices = vertices;
+	modelsInfo[pos].indices = indices;
+}
+
+void drawApple() {  
+   glEnableClientState(GL_VERTEX_ARRAY); 
+
+   // Convert the vector of vertices to a raw pointer  
+   const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[0].vertices.data());  
+
+   // Convert the vector of indices to a raw pointer  
+   const GLuint* indexData = modelsInfo[0].indices.data();  
+   glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[0]);
+   for (size_t i = 0; i < modelsInfo[0].indices.size() / 3; ++i) {  
+       glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);  
+   }  
+   glDisableClientState(GL_VERTEX_ARRAY);  
+}
+
+/*void drawWormHead() {
+	int i = 0;
+	while (modelsInfo[i].name != "wormHead") {
+		i++;
+	}
+	glBindVertexArray(modelsInfo[i].objectVAO);
+	glDrawElements(GL_TRIANGLES, modelsInfo[i].indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}*/

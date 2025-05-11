@@ -1,9 +1,9 @@
 #pragma once
+#include "utils.h"
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <iostream>
 #include <GL/glu.h>
-#include "utils.h"
 #include <vector>
 #include "IGameEntity.h"
 //#include "GamePlay.h"

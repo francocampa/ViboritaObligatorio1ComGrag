@@ -1,7 +1,7 @@
 #pragma once
+#include "Button.h"
 #include "GameController.h"
 #include "IGameState.h"
-#include "Button.h"
 #include "Settings.h"
 
 class SettingsMenu :

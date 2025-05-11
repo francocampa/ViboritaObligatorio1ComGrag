@@ -1,4 +1,5 @@
 #pragma once
+#include "GL/glew.h"
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <iostream>
@@ -74,6 +75,9 @@ public:
 	bool isXKey();
 	bool isSpaceKey();
 	bool clicked();
+
+	//Carga de modelos
+	void cargarModelos();
 
 
 	//De ac[a a abajo son cosas que son temporales, hay que irlas borrando cuando no se necesiten

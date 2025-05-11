@@ -30,7 +30,8 @@ void Viborita::draw() {
 	{
 		glPushMatrix();
 		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
-		drawCube(baseCubeVertices, this->viboritaColors, baseCubeIndices); //Como ya hice el translate dibujo el base cube nada m[as, sino va a estar doblemente corrido
+		//drawWormHead(); //Como ya hice el translate dibujo el base cube nada m[as, sino va a estar doblemente corrido
+		drawCube(baseCubeVertices, baseCubeColors, baseCubeIndices);
 		glPopMatrix();
 		bodyPart = bodyPart->next;
 	}

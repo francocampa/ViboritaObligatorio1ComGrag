@@ -152,7 +152,7 @@ void LevelCreator::saveLevel()
 	
 	
 
-	pugi::xml_node gridNode = levelNode.append_child("Grid");;
+	pugi::xml_node gridNode = levelNode.append_child("Grid");
 	for (int x = 0; x < gc->GRID_SIZE;x++)
 		for (int y = 0; y < gc->GRID_SIZE;y++)
 			for (int z = 0; z < gc->GRID_SIZE;z++) {

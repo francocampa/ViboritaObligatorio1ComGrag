@@ -1,6 +1,6 @@
 #pragma once
-#include "IGameEntity.h"
 #include "utils.h"
+#include "IGameEntity.h"
 class Goal :
     public IGameEntity
 {

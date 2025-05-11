@@ -1,4 +1,5 @@
 #pragma once
+#include "utils.h"
 #include <iostream>
 #include "SDL.h"
 #include "SDL_ttf.h"
@@ -8,7 +9,6 @@
 #include <conio.h>
 #include <GL/glu.h>
 #include <SDL_image.h>
-#include "utils.h"
 #include <string>
 #include "GameController.h"
 #include "Button.h"

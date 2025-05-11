@@ -1,7 +1,7 @@
 #pragma once
+#include "utils.h"
 #include "IGameEntity.h"
 #include "Viborita.h"
-#include "utils.h"
 class Level
 {
 private:

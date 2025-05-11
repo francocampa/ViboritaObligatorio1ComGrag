@@ -1,4 +1,5 @@
 #pragma once
+#include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <cmath>
@@ -12,6 +13,10 @@
 #include <sstream>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <iostream>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 struct Vec3 {  
    float x, y, z;  
@@ -21,6 +26,14 @@ struct Vec3 {
        return x == other.x && y == other.y && z == other.z;  
    }  
 };  
+
+struct VertexData {
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 texCoord;
+	glm::vec4 color;
+
+};
 
 struct ViboritaPart {  
    Vec3 gridIndex;  
@@ -34,11 +47,26 @@ struct ViboritaBody {
    ViboritaPart* tail;  
 };  
 
+struct modelInfo {
+	std::string name;
+	std::vector<VertexData> vertices;
+	std::vector<unsigned int> indices;
+	GLuint objectVAO;
+};
+
+struct setBuff {
+	GLuint VBO;
+	GLuint EBO;
+	GLuint VAO;
+};
+
 enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL};
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};
 
 Vec3* getVec3FromVec3(Vec3 vecPrev);
 
+extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información de cada modelo
+extern std::vector<setBuff> setBuffs;//Arreglo con un VAO, VBO y EBO para cada modelo
 
 struct Vec2 {
 	int x, y;
@@ -74,3 +102,10 @@ Vec3 crossProduct(Vec3 a, Vec3 b);
 Vec3 normalize(Vec3 v);
 
 extern GLfloat baseViboritaColors[24];
+
+void cargarModelo(std::string& filePath, std::string name, int pos);
+
+void drawApple();
+
+void drawWormHead();
+

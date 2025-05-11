@@ -1,10 +1,10 @@
+#include "utils.h"
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_ttf.h>
 #include <iostream>
 #include <GL/glu.h>
 #include <iostream>
-#include "utils.h"
 #include "GameController.h"
 #include "LevelCreator.h"
 
@@ -55,6 +55,12 @@ int main(int argc, char* argv[]) {
 		printf("Failed to load font");
 	HudController::getInstance()->setFont(mainFont);
 
+	if (glewInit() != GLEW_OK)
+	{
+		// Manejar error de inicialización de GLEW
+		return -1;
+	}
+
 	//Camera setup
 	glMatrixMode(GL_PROJECTION);
 
@@ -67,6 +73,19 @@ int main(int argc, char* argv[]) {
 	GameController::getInstance()->setState(new MainMenu());
 	Settings* settings = new Settings();
 	GameController::getInstance()->setSettings(settings);
+	//Carga de modelos
+	std::string filePath = "models/apple.obj";
+	std::string name = "apple";
+	cargarModelo(filePath, name, 0);
+	filePath = "models/worm_head.obj";
+	name = "wormHead";
+	cargarModelo(filePath, name, 1);
+	filePath = "models/worm_tail.obj";
+	name = "wormTail";
+	cargarModelo(filePath, name, 2);
+	filePath = "models/worm_body.obj";
+	name = "wormBody";
+	cargarModelo(filePath, name, 3);
 
 	bool quit = false;
 	bool moveCamera = false;
