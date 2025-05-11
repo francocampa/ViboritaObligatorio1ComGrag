@@ -13,7 +13,7 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 
 	body.head = head;
 	body.tail = head;
-	body.size = 2;
+	body.size = 1;
 
 	headDirection = { 0,0,0 };
 }
@@ -247,7 +247,39 @@ void Viborita::addTail(Vec3 gridIndex)
 
 	this->body.tail->next = newTail;
 	this->body.tail = newTail;
+	this->body.size++;
 }
+
+void Viborita::removeBodyFromGridIndex(int x, int y, int z) {
+	ViboritaPart* prev = this->body.head;
+	ViboritaPart* aux = this->body.head->next;
+	bool removeBody = false;
+
+	if (prev->gridIndex.x == x && prev->gridIndex.z == z && prev->gridIndex.y == y) {
+		removeBody = true;
+		this->body.head = NULL;
+		prev->next = NULL;
+	}
+	while (aux != NULL)
+	{
+		if (removeBody) {
+			this->body.size--;
+			//delete prev; TODO: agregar esto sin que crashee
+		}
+		if (aux->gridIndex.x == x && aux->gridIndex.z == z && aux->gridIndex.y == y){
+			removeBody = true;
+			prev->next = NULL;
+			this->body.tail = prev;
+		}		
+		prev = aux;
+		aux = aux->next;
+	}
+	if (removeBody) {
+		this->body.size--;
+		//delete prev; TODO: agregar esto sin que crashee
+	}
+}
+
 
 void Viborita::loadInGrid()
 {

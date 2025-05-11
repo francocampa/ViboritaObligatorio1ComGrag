@@ -35,6 +35,7 @@ public:
 	bool hasFloor();
 	void handleFall();
 	void handleDeath();
+	void removeBodyFromGridIndex(int x,int y, int z);
 	Viborita* deepCopy();
 	GAME_ENTITY_TYPE getType();
 };

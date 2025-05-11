@@ -221,12 +221,21 @@ void LevelCreator::handlePlaceEntity()
 	/*if (grid[x][y][z] != NULL) {
 		delete grid[x][y][z];
 	}*/
-	if (this->erase) {
+	if (this->erase && grid[x][y][z] != NULL) {
 		IGameEntity* toDelete = grid[x][y][z];
 		grid[x][y][z] = NULL;
 		if(toDelete->getType() == APPLE)
 			noOfApples--;
+		else if(toDelete->getType() == VIBORITA) {
+			this->viborita->removeBodyFromGridIndex(x,y,z);
+			if (this->viborita->getSize() == 0)
+			{
+				this->viborita = NULL;
+				//TODO: agregar el delete
+			}
 
+			return;
+		}
 		//TODO: ver por qu[e crashea con el delete toDelete;
 		return;
 	}
@@ -244,6 +253,7 @@ void LevelCreator::handlePlaceEntity()
 		else {
 			this->viborita->addTail(gridIndex);
 		}
+		grid[x][y][z] = this->viborita;
 		break;
 	case APPLE:
 		grid[x][y][z] = new Apple(gridIndex, position);
