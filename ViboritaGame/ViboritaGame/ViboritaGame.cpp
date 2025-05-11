@@ -73,10 +73,12 @@ int main(int argc, char* argv[]) {
 	GameController::getInstance()->setState(new MainMenu());
 	Settings* settings = new Settings();
 	GameController::getInstance()->setSettings(settings);
+
 	//Carga de modelos
+	//Para cargar más de 5 modelos hay que modificar el tamaño del array modelsInfo en utils.h
 	std::string filePath = "models/apple.obj";
 	std::string name = "apple";
-	cargarModelo(filePath, name, 0);
+	cargarModelo(filePath, name, 0); // Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
 	filePath = "models/worm_head.obj";
 	name = "wormHead";
 	cargarModelo(filePath, name, 1);

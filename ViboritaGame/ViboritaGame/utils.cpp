@@ -202,9 +202,7 @@ std::vector<modelInfo> modelsInfo;
 std::vector<setBuff> setBuffs;
 
 void cargarModelo(std::string& filePath, std::string name,int pos) {
-
 	// Implementación de cargarModelo
-	// Aquí puedes cargar el modelo desde el archivo filePath
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filePath,
 		aiProcess_Triangulate |
