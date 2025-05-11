@@ -300,12 +300,43 @@ void drawApple() {
    glDisableClientState(GL_VERTEX_ARRAY);  
 }
 
-/*void drawWormHead() {
-	int i = 0;
-	while (modelsInfo[i].name != "wormHead") {
-		i++;
+void drawWormHead() {
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	// Convert the vector of vertices to a raw pointer  
+	const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[1].vertices.data());
+
+	// Convert the vector of indices to a raw pointer  
+	const GLuint* indexData = modelsInfo[1].indices.data();
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[1]);
+	for (size_t i = 0; i < modelsInfo[1].indices.size() / 3; ++i) {
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
-	glBindVertexArray(modelsInfo[i].objectVAO);
-	glDrawElements(GL_TRIANGLES, modelsInfo[i].indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-}*/
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void drawWormBody() {
+	glEnableClientState(GL_VERTEX_ARRAY);
+	// Convert the vector of vertices to a raw pointer  
+	const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[2].vertices.data());
+	// Convert the vector of indices to a raw pointer  
+	const GLuint* indexData = modelsInfo[2].indices.data();
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[1]);
+	for (size_t i = 0; i < modelsInfo[2].indices.size() / 3; ++i) {
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void drawWormTail() {
+	glEnableClientState(GL_VERTEX_ARRAY);
+	// Convert the vector of vertices to a raw pointer  
+	const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[3].vertices.data());
+	// Convert the vector of indices to a raw pointer  
+	const GLuint* indexData = modelsInfo[3].indices.data();
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[1]);
+	for (size_t i = 0; i < modelsInfo[3].indices.size() / 3; ++i) {
+		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+}

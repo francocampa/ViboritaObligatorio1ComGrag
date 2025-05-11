@@ -82,11 +82,11 @@ int main(int argc, char* argv[]) {
 	filePath = "models/worm_head.obj";
 	name = "wormHead";
 	cargarModelo(filePath, name, 1);
-	filePath = "models/worm_tail.obj";
-	name = "wormTail";
-	cargarModelo(filePath, name, 2);
 	filePath = "models/worm_body.obj";
 	name = "wormBody";
+	cargarModelo(filePath, name, 2);
+	filePath = "models/worm_tail.obj";
+	name = "wormTail";
 	cargarModelo(filePath, name, 3);
 
 	bool quit = false;

@@ -28,12 +28,32 @@ void Viborita::draw() {
 	ViboritaPart* bodyPart = this->body.head;
 	while(bodyPart != NULL)
 	{
-		glPushMatrix();
-		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
-		//drawWormHead(); //Como ya hice el translate dibujo el base cube nada m[as, sino va a estar doblemente corrido
-		drawCube(baseCubeVertices, baseCubeColors, baseCubeIndices);
-		glPopMatrix();
-		bodyPart = bodyPart->next;
+		//TODO: rotar las partes del cuerpo segun su posicion
+		if (bodyPart == this->body.head) {
+			glPushMatrix();
+			glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
+			glScalef(0.3f, 0.3f, 0.3f);
+			drawWormHead();
+			glPopMatrix();
+			bodyPart = bodyPart->next;
+		}
+		else if (bodyPart == this->body.tail) {
+			glPushMatrix();
+			glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
+			glScalef(0.3f, 0.3f, 0.3f);
+			drawWormTail();
+			glPopMatrix();
+			bodyPart = bodyPart->next;
+		}
+		else {
+			glPushMatrix();
+			glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
+			glScalef(0.3f, 0.3f, 0.3f);
+			drawWormBody();
+			glPopMatrix();
+			bodyPart = bodyPart->next;
+		}
+			
 	}
 }
 

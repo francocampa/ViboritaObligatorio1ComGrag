@@ -109,3 +109,7 @@ void drawApple();
 
 void drawWormHead();
 
+void drawWormBody();
+
+void drawWormTail();
+
