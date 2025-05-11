@@ -1,4 +1,5 @@
 #pragma once
+#include "GameController.h"
 #include "IGameEntity.h"
 #include "utils.h"
 
@@ -6,7 +7,6 @@ class Apple :
     public IGameEntity
 {
 private:
-    Vec3 pivot;
     bool movingUp;
     float angle;
     GLfloat pyramid[12];

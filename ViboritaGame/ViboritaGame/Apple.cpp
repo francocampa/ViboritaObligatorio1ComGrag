@@ -2,8 +2,6 @@
 
 Apple::Apple(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position) {
 	this->angle = 0;
-	this->pivot = { 0.5f + position.x, 0.5f + position.y, 0.433f +position.z};
-	this->pivot = { 0,0,0 };
 	this->movingUp = true;
 	for (int i = 0; i < 12;i++) {
 		int module = i % 3;
@@ -26,11 +24,11 @@ Apple::Apple(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 
 void Apple::draw() {
 	glPushMatrix();
-	glTranslatef(pivot.x, pivot.y, pivot.z);
-	glTranslatef(this->pyramid[0], this->pyramid[1], this->pyramid[2]);
+	glTranslatef(this->pyramid[0] + GameController::getInstance()->TILE_SIZE / 2.0f, this->pyramid[1], this->pyramid[2] + GameController::getInstance()->TILE_SIZE / 2.0f);
 	glScalef(0.2f, 0.2f, 0.2f);
-	//glColor3f(1, 0.388f, 0.278f);//color rojo de las manzanas
+	glColor3f(1, 0.388f, 0.278f);
 	drawApple();
+	glColor3f(1, 1,1);
 	glPopMatrix();
 }
 
