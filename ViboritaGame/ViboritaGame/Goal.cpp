@@ -11,10 +11,13 @@ Goal::Goal(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes, position)
 
 void Goal::draw()
 {
+	//TODO: arreglar giro de la meta
 	glPushMatrix();
-	glTranslatef(position.x, position.y + 0.5f, position.z);
-	glRotatef(this->angle, 0.5f, 0.5f , 0.5f);
-	drawCube(baseCubeVertices, baseCubeColors, baseCubeIndices);
+	glTranslatef(position.x, position.y - 2.5f, position.z);
+	//glRotatef(this->angle, 0.5f, 0.5f , 0.5f);
+	glRotatef(90, 0, 1, 0);
+	glColor3f(0, 0, 0); //color negro
+	drawModel(GOAL_MODEL);
 	glPopMatrix();
 }
 

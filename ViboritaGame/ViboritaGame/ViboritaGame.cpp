@@ -75,7 +75,6 @@ int main(int argc, char* argv[]) {
 	GameController::getInstance()->setSettings(settings);
 
 	//Carga de modelos
-	//Para cargar más de 5 modelos hay que modificar el tamaño del array modelsInfo en utils.h
 	std::string filePath = "models/apple.obj";
 	std::string name = "apple";
 	cargarModelo(filePath, name, 0); // Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
@@ -88,6 +87,9 @@ int main(int argc, char* argv[]) {
 	filePath = "models/worm_tail.obj";
 	name = "wormTail";
 	cargarModelo(filePath, name, 3);
+	filePath = "models/portal.obj";
+	name = "portal";
+	cargarModelo(filePath, name, 4);
 
 	bool quit = false;
 	bool moveCamera = false;

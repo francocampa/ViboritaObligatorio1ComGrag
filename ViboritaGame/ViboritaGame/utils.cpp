@@ -285,57 +285,35 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 	modelsInfo[pos].indices = indices;
 }
 
-void drawApple() {  
-   glEnableClientState(GL_VERTEX_ARRAY); 
-
-   // Convert the vector of vertices to a raw pointer  
-   const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[0].vertices.data());  
-
-   // Convert the vector of indices to a raw pointer  
-   const GLuint* indexData = modelsInfo[0].indices.data();  
-   glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[0]);
-   for (size_t i = 0; i < modelsInfo[0].indices.size() / 3; ++i) {  
-       glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);  
-   }  
-   glDisableClientState(GL_VERTEX_ARRAY);  
-}
-
-void drawWormHead() {
+void drawModel(MODEL_TYPE modelType) {  
 	glEnableClientState(GL_VERTEX_ARRAY);
-
-	// Convert the vector of vertices to a raw pointer  
-	const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[1].vertices.data());
-
-	// Convert the vector of indices to a raw pointer  
-	const GLuint* indexData = modelsInfo[1].indices.data();
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[1]);
-	for (size_t i = 0; i < modelsInfo[1].indices.size() / 3; ++i) {
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
+	const GLfloat* vertexData;
+	const GLuint* indexData;
+	int indexModel;
+	switch (modelType)
+	{
+	case APPLE_MODEL:
+		indexModel = 0;
+		break;
+	case WORM_HEAD_MODEL:
+		indexModel = 1;
+		break;
+	case WORM_BODY_MODEL:
+		indexModel = 2;
+		break;
+	case WORM_TAIL_MODEL:
+		indexModel = 3;
+		break;
+	case GOAL_MODEL:
+		indexModel = 4;
+		break;
+	default:
+		break;
 	}
-	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void drawWormBody() {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	// Convert the vector of vertices to a raw pointer  
-	const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[2].vertices.data());
-	// Convert the vector of indices to a raw pointer  
-	const GLuint* indexData = modelsInfo[2].indices.data();
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[1]);
-	for (size_t i = 0; i < modelsInfo[2].indices.size() / 3; ++i) {
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
-	}
-	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void drawWormTail() {
-	glEnableClientState(GL_VERTEX_ARRAY);
-	// Convert the vector of vertices to a raw pointer  
-	const GLfloat* vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[3].vertices.data());
-	// Convert the vector of indices to a raw pointer  
-	const GLuint* indexData = modelsInfo[3].indices.data();
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[1]);
-	for (size_t i = 0; i < modelsInfo[3].indices.size() / 3; ++i) {
+	vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[indexModel].vertices.data());
+	indexData = modelsInfo[indexModel].indices.data();
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[0]);
+	for (size_t i = 0; i < modelsInfo[indexModel].indices.size() / 3; ++i) {
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
 	glDisableClientState(GL_VERTEX_ARRAY);

@@ -28,32 +28,24 @@ void Viborita::draw() {
 	ViboritaPart* bodyPart = this->body.head;
 	while(bodyPart != NULL)
 	{
-		//TODO: rotar las partes del cuerpo segun su posicion
+		//Rotaciones de mierd...
+		glPushMatrix();
+		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z );
+		//glRotatef(270, 0, 1, 0);
+		//glScalef(0.3f, 0.3f, 0.3f);
+		/*glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
 		if (bodyPart == this->body.head) {
-			glPushMatrix();
-			glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
-			glScalef(0.3f, 0.3f, 0.3f);
-			drawWormHead();
-			glPopMatrix();
-			bodyPart = bodyPart->next;
+			drawModel(WORM_HEAD_MODEL);
 		}
 		else if (bodyPart == this->body.tail) {
-			glPushMatrix();
-			glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
-			glScalef(0.3f, 0.3f, 0.3f);
-			drawWormTail();
-			glPopMatrix();
-			bodyPart = bodyPart->next;
+			drawModel(WORM_TAIL_MODEL);
 		}
 		else {
-			glPushMatrix();
-			glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z);
-			glScalef(0.3f, 0.3f, 0.3f);
-			drawWormBody();
-			glPopMatrix();
-			bodyPart = bodyPart->next;
-		}
-			
+			drawModel(WORM_BODY_MODEL);
+		}*/
+		drawCube(baseCubeVertices, viboritaColors, baseCubeIndices);
+		glPopMatrix();
+		bodyPart = bodyPart->next;	
 	}
 }
 

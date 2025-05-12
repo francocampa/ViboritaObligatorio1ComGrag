@@ -62,6 +62,7 @@ struct setBuff {
 
 enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL};
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};
+enum MODEL_TYPE {APPLE_MODEL, WORM_HEAD_MODEL, WORM_BODY_MODEL, WORM_TAIL_MODEL, GOAL_MODEL};
 
 Vec3* getVec3FromVec3(Vec3 vecPrev);
 
@@ -105,11 +106,6 @@ extern GLfloat baseViboritaColors[24];
 
 void cargarModelo(std::string& filePath, std::string name, int pos);
 
-void drawApple();
+void drawModel(MODEL_TYPE);
 
-void drawWormHead();
-
-void drawWormBody();
-
-void drawWormTail();
 

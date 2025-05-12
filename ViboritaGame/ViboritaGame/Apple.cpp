@@ -25,12 +25,13 @@ Apple::Apple(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 }
 
 void Apple::draw() {
+
 	glPushMatrix();
-	glTranslatef(pivot.x, pivot.y, pivot.z);
+	glTranslatef(pivot.x + 0.5f, pivot.y, pivot.z + 0.5);
 	glTranslatef(this->pyramid[0], this->pyramid[1], this->pyramid[2]);
 	glScalef(0.2f, 0.2f, 0.2f);
-	//glColor3f(1, 0.388f, 0.278f);//color rojo de las manzanas
-	drawApple();
+	glColor3f(1, 0.388f, 0.278f);//color rojo de las manzanas
+	drawModel(APPLE_MODEL);
 	glPopMatrix();
 }
 

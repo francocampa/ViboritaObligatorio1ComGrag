@@ -76,10 +76,6 @@ public:
 	bool isSpaceKey();
 	bool clicked();
 
-	//Carga de modelos
-	void cargarModelos();
-
-
 	//De ac[a a abajo son cosas que son temporales, hay que irlas borrando cuando no se necesiten
 	Level* getLevel1();
 	Level* getLevel2();
