@@ -103,6 +103,7 @@ Vec3 crossProduct(Vec3 a, Vec3 b);
 Vec3 normalize(Vec3 v);
 
 extern GLfloat baseViboritaColors[24];
+extern GLfloat headColors[24];
 
 void cargarModelo(std::string& filePath, std::string name, int pos);
 

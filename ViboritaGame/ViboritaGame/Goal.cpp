@@ -13,11 +13,13 @@ void Goal::draw()
 {
 	//TODO: arreglar giro de la meta
 	glPushMatrix();
-	glTranslatef(position.x, position.y - 2.5f, position.z);
+	glTranslatef(position.x + 0.5, position.y-1.2f, position.z); //TODO sacar estos valores hardcodeados, que sean en base a TILE_SIZE
+	glScalef(0.5, 0.5, 0.5);
 	//glRotatef(this->angle, 0.5f, 0.5f , 0.5f);
 	glRotatef(90, 0, 1, 0);
 	glColor3f(0, 0, 0); //color negro
 	drawModel(GOAL_MODEL);
+	glColor3f(1, 1, 1); //color negro
 	glPopMatrix();
 }
 

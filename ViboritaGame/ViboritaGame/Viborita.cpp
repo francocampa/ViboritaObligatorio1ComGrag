@@ -44,7 +44,7 @@ void Viborita::draw() {
 		else {
 			drawModel(WORM_BODY_MODEL);
 		}*/
-		drawCube(baseCubeVertices, viboritaColors, baseCubeIndices);
+		drawCube(baseCubeVertices, this->body.head == bodyPart ? headColors : viboritaColors, baseCubeIndices);
 		glPopMatrix();
 		bodyPart = bodyPart->next;	
 	}

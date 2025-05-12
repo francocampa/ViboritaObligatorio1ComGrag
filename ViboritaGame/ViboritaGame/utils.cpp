@@ -197,6 +197,16 @@ GLfloat baseViboritaColors[24] = {
 			0.0f, 0.55f, 0.0f,
 			0.0f, 0.60f, 0.0f
 };
+GLfloat headColors[24] = {
+			0.0f, 0.25f, 0.3f,
+			0.0f, 0.30f, 0.3f,
+			0.0f, 0.35f, 0.3f,
+			0.0f, 0.40f, 0.3f,
+			0.0f, 0.45f, 0.3f,
+			0.0f, 0.50f, 0.3f,
+			0.0f, 0.55f, 0.3f,
+			0.0f, 0.60f, 0.3f
+};
 
 std::vector<modelInfo> modelsInfo;
 std::vector<setBuff> setBuffs;
