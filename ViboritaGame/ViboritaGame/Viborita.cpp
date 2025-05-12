@@ -26,6 +26,7 @@ void Viborita::setGameContext(GamePlay* context)
 //TODO: Agregar l�gica para dibujar el cuerpo de tama�o n.
 void Viborita::draw() {
 	ViboritaPart* bodyPart = this->body.head;
+	glColor3f(0.0f, 0.50f, 0.0f);
 	while(bodyPart != NULL)
 	{
 		//Rotaciones de mierd...
@@ -47,6 +48,7 @@ void Viborita::draw() {
 		glPopMatrix();
 		bodyPart = bodyPart->next;	
 	}
+	glColor3f(1, 1, 1);
 }
 
 Vec3* Viborita::getMovementDirection()
