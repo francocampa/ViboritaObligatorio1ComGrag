@@ -46,9 +46,9 @@ float GameController::getGridPosition(float a) {
 	return a * TILE_SIZE - GRID_OFFSET;
 }
 
-std::vector<Button*> GameController::getHudButtons()
+std::vector<IHudElement*> GameController::getHudElements()
 {
-	return state->getHudButtons();
+	return state->getHudElements();
 }
 
 void GameController::setMousePos(Vec2 mousePos)
@@ -93,6 +93,15 @@ void GameController::setSpaceKey(bool space)
 void GameController::setClick(bool click)
 {
 	this->click = click;
+}
+
+void GameController::setMouseDown(bool click)
+{
+	this->mouseDown = click;
+}
+void GameController::setMouseUp(bool click)
+{
+	this->mouseUp = click;
 }
 
 void GameController::setGamePlay(GamePlay* game)
@@ -165,6 +174,16 @@ bool GameController::isSpaceKey()
 bool GameController::clicked()
 {
 	return click;
+}
+
+bool GameController::isMouseDown()
+{
+	return mouseDown;
+}
+
+bool GameController::isMouseUp()
+{
+	return mouseUp;
 }
 
 Level* GameController::getLevel1()

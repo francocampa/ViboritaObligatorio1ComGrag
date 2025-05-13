@@ -12,6 +12,7 @@
 #include <string>
 #include "GameController.h"
 #include "Button.h"
+#include "Slider.h"
 
 class HudController
 {

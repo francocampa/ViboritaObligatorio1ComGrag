@@ -2,6 +2,10 @@
 
 TTF_Font* Button::font = nullptr;
 
+Button::Button()
+{
+}
+
 Button::Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void(*callback)())
 {
 	hover = false;
@@ -195,4 +199,9 @@ Button::~Button()
 		glDeleteTextures(1, &hoverTextureId);
 	if(selectedTextureId != NULL)
 		glDeleteTextures(1, &selectedTextureId);
+}
+
+BUTTON_TYPE Button::getType()
+{
+	return BUTTON;
 }

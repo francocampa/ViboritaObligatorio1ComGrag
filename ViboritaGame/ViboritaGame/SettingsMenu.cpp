@@ -183,9 +183,9 @@ void SettingsMenu::draw()
 {
 }
 
-std::vector<Button*> SettingsMenu::getHudButtons()
+std::vector<IHudElement*> SettingsMenu::getHudElements()
 {
-	std::vector<Button*> buttons;
+	std::vector<IHudElement*> buttons;
 	buttons.push_back(speedText);
 	buttons.push_back(speed1);
 	buttons.push_back(speed15);

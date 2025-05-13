@@ -16,8 +16,9 @@ HudController* HudController::getInstance()
 
 void HudController::process()
 {
-    Vec2 mousePos = GameController::getInstance()->getMousePos();
-    std::vector<Button*> buttons = GameController::getInstance()->getHudButtons();
+    GameController* gc =  GameController::getInstance();
+    Vec2 mousePos = gc->getMousePos();
+    std::vector<IHudElement*> hud = gc->getHudElements();
     SDL_Rect mouse;
     mouse.h = 20;
     mouse.w = 20;
@@ -33,14 +34,34 @@ void HudController::process()
     glLoadIdentity();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    for (Button* btn : buttons) {
-        if (btn != NULL) {
-            bool mouseOver = SDL_HasIntersection(&mouse, btn->getRect());
-            if (mouseOver && GameController::getInstance()->clicked())
+    for (IHudElement* hudElement : hud) {
+        bool mouseOver = SDL_HasIntersection(&mouse, hudElement->getRect());
+        Button* btn;
+        Slider* slider;
+        switch (hudElement->getType())
+        {
+        case BUTTON:
+            btn = (Button*)hudElement;
+            if (mouseOver && gc->clicked())
                 btn->handleClick();
             if ((!mouseOver && btn->isHovering()) || (mouseOver && !btn->isHovering()))
                 btn->handleHover();
             btn->draw();
+            break;
+        case SLIDER:
+            slider = (Slider*)hudElement;
+            if (mouseOver && gc->isMouseDown()) {
+                slider->mouseDown(mousePos);
+                slider->process(mousePos);
+            }
+            if (gc->isMouseUp())
+                slider->mouseUp();
+            
+            break;
+        case CHECKBOX:
+            break;
+        default:
+            break;
         }
     }
     glDisable(GL_BLEND);

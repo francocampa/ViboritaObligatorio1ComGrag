@@ -146,6 +146,9 @@ int main(int argc, char* argv[]) {
 
 	calculateArrowKeysPos(cameraPos,center, arrowKeysPos);
 
+	float timeFromDown = 100;
+	float CLICK_TIME = 0.2f;
+
 	setupLighting();
 
 	do {
@@ -157,6 +160,7 @@ int main(int argc, char* argv[]) {
 		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
 		deltaTime *= settings->getGameSpeed();
 		lastTick = currentTick;
+		timeFromDown += deltaTime/settings->getGameSpeed();
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
@@ -170,6 +174,7 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setZKey(false);
 		GameController::getInstance()->setXKey(false);
 		GameController::getInstance()->setClick(false);
+		GameController::getInstance()->setMouseUp(false);
 		GameController::getInstance()->setSpaceKey(false);
 
 		drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
@@ -251,11 +256,16 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				moveCamera = true;
+				timeFromDown = 0.0f;
+				GameController::getInstance()->setMouseDown(true);
 				SDL_SetRelativeMouseMode(SDL_TRUE);
 				break;
 			case SDL_MOUSEBUTTONUP:
 				moveCamera = false;
-				GameController::getInstance()->setClick(true);
+				if(timeFromDown <= CLICK_TIME)
+					GameController::getInstance()->setClick(true);
+				GameController::getInstance()->setMouseUp(true);
+				GameController::getInstance()->setMouseDown(false);
 				SDL_SetRelativeMouseMode(SDL_FALSE);
 				break;
 			case SDL_MOUSEMOTION:

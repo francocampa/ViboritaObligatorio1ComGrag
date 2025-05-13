@@ -42,6 +42,6 @@ public:
 	void changeLightingSettings();
 	void goBackToGame();
 	void goBackToMainMenu();
-	virtual std::vector<Button*> getHudButtons();
+	virtual std::vector<IHudElement*> getHudElements();
 };
 

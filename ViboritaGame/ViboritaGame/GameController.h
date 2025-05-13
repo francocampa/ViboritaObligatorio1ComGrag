@@ -41,6 +41,8 @@ private:
 	bool x = false;
 	bool click = false;
 	bool space = false;
+	bool mouseDown = false;
+	bool mouseUp = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -48,7 +50,7 @@ public:
 	float getGridPosition(float a);
 	static GameController* getInstance();
 	void processFrame(float deltaTime);
-	virtual std::vector<Button*> getHudButtons();
+	virtual std::vector<IHudElement*> getHudElements();
 
 	void setMousePos(Vec2 mousePos);
 	void setArrowUp(bool up);
@@ -59,6 +61,8 @@ public:
 	void setXKey(bool x);
 	void setSpaceKey(bool space);
 	void setClick(bool click);
+	void setMouseDown(bool click);
+	void setMouseUp(bool click);
 	
 	Settings* getSettings();
 	void setSettings(Settings* settings);
@@ -75,6 +79,9 @@ public:
 	bool isXKey();
 	bool isSpaceKey();
 	bool clicked();
+	bool isMouseDown();
+	bool isMouseUp();
+
 
 	//De ac[a a abajo son cosas que son temporales, hay que irlas borrando cuando no se necesiten
 	Level* getLevel1();

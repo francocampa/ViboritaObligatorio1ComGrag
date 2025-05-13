@@ -174,9 +174,9 @@ void MainMenu::draw()
 {
 }
 
-std::vector<Button*> MainMenu::getHudButtons()
+std::vector<IHudElement*> MainMenu::getHudElements()
 {
-	std::vector<Button*> buttons;
+	std::vector<IHudElement*> buttons;
 	buttons.push_back(levelCreatorButton);
 	for (Button* button : this->levelButtons)
 		buttons.push_back(button);

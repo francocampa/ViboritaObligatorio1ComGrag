@@ -40,7 +40,7 @@ public:
     LevelCreator();
     void process(float deltaTime);
     void draw();
-    std::vector<Button*> getHudButtons();
+    std::vector<IHudElement*> getHudElements();
     
     void setEntityTipe(GAME_ENTITY_TYPE type);
     void setErase(bool erase);

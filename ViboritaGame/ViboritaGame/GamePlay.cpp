@@ -102,9 +102,9 @@ void GamePlay::draw()
 {
 }
 
-std::vector<Button*> GamePlay::getHudButtons()
+std::vector<IHudElement*> GamePlay::getHudElements()
 {
-	std::vector<Button*> buttons;
+	std::vector<IHudElement*> buttons;
 	buttons.push_back(settings);
 	buttons.push_back(reset);
 	buttons.push_back(scoreText);

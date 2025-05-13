@@ -8,8 +8,8 @@ void IGameState::draw()
 {
 }
 
-std::vector<Button*> IGameState::getHudButtons()
+std::vector<IHudElement*> IGameState::getHudElements()
 {
-	std::vector<Button*> buttons;
+	std::vector<IHudElement*> buttons;
 	return buttons;
 }

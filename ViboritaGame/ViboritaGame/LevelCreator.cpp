@@ -104,9 +104,9 @@ void LevelCreator::draw()
 {
 }
 
-std::vector<Button*> LevelCreator::getHudButtons()
+std::vector<IHudElement*> LevelCreator::getHudElements()
 {
-	std::vector<Button*> btns;
+	std::vector<IHudElement*> btns;
 	btns.push_back(blockButton);
 	btns.push_back(appleButton);
 	btns.push_back(goalButton);

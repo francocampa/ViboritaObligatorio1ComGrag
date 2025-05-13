@@ -27,6 +27,6 @@ public:
 	void draw();
 	void startLevel(std::string levelName);
 	void goToLevelCreator();
-	virtual std::vector<Button*> getHudButtons();
+	virtual std::vector<IHudElement*> getHudElements();
 };
 

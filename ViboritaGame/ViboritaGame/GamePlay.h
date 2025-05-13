@@ -27,7 +27,7 @@ public:
 	void resetLevel();
 	void addSecond();
 	void draw();
-	std::vector<Button*> getHudButtons();
+	std::vector<IHudElement*> getHudElements();
 
 	Viborita* getViborita();
 	bool tileHasApple(Vec3 indices);

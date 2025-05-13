@@ -8,22 +8,28 @@
 #include <conio.h>
 #include <GL/glu.h>
 #include <SDL_image.h>
+#include "IHudElement.h"
 
-class Slider
+class Slider :
+	public IHudElement
 {
 private:
 	std::string text;
+	SDL_Rect* area;
 	SDL_Rect* progressLine; //Estos dos son los dos rectangulos del slider:
 	SDL_Rect* selector;		// 0 ------|---- 100
 	bool movingSelector;
 	float min;
 	float max;
+	float value;
 	void (*callback)(float newValue);
 public:
 	Slider(std::string text,int x, int y, int length, float min, float max, void (*callback)(float newValue));
 	void draw();
-	void mouseDownOnSelector();
+	void mouseDown(Vec2 mousePos);
 	void mouseUp();
-	void process();
+	void process(Vec2 mousePos);
+	virtual SDL_Rect* getRect();
+	BUTTON_TYPE getType();
 };
 
