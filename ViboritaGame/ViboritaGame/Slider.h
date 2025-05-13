@@ -18,13 +18,15 @@ private:
 	SDL_Rect* area;
 	SDL_Rect* progressLine; //Estos dos son los dos rectangulos del slider:
 	SDL_Rect* selector;		// 0 ------|---- 100
+	int girth;
+	int length;
 	bool movingSelector;
 	float min;
 	float max;
 	float value;
 	void (*callback)(float newValue);
 public:
-	Slider(std::string text,int x, int y, int length, float min, float max, void (*callback)(float newValue));
+	Slider(std::string text,int x, int y, int length, float min, float max, void (*callback)(float newValue), float initialValue);
 	void draw();
 	void mouseDown(Vec2 mousePos);
 	void mouseUp();

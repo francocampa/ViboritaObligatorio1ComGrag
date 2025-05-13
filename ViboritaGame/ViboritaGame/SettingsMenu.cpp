@@ -5,14 +5,9 @@ void goBackToGameCallback(std::string s) {
 
 	sm->goBackToGame();
 }
-void setSpeedCallback(std::string speed) {
+void setSpeedCallback(float speed) {
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
-	if (speed == "1")
-		sm->changeGameSpeed(1.0f);
-	else if (speed == "1.5")
-		sm->changeGameSpeed(1.5f);
-	else if (speed == "2")
-		sm->changeGameSpeed(2.0f);
+	sm->changeGameSpeed(speed);
 }
 void setWireframeCallback(std::string wireframe) {
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
@@ -37,24 +32,7 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	this->settings = settings;
 
 	speedText = new Button("Velocidad",220,20,100,32);
-	speed1 = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 240, 60, 40, 40, setSpeedCallback, "1");
-	speed15 = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 290, 60, 40, 40, setSpeedCallback, "1.5");
-	speed2 = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png",340,60,40,40, setSpeedCallback, "2");
-	if (settings->getGameSpeed() == 1.0f) {
-		speed1->setSelected(true);
-		speed15->setSelected(false);
-		speed2->setSelected(false);
-	}
-	else if (settings->getGameSpeed() == 1.5f) {
-		speed1->setSelected(false);
-		speed15->setSelected(true);
-		speed2->setSelected(false);
-	}
-	else if (settings->getGameSpeed() == 2) {
-		speed1->setSelected(false);
-		speed15->setSelected(false);
-		speed2->setSelected(true);
-	}
+	speedSlider = new Slider("Prueba", 220, 70, 150, 0.5f, 3.0f, setSpeedCallback, 1.0f);
 
 	wireFrameText = new Button("Wireframe", 220, 120, 100, 32);
 	wireFrameTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 240, 160, 40, 40, setWireframeCallback, "true");
@@ -101,21 +79,6 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 
 void SettingsMenu::changeGameSpeed(float speed)
 {
-	if (speed == 1.0f) {
-		speed1->setSelected(true);
-		speed15->setSelected(false);
-		speed2->setSelected(false);
-	}
-	else if (speed == 1.5f) {
-		speed1->setSelected(false);
-		speed15->setSelected(true);
-		speed2->setSelected(false);
-	}
-	else if (speed == 2) {
-		speed1->setSelected(false);
-		speed15->setSelected(false);
-		speed2->setSelected(true);
-	}
 	this->settings->setGameSpeed(speed);
 }
 
@@ -187,9 +150,7 @@ std::vector<IHudElement*> SettingsMenu::getHudElements()
 {
 	std::vector<IHudElement*> buttons;
 	buttons.push_back(speedText);
-	buttons.push_back(speed1);
-	buttons.push_back(speed15);
-	buttons.push_back(speed2);
+	buttons.push_back(speedSlider);
 	buttons.push_back(wireFrameText);
 	buttons.push_back(wireFrameTrue);
 	buttons.push_back(wireFrameFalse);

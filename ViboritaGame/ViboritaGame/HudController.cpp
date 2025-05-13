@@ -46,23 +46,22 @@ void HudController::process()
                 btn->handleClick();
             if ((!mouseOver && btn->isHovering()) || (mouseOver && !btn->isHovering()))
                 btn->handleHover();
-            btn->draw();
             break;
         case SLIDER:
             slider = (Slider*)hudElement;
-            if (mouseOver && gc->isMouseDown()) {
+            if (mouseOver && gc->isMouseDown())
                 slider->mouseDown(mousePos);
-                slider->process(mousePos);
-            }
             if (gc->isMouseUp())
                 slider->mouseUp();
-            
+
+            slider->process(mousePos);           
             break;
         case CHECKBOX:
             break;
         default:
             break;
         }
+        hudElement->draw();
     }
     glDisable(GL_BLEND);
     glPopMatrix();                      

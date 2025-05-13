@@ -3,6 +3,7 @@
 #include "GameController.h"
 #include "IGameState.h"
 #include "Settings.h"
+#include "Slider.h"
 
 class SettingsMenu :
     public IGameState
@@ -11,9 +12,7 @@ private:
 	Settings* settings;
 
 	Button* speedText;
-	Button* speed1;
-	Button* speed15;
-	Button* speed2;
+	Slider* speedSlider;
 
 	Button* wireFrameText;
 	Button* wireFrameTrue;
@@ -31,6 +30,7 @@ private:
 	Button* facetadoText;
 	Button* facetadoCheck;
 	
+
 public:
 	SettingsMenu(Settings* settings);
 	void process(float deltaTime);
