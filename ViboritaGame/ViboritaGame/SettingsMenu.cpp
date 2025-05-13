@@ -9,6 +9,10 @@ void setSpeedCallback(float speed) {
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
 	sm->changeGameSpeed(speed);
 }
+void setLightAngleCallback(float angle) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->changeLightAngle(angle);
+}
 void setWireframeCallback(std::string wireframe) {
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
 	sm->setWireframe(wireframe == "true");
@@ -73,7 +77,10 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		facetadoCheck->setSelected(true);
 	}
 
-	backToMenu = new Button("Volver al menu", 220, 420, 200, 32, goToMainMenuFromSettingsCallback, "");
+	lightDirText = new Button("Direccion de luz", 220, 420, 100, 32);
+	lightDirSlider = new Slider("Prueba", 220, 460, 150, 0, 360, setLightAngleCallback, settings->getLightAngle());
+
+	backToMenu = new Button("Volver al menu", 340, 10, 200, 32, goToMainMenuFromSettingsCallback, "");
 	backToGame = new Button("X", 580, 10, 50, 50, goBackToGameCallback,"");
 }
 
@@ -123,8 +130,9 @@ void SettingsMenu::setTexSettings(TEX_SETTINGS texSettings)
 	this->settings->setTexSettings(texSettings);
 }
 
-void SettingsMenu::changeLightingSettings()
+void SettingsMenu::changeLightAngle(int angle)
 {
+	this->settings->setLightAngle(angle);
 }
 
 void SettingsMenu::goBackToGame()
@@ -163,5 +171,7 @@ std::vector<IHudElement*> SettingsMenu::getHudElements()
 	buttons.push_back(facetadoText);
 	buttons.push_back(facetadoCheck);
 	buttons.push_back(backToMenu);
+	buttons.push_back(lightDirText);
+	buttons.push_back(lightDirSlider);
 	return buttons;
 }

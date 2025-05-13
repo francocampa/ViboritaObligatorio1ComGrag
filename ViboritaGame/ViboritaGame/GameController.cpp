@@ -37,6 +37,12 @@ void GameController::processFrame(float deltaTime) {
 		if(game != NULL)
 			game->addSecond();
 	}
+
+	glPushMatrix();
+	glRotatef(120, 0, 1.0f, 1.0f);
+	GLfloat lightPos[] = { 10.0f * cos(settings->getLightAngle()), 10.0f * sin(settings->getLightAngle()), 0.0f, 0.0f }; // Last value: 1.0 = positional, 0.0 = directional
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glPopMatrix();
 	
 	if(settings->isWireframe())
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);

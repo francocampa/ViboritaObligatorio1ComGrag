@@ -27,7 +27,7 @@ TEX_SETTINGS Settings::getTexSettings() const {
     return texSettings;
 }
 
-float Settings::getLightAngle() const {
+int Settings::getLightAngle() const {
     return lightAngle;
 }
 
@@ -51,7 +51,7 @@ void Settings::setTexSettings(TEX_SETTINGS settings) {
     texSettings = settings;
 }
 
-void Settings::setLightAngle(float angle) {
+void Settings::setLightAngle(int angle) {
     lightAngle = angle;
 }
 

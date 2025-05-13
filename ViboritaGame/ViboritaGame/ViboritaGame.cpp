@@ -185,13 +185,7 @@ int main(int argc, char* argv[]) {
 		glEnd();
 		glColor3f(1, 1, 1);*/
 
-		glPushMatrix();
-		glRotatef(120,0,1.0f,1.0f);
-		sunAngle += deltaTime * 1.0f;
-		GLfloat lightPos[] = { 10.0f*cos(sunAngle), 10.0f*sin(sunAngle), 0.0f, 0.0f}; // Last value: 1.0 = positional, 0.0 = directional
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 		
-		glPopMatrix();
 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {

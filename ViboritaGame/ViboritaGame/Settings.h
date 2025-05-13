@@ -8,7 +8,7 @@ private:
 	bool wireframe;
 	bool textures;
 	TEX_SETTINGS texSettings;
-	float lightAngle;
+	int lightAngle;
 	Vec3 lightColor;
 public:
 	Settings();
@@ -18,7 +18,7 @@ public:
     bool isWireframe() const;
     bool hasTextures() const;
     TEX_SETTINGS getTexSettings() const;
-    float getLightAngle() const;
+    int getLightAngle() const;
     Vec3 getLightColor() const;
 
     // Setters
@@ -26,7 +26,7 @@ public:
     void setWireframe(bool value);
     void setTextures(bool value);
     void setTexSettings(TEX_SETTINGS settings);
-    void setLightAngle(float angle);
+    void setLightAngle(int angle);
     void setLightColor(Vec3 color);
 };
 
