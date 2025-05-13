@@ -114,3 +114,20 @@ extern GLfloat cubeNormals[];
 extern GLfloat cubeNormalsColors[];
 extern GLuint cubeNormalsIndices[];
 void drawCubeWithNormals(Vec3 color);
+
+struct Light {
+	GLfloat position[4];
+	GLfloat ambient[4];
+	GLfloat diffuse[4];
+	GLfloat specular[4];
+};
+extern Light defaultLight;
+struct Material {
+	GLfloat ambient[4];
+	GLfloat diffuse[4];
+	GLfloat specular[4];
+	GLfloat shininess[1];
+};
+extern Material defaultMaterial;
+
+void applyMaterial(Material);

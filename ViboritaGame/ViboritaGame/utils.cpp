@@ -144,24 +144,26 @@ GLuint basePyramydIndices[] = {
 };
 
 void drawArrowKeys(Vec3 position) {
+	Vec3 color = { 0.82f, 0.80f, 0.72f };
 	glPushMatrix();
 	glTranslatef(position.x, position.y, position.z);
-
+	glScalef(1, 0.5, 1);
 	glTranslatef(1.2f,0,0);
-	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // ^
+	drawCubeWithNormals(color); // ^
 	
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslatef(position.x, position.y, position.z);
+	glScalef(1, 0.5, 1);
 	glTranslatef(0, 0, -1.2f);
-	drawCube(baseKeyboardKeyVertices,baseCubeColors,baseCubeIndices); // <
+	drawCubeWithNormals(color); // <
 	
 	glTranslatef(1.2f, 0, 0);
-	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // \/
+	drawCubeWithNormals(color); // \/
 
 	glTranslatef(1.2f, 0, 0);
-	drawCube(baseKeyboardKeyVertices, baseCubeColors, baseCubeIndices); // >
+	drawCubeWithNormals(color); // >
 	glPopMatrix();
 
 }
@@ -465,3 +467,19 @@ void drawCubeWithNormals(Vec3 color) {
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glColor3f(1, 1, 1);
 }
+
+Light defaultLight = { { 0.0f, 10.0f, 0.0f, 1.0f } ,{ 0.2f, 0.2f, 0.2f, 1.0f },{ 0.8f, 0.8f, 0.8f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f } };
+Material defaultMaterial = { {0.2f, 0.2f, 0.2f, 1.0f} , {0.8f, 0.8f, 0.8f, 1.0f} ,  {0.0f, 0.0f, 0.0f, 1.0f}, {0.0f} };
+
+void applyMaterial(Material m) {
+	glMaterialfv(GL_FRONT, GL_AMBIENT, m.ambient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, m.diffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, m.specular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, m.shininess);
+}
+
+
+//glLightfv(GL_LIGHT0, GL_POSITION, defaultLight.position);
+//glLightfv(GL_LIGHT0, GL_AMBIENT, defaultLight.ambient);
+//glLightfv(GL_LIGHT0, GL_DIFFUSE, defaultLight.diffuse);
+//glLightfv(GL_LIGHT0, GL_SPECULAR, defaultLight.specular);

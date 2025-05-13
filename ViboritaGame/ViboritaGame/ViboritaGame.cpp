@@ -28,13 +28,14 @@ void calculateArrowKeysPos(Vec3 cameraPos, Vec3 center, Vec3& arrowKeyPos) {
 	};
 }
 
+
 void setupLighting() {
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 	glEnable(GL_NORMALIZE);
 
-	GLfloat lightPos[] = { 0.0f, 10.0f, 10.0f, 1.0f }; // Last value: 1.0 = positional, 0.0 = directional
+	GLfloat lightPos[] = { 0.0f, 10.0f, 10.0f, 0.0f }; // Last value: 1.0 = positional, 0.0 = directional
 	GLfloat ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
 	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -44,16 +45,7 @@ void setupLighting() {
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
 
-	//TODO: Definir bien esto, si se pone ahora tiene alto brillo
-	/*GLfloat matAmbient[] = { 0.0f, 0.5f, 0.0f, 1.0f }; 
-	GLfloat matDiffuse[] = { 0.0f, 0.8f, 0.0f, 1.0f };
-	GLfloat matSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	GLfloat matShininess[] = { 50.0f };               
-
-	glMaterialfv(GL_FRONT, GL_AMBIENT, matAmbient);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
-	glMaterialfv(GL_FRONT, GL_SHININESS, matShininess);*/
+	
 }
 
 
@@ -144,6 +136,8 @@ int main(int argc, char* argv[]) {
 	float phi = M_PI / 2;
 	float sensitivity = 0.5f;
 
+	float sunAngle = 0;
+
 	cameraPos.x = cameraRadius * sin(phi) * cos(theta);
 	cameraPos.y = cameraRadius * cos(phi);
 	cameraPos.z = cameraRadius * sin(phi) * sin(theta);
@@ -185,6 +179,14 @@ int main(int argc, char* argv[]) {
 		glVertex3f(arrowKeysPos.x, arrowKeysPos.y, arrowKeysPos.z);
 		glEnd();
 		glColor3f(1, 1, 1);*/
+
+		glPushMatrix();
+		glRotatef(120,0,1.0f,1.0f);
+		sunAngle += deltaTime * 1.0f;
+		GLfloat lightPos[] = { 10.0f*cos(sunAngle), 10.0f*sin(sunAngle), 0.0f, 0.0f}; // Last value: 1.0 = positional, 0.0 = directional
+		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+		
+		glPopMatrix();
 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
