@@ -26,6 +26,8 @@ void Viborita::setGameContext(GamePlay* context)
 //TODO: Agregar l�gica para dibujar el cuerpo de tama�o n.
 void Viborita::draw() {
 	ViboritaPart* bodyPart = this->body.head;
+	Vec3 headColor = { 0.0f, 0.25f, 0.3f };
+	Vec3 viboritaColor = { 0.0f, 0.40f, 0.0f };
 	glColor3f(0.0f, 0.50f, 0.0f);
 	while(bodyPart != NULL)
 	{
@@ -44,7 +46,8 @@ void Viborita::draw() {
 		else {
 			drawModel(WORM_BODY_MODEL);
 		}*/
-		drawCube(baseCubeVertices, this->body.head == bodyPart ? headColors : viboritaColors, baseCubeIndices);
+		
+		drawCubeWithNormals(this->body.head == bodyPart ? headColor:viboritaColor);
 		glPopMatrix();
 		bodyPart = bodyPart->next;	
 	}

@@ -21,7 +21,10 @@ Block::Block(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 }
 
 void Block::draw() {
-	drawCube(this->cube, baseCubeColors, baseCubeIndices);
+	glPushMatrix();
+	glTranslatef(position.x,position.y,position.z);
+	drawCubeWithNormals({0.3,0.3,0.3});
+	glPopMatrix();
 }
 
 GAME_ENTITY_TYPE Block::getType()

@@ -51,6 +51,7 @@ struct modelInfo {
 	std::string name;
 	std::vector<VertexData> vertices;
 	std::vector<unsigned int> indices;
+	std::vector<float> normals;
 	GLuint objectVAO;
 };
 
@@ -109,4 +110,7 @@ void cargarModelo(std::string& filePath, std::string name, int pos);
 
 void drawModel(MODEL_TYPE);
 
-
+extern GLfloat cubeNormals[];
+extern GLfloat cubeNormalsColors[];
+extern GLuint cubeNormalsIndices[];
+void drawCubeWithNormals(Vec3 color);

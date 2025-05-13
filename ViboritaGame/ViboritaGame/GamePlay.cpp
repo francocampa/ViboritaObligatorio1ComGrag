@@ -81,6 +81,8 @@ void GamePlay::addSecond()
 
 void GamePlay::process(float deltaTime)
 {
+	glEnable(GL_LIGHTING);
+	glNormal3f(0.0f, 1.0f, 0.0f);
 	for (int x = 0; x < GameController::getInstance()->GRID_SIZE;x++) {
 		for (int y = 0; y < GameController::getInstance()->GRID_SIZE;y++) {
 			for (int z = 0; z < GameController::getInstance()->GRID_SIZE;z++) {
@@ -93,6 +95,7 @@ void GamePlay::process(float deltaTime)
 	}
 	this->viborita->process(deltaTime);
 	this->viborita->draw();
+	glDisable(GL_LIGHTING);
 }
 
 void GamePlay::draw()

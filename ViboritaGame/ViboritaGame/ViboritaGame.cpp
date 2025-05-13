@@ -28,6 +28,32 @@ void calculateArrowKeysPos(Vec3 cameraPos, Vec3 center, Vec3& arrowKeyPos) {
 	};
 }
 
+void setupLighting() {
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_NORMALIZE);
+
+	GLfloat lightPos[] = { 0.0f, 10.0f, 10.0f, 1.0f }; // Last value: 1.0 = positional, 0.0 = directional
+	GLfloat ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+	/*GLfloat matAmbient[] = { 0.0f, 0.5f, 0.0f, 1.0f }; 
+	GLfloat matDiffuse[] = { 0.0f, 0.8f, 0.0f, 1.0f };
+	GLfloat matSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat matShininess[] = { 50.0f };               
+
+	glMaterialfv(GL_FRONT, GL_AMBIENT, matAmbient);
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, matDiffuse);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, matSpecular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, matShininess);*/
+}
+
 
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
@@ -124,6 +150,8 @@ int main(int argc, char* argv[]) {
 
 	calculateArrowKeysPos(cameraPos,center, arrowKeysPos);
 
+	setupLighting();
+
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -133,8 +161,6 @@ int main(int argc, char* argv[]) {
 		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
 		deltaTime *= settings->getGameSpeed();
 		lastTick = currentTick;
-
-		
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);

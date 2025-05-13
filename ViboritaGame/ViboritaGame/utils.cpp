@@ -86,21 +86,14 @@ GLfloat baseKeyboardKeyVertices[] = {
 };
 
 GLfloat baseCubeColors[] = {
-	0,0,0,
-
-	0.05,0.05,0.05,
-
-	0.10,0.10,0.10,
-
-	0.15,0.15,0.15,
-
-	0.20,0.20,0.20,
-
-	0.25,0.25,0.25,
-
-	0.25,0.25,0.30,
-
-	0.25,0.25,0.35,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
 
 };
 
@@ -227,6 +220,7 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 
 	std::vector<VertexData> vertices;
 	std::vector<unsigned int> indices;
+	std::vector<float> normals;
 
 	// Procesar cada malla en la escena
 	for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
@@ -247,6 +241,10 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 				vertex.normal.x = mesh->mNormals[j].x;
 				vertex.normal.y = mesh->mNormals[j].y;
 				vertex.normal.z = mesh->mNormals[j].z;
+
+				normals.push_back(mesh->mNormals[j].x);
+				normals.push_back(mesh->mNormals[j].y);
+				normals.push_back(mesh->mNormals[j].z);
 			}
 			else {
 				vertex.normal = glm::vec3(0.0f, 0.0f, 0.0f); // Si no hay normales, ponerlas a cero
@@ -293,12 +291,15 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 	modelsInfo[pos].name = name;
 	modelsInfo[pos].vertices = vertices;
 	modelsInfo[pos].indices = indices;
+	modelsInfo[pos].normals = normals;
 }
 
 void drawModel(MODEL_TYPE modelType) {  
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 	const GLfloat* vertexData;
 	const GLuint* indexData;
+	const GLfloat* normalsData;
 	int indexModel;
 	switch (modelType)
 	{
@@ -322,9 +323,145 @@ void drawModel(MODEL_TYPE modelType) {
 	}
 	vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[indexModel].vertices.data());
 	indexData = modelsInfo[indexModel].indices.data();
+	normalsData = modelsInfo[indexModel].normals.data();
 	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[0]);
+	glNormalPointer(GL_FLOAT, 0, normalsData);
 	for (size_t i = 0; i < modelsInfo[indexModel].indices.size() / 3; ++i) {
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+}
+
+GLfloat cubeNormalsColors[] = {
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+	0.3,0.3,0.3,
+
+};
+
+
+GLfloat normalCubeVertices[] = {
+	// Front face
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 1.0f,
+	1.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 1.0f,
+
+	// Back face
+	1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 0.0f,
+	0.0f, 1.0f, 0.0f,
+	1.0f, 1.0f, 0.0f,
+
+	// Left face
+	0.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f,
+	0.0f, 1.0f, 1.0f,
+	0.0f, 1.0f, 0.0f,
+
+	// Right face
+	1.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 1.0f, 0.0f,
+	1.0f, 1.0f, 1.0f,
+
+	// Top face
+	0.0f, 1.0f, 1.0f,
+	1.0f, 1.0f, 1.0f,
+	1.0f, 1.0f, 0.0f,
+	0.0f, 1.0f, 0.0f,
+
+	// Bottom face
+	0.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+};
+
+GLfloat cubeNormals[] = {
+	// Front face normals
+	 0.0f,  0.0f,  1.0f,
+	 0.0f,  0.0f,  1.0f,
+	 0.0f,  0.0f,  1.0f,
+	 0.0f,  0.0f,  1.0f,
+
+	 // Back face normals
+	  0.0f,  0.0f, -1.0f,
+	  0.0f,  0.0f, -1.0f,
+	  0.0f,  0.0f, -1.0f,
+	  0.0f,  0.0f, -1.0f,
+
+	  // Left face normals
+	  -1.0f,  0.0f,  0.0f,
+	  -1.0f,  0.0f,  0.0f,
+	  -1.0f,  0.0f,  0.0f,
+	  -1.0f,  0.0f,  0.0f,
+
+	  // Right face normals
+	   1.0f,  0.0f,  0.0f,
+	   1.0f,  0.0f,  0.0f,
+	   1.0f,  0.0f,  0.0f,
+	   1.0f,  0.0f,  0.0f,
+
+	   // Top face normals
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+		0.0f,  1.0f,  0.0f,
+
+		// Bottom face normals
+		 0.0f, -1.0f,  0.0f,
+		 0.0f, -1.0f,  0.0f,
+		 0.0f, -1.0f,  0.0f,
+		 0.0f, -1.0f,  0.0f,
+};
+
+GLuint cubeNormalsIndices[] = {
+	0, 1, 2, 3,     // Front face
+	4, 5, 6, 7,     // Back face
+	8, 9,10,11,     // Left face
+   12,13,14,15,     // Right face
+   16,17,18,19,     // Top face
+   20,21,22,23      // Bottom face
+};
+
+
+void drawCubeWithNormals(Vec3 color) {
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	glColor3f(color.x,color.y,color.z);
+	glVertexPointer(3, GL_FLOAT, 0, normalCubeVertices);
+	glNormalPointer(GL_FLOAT, 0, cubeNormals);
+	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_INT, &cubeNormalsIndices);
+	
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glColor3f(1, 1, 1);
 }
