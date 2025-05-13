@@ -88,6 +88,7 @@ void LevelCreator::process(float deltaTime)
 	glPopMatrix();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+	glEnable(GL_LIGHTING);
 	for (int x = 0; x < gc->GRID_SIZE;x++) 
 		for (int y = 0; y < gc->GRID_SIZE;y++) 
 			for (int z = 0; z < gc->GRID_SIZE;z++) 
@@ -96,6 +97,7 @@ void LevelCreator::process(float deltaTime)
 				
 	if(this->viborita != NULL)
 		this->viborita->draw();	
+	glDisable(GL_LIGHTING);
 }
 
 void LevelCreator::draw()

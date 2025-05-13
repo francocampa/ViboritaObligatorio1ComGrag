@@ -29,7 +29,10 @@ void setTexSettingsCallback(std::string setting) {
 	else
 		sm->setTexSettings(FACETADO);
 }
-
+void goToMainMenuFromSettingsCallback(std::string z) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->goBackToMainMenu();
+}
 SettingsMenu::SettingsMenu(Settings* settings) {
 	this->settings = settings;
 
@@ -91,6 +94,8 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		interpoladoCheck->setSelected(false);
 		facetadoCheck->setSelected(true);
 	}
+
+	backToMenu = new Button("Volver al menu", 220, 420, 200, 32, goToMainMenuFromSettingsCallback, "");
 	backToGame = new Button("X", 580, 10, 50, 50, goBackToGameCallback,"");
 }
 
@@ -164,6 +169,12 @@ void SettingsMenu::goBackToGame()
 	GameController::getInstance()->setState(GameController::getInstance()->getGamePlay());
 }
 
+void SettingsMenu::goBackToMainMenu()
+{
+	MainMenu* mm = new MainMenu();
+	GameController::getInstance()->setState(mm);
+}
+
 void SettingsMenu::process(float deltaTime)
 {
 }
@@ -190,5 +201,6 @@ std::vector<Button*> SettingsMenu::getHudButtons()
 	buttons.push_back(interpoladoCheck);
 	buttons.push_back(facetadoText);
 	buttons.push_back(facetadoCheck);
+	buttons.push_back(backToMenu);
 	return buttons;
 }

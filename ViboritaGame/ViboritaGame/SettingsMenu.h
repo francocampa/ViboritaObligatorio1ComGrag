@@ -24,6 +24,7 @@ private:
 	Button* texturesFalse;
 
 	Button* backToGame;
+	Button* backToMenu;
 
 	Button* interpoladoText;
 	Button* interpoladoCheck;
@@ -40,6 +41,7 @@ public:
 	void setTexSettings(TEX_SETTINGS texSettings);
 	void changeLightingSettings();
 	void goBackToGame();
+	void goBackToMainMenu();
 	virtual std::vector<Button*> getHudButtons();
 };
 

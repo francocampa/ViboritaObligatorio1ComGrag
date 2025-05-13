@@ -43,6 +43,8 @@ void setupLighting() {
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+
+	//TODO: Definir bien esto, si se pone ahora tiene alto brillo
 	/*GLfloat matAmbient[] = { 0.0f, 0.5f, 0.0f, 1.0f }; 
 	GLfloat matDiffuse[] = { 0.0f, 0.8f, 0.0f, 1.0f };
 	GLfloat matSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
