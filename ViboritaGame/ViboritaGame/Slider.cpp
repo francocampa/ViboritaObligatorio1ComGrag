@@ -43,11 +43,13 @@ void Slider::draw()
 void Slider::mouseDown(Vec2 mousePos)
 {
 	this->movingSelector = true;
+	GameController::getInstance()->setMoveCamera(false);
 }
 
 void Slider::mouseUp()
 {
 	this->movingSelector = false;
+	GameController::getInstance()->setMoveCamera(true);
 }
 
 void Slider::process(Vec2 mousePos)

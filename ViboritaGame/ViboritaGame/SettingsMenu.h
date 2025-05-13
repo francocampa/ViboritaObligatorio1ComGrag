@@ -3,7 +3,9 @@
 #include "GameController.h"
 #include "IGameState.h"
 #include "Settings.h"
-#include "Slider.h"
+//#include "Slider.h"
+
+class Slider;
 
 class SettingsMenu :
     public IGameState
@@ -32,6 +34,12 @@ private:
 	
 	Button* lightDirText;
 	Slider* lightDirSlider;
+	Button* lightRText;
+	Slider* lightRSlider;
+	Button* lightGText;
+	Slider* lightGSlider;
+	Button* lightBText;
+	Slider* lightBSlider;
 public:
 	SettingsMenu(Settings* settings);
 	void process(float deltaTime);

@@ -100,6 +100,16 @@ void GamePlay::process(float deltaTime)
 
 void GamePlay::draw()
 {
+	glEnable(GL_LIGHTING);
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	for (int x = 0; x < GameController::getInstance()->GRID_SIZE;x++) 
+		for (int y = 0; y < GameController::getInstance()->GRID_SIZE;y++) 
+			for (int z = 0; z < GameController::getInstance()->GRID_SIZE;z++) 
+				if (grid[x][y][z] != NULL && grid[x][y][z] != this->viborita) 
+					grid[x][y][z]->draw();
+
+	this->viborita->draw();
+	glDisable(GL_LIGHTING);
 }
 
 std::vector<IHudElement*> GamePlay::getHudElements()

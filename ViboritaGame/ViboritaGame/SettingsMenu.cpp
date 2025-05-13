@@ -10,6 +10,7 @@ void setSpeedCallback(float speed) {
 	sm->changeGameSpeed(speed);
 }
 void setLightAngleCallback(float angle) {
+	printf("%f\n",angle);
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
 	sm->changeLightAngle(angle);
 }
@@ -35,12 +36,12 @@ void goToMainMenuFromSettingsCallback(std::string z) {
 SettingsMenu::SettingsMenu(Settings* settings) {
 	this->settings = settings;
 
-	speedText = new Button("Velocidad",220,20,100,32);
-	speedSlider = new Slider("Prueba", 220, 70, 150, 0.5f, 3.0f, setSpeedCallback, 1.0f);
+	speedText = new Button("Velocidad",20,20,100,32);
+	speedSlider = new Slider("Prueba", 20, 70, 150, 0.5f, 3.0f, setSpeedCallback, settings->getGameSpeed());
 
-	wireFrameText = new Button("Wireframe", 220, 120, 100, 32);
-	wireFrameTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 240, 160, 40, 40, setWireframeCallback, "true");
-	wireFrameFalse = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 290, 160, 40, 40, setWireframeCallback, "false");
+	wireFrameText = new Button("Wireframe", 20, 120, 100, 32);
+	wireFrameTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 40, 160, 40, 40, setWireframeCallback, "true");
+	wireFrameFalse = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 90, 160, 40, 40, setWireframeCallback, "false");
 	if (settings->isWireframe())
 	{
 		wireFrameTrue->setSelected(true);
@@ -50,9 +51,9 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		wireFrameTrue->setSelected(false);
 		wireFrameFalse->setSelected(true);
 	}
-	texturesText = new Button("Textures", 220, 220, 100, 32);
-	texturesTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 240, 260, 40, 40, setTexturesCallback, "true");
-	texturesFalse = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 290, 260, 40, 40, setTexturesCallback, "false");
+	texturesText = new Button("Textures", 20, 220, 100, 32);
+	texturesTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 40, 260, 40, 40, setTexturesCallback, "true");
+	texturesFalse = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 90, 260, 40, 40, setTexturesCallback, "false");
 	if (settings->hasTextures())
 	{
 		texturesTrue->setSelected(true);
@@ -63,10 +64,10 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		texturesFalse->setSelected(true);
 	}
 
-	interpoladoText = new Button("Interpolado", 220, 320, 100, 32);
-	interpoladoCheck = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 240, 360, 40, 40, setTexSettingsCallback, "interpolado");
-	facetadoText = new Button("Facetado", 330, 320, 100, 32);
-	facetadoCheck = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 350, 360, 40, 40, setTexSettingsCallback, "facetado");
+	interpoladoText = new Button("Interpolado", 20, 320, 100, 32);
+	interpoladoCheck = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 40, 360, 40, 40, setTexSettingsCallback, "interpolado");
+	facetadoText = new Button("Facetado", 130, 320, 100, 32);
+	facetadoCheck = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 150, 360, 40, 40, setTexSettingsCallback, "facetado");
 	if (settings->getTexSettings() == INTERPOLADO)
 	{
 		interpoladoCheck->setSelected(true);
@@ -77,10 +78,20 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		facetadoCheck->setSelected(true);
 	}
 
-	lightDirText = new Button("Direccion de luz", 220, 420, 100, 32);
-	lightDirSlider = new Slider("Prueba", 220, 460, 150, 0, 360, setLightAngleCallback, settings->getLightAngle());
+	lightDirText = new Button("Direccion de luz", 450, 20, 100, 32);
+	lightDirSlider = new Slider("Prueba", 450, 70, 150, 0, 2*M_PI, setLightAngleCallback, settings->getLightAngle());
 
-	backToMenu = new Button("Volver al menu", 340, 10, 200, 32, goToMainMenuFromSettingsCallback, "");
+	lightRText = new Button("Rojo de luz", 450, 120, 100, 32);
+	lightRSlider = new Slider("Prueba", 450, 160, 150, 0, 1, setLightAngleCallback, 0);
+
+	lightGText = new Button("Verde de luz", 450, 220, 100, 32);
+	lightGSlider = new Slider("Prueba", 450, 260, 150, 0, 1, setLightAngleCallback, 0);
+
+	lightBText = new Button("Azul de luz", 450, 320, 100, 32);
+	lightBSlider = new Slider("Prueba", 450, 360, 150, 0, 1, setLightAngleCallback, 0);
+
+
+	backToMenu = new Button("Volver al menu", 170, 10, 200, 32, goToMainMenuFromSettingsCallback, "");
 	backToGame = new Button("X", 580, 10, 50, 50, goBackToGameCallback,"");
 }
 
@@ -148,6 +159,7 @@ void SettingsMenu::goBackToMainMenu()
 
 void SettingsMenu::process(float deltaTime)
 {
+	GameController::getInstance()->getGamePlay()->draw();
 }
 
 void SettingsMenu::draw()
@@ -173,5 +185,11 @@ std::vector<IHudElement*> SettingsMenu::getHudElements()
 	buttons.push_back(backToMenu);
 	buttons.push_back(lightDirText);
 	buttons.push_back(lightDirSlider);
+	buttons.push_back(lightRText);
+	buttons.push_back(lightRSlider);
+	buttons.push_back(lightGText);
+	buttons.push_back(lightGSlider);
+	buttons.push_back(lightBText);
+	buttons.push_back(lightBSlider);
 	return buttons;
 }

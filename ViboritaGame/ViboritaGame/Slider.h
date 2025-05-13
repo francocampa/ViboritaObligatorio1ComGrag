@@ -9,6 +9,9 @@
 #include <GL/glu.h>
 #include <SDL_image.h>
 #include "IHudElement.h"
+#include "GameController.h"
+
+//class GameController;
 
 class Slider :
 	public IHudElement
