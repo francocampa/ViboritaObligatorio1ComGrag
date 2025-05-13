@@ -33,6 +33,9 @@ private:
 	Settings* settings;
 	Vec2 mousePos;
 	float timeCounter;
+	bool showFps = false;
+	int fps = 0;
+	Button* fpsBtn;
 	bool up = false;
 	bool down = false;
 	bool left = false;
@@ -63,6 +66,7 @@ public:
 	void setClick(bool click);
 	void setMouseDown(bool click);
 	void setMouseUp(bool click);
+	void setShowFps(bool show);
 	
 	Settings* getSettings();
 	void setSettings(Settings* settings);
@@ -81,6 +85,7 @@ public:
 	bool clicked();
 	bool isMouseDown();
 	bool isMouseUp();
+	bool isShowFps();
 
 
 	//De ac[a a abajo son cosas que son temporales, hay que irlas borrando cuando no se necesiten

@@ -147,7 +147,7 @@ int main(int argc, char* argv[]) {
 	calculateArrowKeysPos(cameraPos,center, arrowKeysPos);
 
 	float timeFromDown = 100;
-	float CLICK_TIME = 0.2f;
+	float CLICK_TIME = 0.8f;
 
 	setupLighting();
 
@@ -215,6 +215,10 @@ int main(int argc, char* argv[]) {
 					case SDLK_z:
 					case SDLK_SPACE:
 						alreadyMoved = false;
+						break;
+					case SDLK_d:
+						GameController::getInstance()->setShowFps(!GameController::getInstance()->isShowFps());
+						break;
 				}
 				break;
 			
