@@ -65,7 +65,6 @@ Vec3* getVec3FromVec3(Vec3 vecPrev);
 
 extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información de cada modelo
 
-
 struct Vec2 {
 	int x, y;
 };
@@ -74,6 +73,8 @@ void loadTexture(GLuint& textureId, const char* path);
 void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font, int& width, int& height);
 
 float distance(const Vec3& a, const Vec3& b);
+
+extern GLfloat CubeTextureCoords[];
 
 void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]);
 
@@ -109,7 +110,7 @@ void drawModel(MODEL_TYPE,bool textures);
 extern GLfloat cubeNormals[];
 extern GLfloat cubeNormalsColors[];
 extern GLuint cubeNormalsIndices[];
-void drawCubeWithNormals(Vec3 color);
+void drawCubeWithNormals(Vec3 color, bool textures);
 
 struct Light {
 	GLfloat position[4];

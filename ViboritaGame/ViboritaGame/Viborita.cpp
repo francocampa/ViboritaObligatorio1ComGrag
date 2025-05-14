@@ -47,7 +47,7 @@ void Viborita::draw() {
 			drawModel(WORM_BODY_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}*/
 		
-		drawCubeWithNormals(this->body.head == bodyPart ? headColor:viboritaColor);
+		drawCubeWithNormals(this->body.head == bodyPart ? headColor:viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
 		glPopMatrix();
 		bodyPart = bodyPart->next;	
 	}

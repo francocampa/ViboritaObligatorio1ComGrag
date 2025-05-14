@@ -96,13 +96,13 @@ int main(int argc, char* argv[]) {
 	Settings* settings = new Settings();
 	GameController::getInstance()->setSettings(settings);
 
-	//Carga de modelos
+	//TODO: borrar nombres (innescesarios)
+	//Carga de modelos y texturas
 	std::string filePath = "models/apple.obj";
 	std::string name = "apple";
-	GLuint textureID;
+	GLuint textureId;
+	GLuint cubeTextureId;
 	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
-	loadTexture(textureID, "images/restart.png");//Por ahora hay una textura random
-	modelsInfo[0].textureId = textureID;
 	filePath = "models/worm_head.obj";
 	name = "wormHead";
 	cargarModelo(filePath, name, 1);
@@ -115,7 +115,11 @@ int main(int argc, char* argv[]) {
 	filePath = "models/portal.obj";
 	name = "portal";
 	cargarModelo(filePath, name, 4);
-
+	loadTexture(textureId, "textures/apple_texture.jpg");
+	loadTexture(cubeTextureId, "textures/grass_texture.png");
+	modelsInfo[0].textureId = textureId;
+	modelsInfo[5].textureId = cubeTextureId;
+	
 	bool quit = false;
 	bool moveCamera = false;
 	bool rotate = false;
