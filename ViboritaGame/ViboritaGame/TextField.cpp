@@ -14,7 +14,7 @@ void TextField::changeText(std::string newText)
 }
 
 TextField::TextField(std::string text, int x, int y, int length, void (*callback)(std::string newValue), std::string initialValue) {
-	this->height = 40;
+	this->height = 32;
 	this->value = initialValue;
 	this->textTextureId = NULL;
 	this->rect = new SDL_Rect();
@@ -24,7 +24,7 @@ TextField::TextField(std::string text, int x, int y, int length, void (*callback
 	rect->w = length;
 	this->textRect = new SDL_Rect();
 	textRect->x = x+5;
-	textRect->y = y+5;
+	textRect->y = y+4;
 	textRect->w = 0;
 	textRect->h = 0;
 
@@ -36,16 +36,21 @@ TextField::TextField(std::string text, int x, int y, int length, void (*callback
 
 void TextField::draw()
 {
-	glBegin(GL_QUADS);
-		//Renderizo el texto
+	if (textTextureId != NULL) {
 		glBindTexture(GL_TEXTURE_2D, textTextureId);
 		glEnable(GL_TEXTURE_2D);
-			glTexCoord2f(0.0f, 0.0f); glVertex2i(textRect->x, textRect->y);
-			glTexCoord2f(1.0f, 0.0f); glVertex2i(textRect->x + textRect->w, textRect->y);
-			glTexCoord2f(1.0f, 1.0f); glVertex2i(textRect->x + textRect->w, textRect->y + textRect->h);
-			glTexCoord2f(0.0f, 1.0f); glVertex2i(textRect->x, textRect->y + textRect->h);
-		glDisable(GL_TEXTURE_2D);
+		glBegin(GL_QUADS);
+		//Renderizo el texto
 
+		glTexCoord2f(0.0f, 0.0f); glVertex2i(textRect->x, textRect->y);
+		glTexCoord2f(1.0f, 0.0f); glVertex2i(textRect->x + textRect->w, textRect->y);
+		glTexCoord2f(1.0f, 1.0f); glVertex2i(textRect->x + textRect->w, textRect->y + textRect->h);
+		glTexCoord2f(0.0f, 1.0f); glVertex2i(textRect->x, textRect->y + textRect->h);
+		glEnd();
+		glDisable(GL_TEXTURE_2D);
+	}
+
+	glBegin(GL_QUADS);
 		//Renderizo el rectangulo del input
 		glColor3f(0.8f, 0.8f, 0.8f);
 		glVertex2i(rect->x, rect->y);
@@ -65,10 +70,17 @@ void TextField::process()
 	
 	if (keyPressed == "ENTER") {
 		clickOutside();
-	}else if (keyPressed == "BACKSPACE") {
-		this->value = this->value.substr(0,this->value.length() - 1);
-		changeText(this->value);
-	}else {
+	}else if (keyPressed == "BACKSPACE" ) {
+		if (this->value.length() > 0) {
+			this->value = this->value.substr(0, this->value.length() - 1);
+			if (value == "") {
+				glDeleteTextures(1, &textTextureId);
+				textTextureId = NULL;
+			}
+			else
+				changeText(this->value);
+		}
+	}else if(this->value.length() < maxValueSize) {
 		this->value += keyPressed;
 		changeText(this->value);
 	}
