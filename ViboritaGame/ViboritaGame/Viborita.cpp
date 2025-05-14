@@ -147,13 +147,13 @@ bool Viborita::hasFloor()
 	return false;
 }
 
-void Viborita::animationFall() {
+void Viborita::animationFall(float deltaTime) {
 	ViboritaPart* aux = this->body.head;
 	while (aux != NULL)
 	{
 		//TODO: arreglar caso en el que cae sobre un bloque, por ahora no hay colisiones
 		gameContext->clearTile(aux->gridIndex);
-		Vec3 positionUnderPart = { aux->position.x,aux->position.y - 0.01,aux->position.z };
+		Vec3 positionUnderPart = { aux->position.x,aux->position.y - 10.0*deltaTime,aux->position.z };
 		aux->position = positionUnderPart;
 		gameContext->addViborita(aux->gridIndex);
 		aux = aux->next;
@@ -225,7 +225,7 @@ GAME_ENTITY_TYPE Viborita::getType()
 void Viborita::process(float deltaTime) {
 
 	if (!fallen && !hasFloor() && this->falling) {
-		animationFall();
+		animationFall(deltaTime);
 		return;
 	}
 	if (!hasFloor()) {

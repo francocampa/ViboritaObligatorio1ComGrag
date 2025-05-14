@@ -35,7 +35,7 @@ public:
 	bool handleMovement(Vec3* movementDir);
 	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);
 	bool hasFloor();
-	void animationFall();
+	void animationFall(float deltaTime);
 	void handleFall();
 	void handleDeath();
 	void removeBodyFromGridIndex(int x,int y, int z);

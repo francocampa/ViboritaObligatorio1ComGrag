@@ -502,8 +502,8 @@ GLuint cubeNormalsIndices[] = {
 void drawCubeWithNormals(Vec3 color, bool textures) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	if (textures) {
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, cubeTexture);
 		glTexCoordPointer(2, GL_FLOAT, 0, cubeTextureCoords);
@@ -514,8 +514,8 @@ void drawCubeWithNormals(Vec3 color, bool textures) {
 	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_INT, &cubeNormalsIndices);
 	if (textures) {
 		glDisable(GL_TEXTURE_2D);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glColor3f(1, 1, 1);
