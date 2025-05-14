@@ -4,7 +4,8 @@ TTF_Font* TextField::font = NULL;
 
 void TextField::changeText(std::string newText)
 {
-	glDeleteTextures(1, &textTextureId);
+	if(textTextureId != NULL)
+		glDeleteTextures(1, &textTextureId);
 	int width = 0;
 	int height = 0;
 	loadTextTexture(this->textTextureId, newText.c_str(), font, width, height);
@@ -15,7 +16,7 @@ void TextField::changeText(std::string newText)
 TextField::TextField(std::string text, int x, int y, int length, void (*callback)(std::string newValue), std::string initialValue) {
 	this->height = 40;
 	this->value = initialValue;
-
+	this->textTextureId = NULL;
 	this->rect = new SDL_Rect();
 	rect->x = x;
 	rect->y = y;
@@ -24,6 +25,11 @@ TextField::TextField(std::string text, int x, int y, int length, void (*callback
 	this->textRect = new SDL_Rect();
 	textRect->x = x+5;
 	textRect->y = y+5;
+	textRect->w = 0;
+	textRect->h = 0;
+
+	if(initialValue != "")
+		changeText(initialValue);
 
 	this->maxValueSize = length / 10;
 }
