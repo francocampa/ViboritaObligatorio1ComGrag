@@ -74,6 +74,8 @@ int main(int argc, char* argv[]) {
 	if (mainFont == NULL)
 		printf("Failed to load font");
 	HudController::getInstance()->setFont(mainFont);
+	TTF_Font* textFieldFont = TTF_OpenFont("fonts/Sans Serif Shaded.ttf", 16);
+	TextField::font = textFieldFont;
 
 	if (glewInit() != GLEW_OK)
 	{
@@ -197,6 +199,16 @@ int main(int argc, char* argv[]) {
 				quit = true;
 				break;
 			case SDL_KEYUP:
+				if (event.key.keysym.sym >= SDLK_SPACE && event.key.keysym.sym <= SDLK_z) {
+					GameController::getInstance()->setKeyPressed(static_cast<char>(event.key.keysym.sym)+""); //TRUQUITOS DE JAVA JEJEJEJE
+				}
+				else {
+					switch (event.key.keysym.sym) {
+						case SDLK_RETURN: GameController::getInstance()->setKeyPressed("ENTER"); break;
+						case SDLK_BACKSPACE:GameController::getInstance()->setKeyPressed("BACKSPACE"); break;
+						default: GameController::getInstance()->setKeyPressed(""); break;
+					}
+				}
 				switch (event.key.keysym.sym) {
 					case SDLK_p:
 						if (!paused && GameController::getInstance()->getGamePlay() != GameController::getInstance()->getState())

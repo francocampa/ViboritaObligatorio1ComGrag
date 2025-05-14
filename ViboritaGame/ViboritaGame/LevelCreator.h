@@ -5,7 +5,8 @@
 #include "Viborita.h"
 #include <filesystem>
 #include "pugixml.hpp"
-
+//#include "TextField.h"
+//class TextField;
 class LevelCreator :
     public IGameState
 {
@@ -13,12 +14,13 @@ private:
     static int autoId;
 
     int noOfApples;
-
+    std::string name;
     IGameEntity* grid[8][8][8];
     Viborita* viborita;
     Vec3 selectedGridIndex;
     GAME_ENTITY_TYPE selectedEntityType;
 
+    TextField* nameField;
     Button* blockButton;
     Button* appleButton;
     Button* goalButton;
@@ -47,5 +49,6 @@ public:
     void saveLevel();
     void clearGrid();
     void goBackToMainMenu();
+    void setName(std::string name);
 };
 

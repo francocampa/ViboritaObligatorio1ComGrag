@@ -105,6 +105,9 @@
     <ClCompile Include="IHudElement.cpp">
       <Filter>Classes\hud_element</Filter>
     </ClCompile>
+    <ClCompile Include="TextField.cpp">
+      <Filter>Classes\hud_element</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files\game_states</Filter>
     </ClInclude>
     <ClInclude Include="IHudElement.h">
+      <Filter>Header Files\hud_element</Filter>
+    </ClInclude>
+    <ClInclude Include="TextField.h">
       <Filter>Header Files\hud_element</Filter>
     </ClInclude>
   </ItemGroup>

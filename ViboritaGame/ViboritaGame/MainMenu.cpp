@@ -94,23 +94,25 @@ void MainMenu::loadLevels()
 	for (std::string levelFile:levelFiles) {
 		std::string fullPath = "levels/" + levelFile;
 		pugi::xml_parse_result result = levelXMLReader.load_file(fullPath.c_str());
-		loadFromXML(levelXMLReader.child("Level"));
+		Level * l = loadFromXML(levelXMLReader.child("Level"));
+		levels.push_back(l);
 	}
 	for (std::string levelFile : customLevelsFiles) {
 		std::string fullPath = "customLevels/" + levelFile;
 		pugi::xml_parse_result result = levelXMLReader.load_file(fullPath.c_str());
-		loadFromXML(levelXMLReader.child("Level"));
+		Level* l =loadFromXML(levelXMLReader.child("Level"));
+		customLevels.push_back(l);
 	}
 
 	//levels.push_back(GameController::getInstance()->getLevel1());
 	//levels.push_back(GameController::getInstance()->getLevel2());
 }
 
-void MainMenu::loadFromXML(pugi::xml_node levelNode)
+Level* MainMenu::loadFromXML(pugi::xml_node levelNode)
 {
 	if (!levelNode) {
 		printf("Error loading level: %s. A Level node is required as root of the XML file");
-		return;
+		return NULL;
 	}
 	std::string levelName = levelNode.attribute("name").value();
 	int maxScore = std::stoi(levelNode.attribute("maxScore").value());
@@ -123,11 +125,11 @@ void MainMenu::loadFromXML(pugi::xml_node levelNode)
 
 	if (!viboritaNode) {
 		printf("Error loading level: %s. A Vivorita node is required inside the main Level node");
-		return;
+		return NULL;
 	}
 	if (!gridNode) {
 		printf("Error loading level: %s. A Grid node is required inside the main Level node");
-		return;
+		return NULL;
 	}
 
 	IGameEntity* grid[8][8][8];
@@ -169,7 +171,8 @@ void MainMenu::loadFromXML(pugi::xml_node levelNode)
 	}
 
 	Level* level = new Level(levelName, nextLevel, grid, maxScore, viborita);
-	levels.push_back(level);
+	
+	return level;
 }
 
 void MainMenu::process(float deltaTime)

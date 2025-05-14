@@ -9,6 +9,7 @@
 #include "GameStats.h"
 #include "Settings.h"
 #include "Button.h"
+#include "TextField.h"
 #include "Level.h"
 
 #include "IGameEntity.h"
@@ -47,6 +48,7 @@ private:
 	bool mouseDown = false;
 	bool mouseUp = false;
 	bool moveCamera = true;
+	std::string keyPressed = "";
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -68,6 +70,7 @@ public:
 	void setMouseDown(bool click);
 	void setMouseUp(bool click);
 	void setShowFps(bool show);
+	void setKeyPressed(std::string key);
 	
 	Settings* getSettings();
 	void setSettings(Settings* settings);
@@ -87,6 +90,7 @@ public:
 	bool isMouseDown();
 	bool isMouseUp();
 	bool isShowFps();
+	std::string getKeyPressed();
 
 	void setMoveCamera(bool move);
 	bool getMoveCamera();

@@ -117,6 +117,11 @@ void GameController::setShowFps(bool show)
 	this->showFps = show;
 }
 
+void GameController::setKeyPressed(std::string key)
+{
+	this->keyPressed = key;
+}
+
 void GameController::setGamePlay(GamePlay* game)
 {
 	this->game = game;
@@ -202,6 +207,11 @@ bool GameController::isMouseUp()
 bool GameController::isShowFps()
 {
 	return showFps;
+}
+
+std::string GameController::getKeyPressed()
+{
+	return keyPressed;
 }
 
 void GameController::setMoveCamera(bool move)

@@ -38,6 +38,7 @@ void HudController::process()
         bool mouseOver = SDL_HasIntersection(&mouse, hudElement->getRect());
         Button* btn;
         Slider* slider;
+        TextField* tf;
         switch (hudElement->getType())
         {
         case BUTTON:
@@ -57,6 +58,14 @@ void HudController::process()
             slider->process(mousePos);           
             break;
         case CHECKBOX:
+            break;
+        case TEXTFIELD:
+            tf = (TextField*)hudElement;
+            if (gc->clicked())
+                mouseOver ? tf->click(mousePos) : tf->clickOutside();
+            tf->setKeyPressed(gc->getKeyPressed());
+            tf->process();
+            tf->setKeyPressed("");
             break;
         default:
             break;

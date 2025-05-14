@@ -27,6 +27,10 @@ void saveLevelCallback(std::string z) {
 	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
 	lc->saveLevel();
 }
+void changeNameCallback(std::string name) {
+	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
+	lc->setName(name);
+}
 int LevelCreator::autoId = 0;
 LevelCreator::LevelCreator()
 {
@@ -63,6 +67,7 @@ void LevelCreator::createButtons()
 	viboritaButton = new Button("Viborita", 10, 136, selectEntityCallback, "viborita");
 	erasorButton = new Button("Borrador", 10, 178, selectEraseCallback, "");
 	
+	nameField = new TextField("Nombre", 10, 300, 200, changeNameCallback, "");
 	saveButton = new Button("Guardar", 10, 350, saveLevelCallback, "");
 	mainMenuButton = new Button("Volver al menu", 10, 392, goToMainMenuFromLevelCreatorCallback, "");
 	//erasorButton = new Button("Borrador",10,178,100,32,selectEraseCallback,"");
@@ -114,6 +119,7 @@ std::vector<IHudElement*> LevelCreator::getHudElements()
 	btns.push_back(erasorButton);
 	btns.push_back(saveButton);
 	btns.push_back(mainMenuButton);
+	btns.push_back(nameField);
 	return btns;
 }
 
@@ -192,6 +198,11 @@ void LevelCreator::goBackToMainMenu()
 {
 	MainMenu* mm = new MainMenu();
 	GameController::getInstance()->setState(mm);
+}
+
+void LevelCreator::setName(std::string name)
+{
+	this->name = name;
 }
 
 void LevelCreator::handleSelectedIndexMovement()

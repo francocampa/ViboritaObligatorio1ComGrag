@@ -13,6 +13,7 @@
 #include "GameController.h"
 #include "Button.h"
 #include "Slider.h"
+#include "TextField.h"
 
 class HudController
 {

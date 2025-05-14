@@ -153,6 +153,7 @@
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
     <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="TextField.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Viborita.cpp" />
     <ClCompile Include="ViboritaGame.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="Slider.h" />
+    <ClInclude Include="TextField.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Viborita.h" />
   </ItemGroup>
