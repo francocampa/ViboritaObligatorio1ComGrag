@@ -204,7 +204,6 @@ GLfloat headColors[24] = {
 };
 
 std::vector<modelInfo> modelsInfo;
-std::vector<setBuff> setBuffs;
 
 void cargarModelo(std::string& filePath, std::string name,int pos) {
 	// Implementación de cargarModelo
@@ -296,9 +295,10 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 	modelsInfo[pos].normals = normals;
 }
 
-void drawModel(MODEL_TYPE modelType) {  
+void drawModel(MODEL_TYPE modelType) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	const GLfloat* vertexData;
 	const GLuint* indexData;
 	const GLfloat* normalsData;
@@ -323,14 +323,20 @@ void drawModel(MODEL_TYPE modelType) {
 	default:
 		break;
 	}
+	//TODO: agregar logica para desactivar y activar texturas
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
 	vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[indexModel].vertices.data());
 	indexData = modelsInfo[indexModel].indices.data();
 	normalsData = modelsInfo[indexModel].normals.data();
 	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[0]);
 	glNormalPointer(GL_FLOAT, 0, normalsData);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexData), &vertexData[offsetof(VertexData, texCoord)]);
 	for (size_t i = 0; i < modelsInfo[indexModel].indices.size() / 3; ++i) {
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 }

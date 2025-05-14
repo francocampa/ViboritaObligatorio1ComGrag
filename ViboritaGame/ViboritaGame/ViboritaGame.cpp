@@ -97,7 +97,10 @@ int main(int argc, char* argv[]) {
 	//Carga de modelos
 	std::string filePath = "models/apple.obj";
 	std::string name = "apple";
-	cargarModelo(filePath, name, 0); // Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
+	GLuint textureID;
+	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
+	loadTexture(textureID, "images/restart.png");//Por ahora hay una textura random
+	modelsInfo[0].textureId = textureID;
 	filePath = "models/worm_head.obj";
 	name = "wormHead";
 	cargarModelo(filePath, name, 1);

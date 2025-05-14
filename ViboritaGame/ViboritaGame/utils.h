@@ -53,12 +53,7 @@ struct modelInfo {
 	std::vector<unsigned int> indices;
 	std::vector<float> normals;
 	GLuint objectVAO;
-};
-
-struct setBuff {
-	GLuint VBO;
-	GLuint EBO;
-	GLuint VAO;
+	GLuint textureId;
 };
 
 enum BUTTON_TYPE { BUTTON,SLIDER,CHECKBOX};
@@ -69,7 +64,7 @@ enum MODEL_TYPE {APPLE_MODEL, WORM_HEAD_MODEL, WORM_BODY_MODEL, WORM_TAIL_MODEL,
 Vec3* getVec3FromVec3(Vec3 vecPrev);
 
 extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información de cada modelo
-extern std::vector<setBuff> setBuffs;//Arreglo con un VAO, VBO y EBO para cada modelo
+
 
 struct Vec2 {
 	int x, y;
