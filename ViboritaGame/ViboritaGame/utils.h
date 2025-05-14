@@ -74,7 +74,7 @@ void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font, int& w
 
 float distance(const Vec3& a, const Vec3& b);
 
-extern GLfloat CubeTextureCoords[];
+extern GLfloat cubeTextureCoords[];
 
 void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]);
 
