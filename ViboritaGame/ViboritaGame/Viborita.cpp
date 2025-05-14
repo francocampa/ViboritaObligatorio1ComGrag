@@ -10,6 +10,8 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	head->gridIndex = gridIndexes;
 	head->position = position;
 	head->next = nullptr;
+	this->falling = false;
+	this->fallen = false;
 
 	body.head = head;
 	body.tail = head;
@@ -23,7 +25,6 @@ void Viborita::setGameContext(GamePlay* context)
 	this->gameContext = context;
 }
 
-//TODO: Agregar l�gica para dibujar el cuerpo de tama�o n.
 void Viborita::draw() {
 	ViboritaPart* bodyPart = this->body.head;
 	Vec3 headColor = { 0.0f, 0.25f, 0.3f };
@@ -31,12 +32,12 @@ void Viborita::draw() {
 	glColor3f(0.0f, 0.50f, 0.0f);
 	while(bodyPart != NULL)
 	{
-		//Rotaciones de mierd...
+		
 		glPushMatrix();
 		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z );
-		//glRotatef(270, 0, 1, 0);
-		//glScalef(0.3f, 0.3f, 0.3f);
-		/*glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
+		/*glRotatef(270, 0, 1, 0);
+		glScalef(0.3f, 0.3f, 0.3f);
+		glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
 		if (bodyPart == this->body.head) {
 			drawModel(WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
@@ -142,7 +143,25 @@ bool Viborita::hasFloor()
 			return true;
 		aux = aux->next;
 	}
+	this->falling = true;
 	return false;
+}
+
+void Viborita::animationFall() {
+	ViboritaPart* aux = this->body.head;
+	while (aux != NULL)
+	{
+		//TODO: arreglar caso en el que cae sobre un bloque, por ahora no hay colisiones
+		gameContext->clearTile(aux->gridIndex);
+		Vec3 positionUnderPart = { aux->position.x,aux->position.y - 0.01,aux->position.z };
+		aux->position = positionUnderPart;
+		gameContext->addViborita(aux->gridIndex);
+		aux = aux->next;
+	}
+	if (this->body.head->position.y <= -5) {
+		this->falling = false;
+		this->fallen = true;
+	}
 }
 
 void Viborita::handleFall()
@@ -151,7 +170,6 @@ void Viborita::handleFall()
 	int minY = GameController::getInstance()->GRID_SIZE + 1;
 	while (aux != NULL)
 	{
-		
 		gameContext->clearTile(aux->gridIndex);
 		Vec3 positionUnderPart = { aux->position.x,aux->position.y - GameController::getInstance()->TILE_SIZE,aux->position.z};
 		Vec3 indexUnderPart = { aux->gridIndex.x,aux->gridIndex.y - 1,aux->gridIndex.z };
@@ -206,8 +224,14 @@ GAME_ENTITY_TYPE Viborita::getType()
 
 void Viborita::process(float deltaTime) {
 
+	if (!fallen && !hasFloor() && this->falling) {
+		animationFall();
+		return;
+	}
 	if (!hasFloor()) {
 		handleFall();
+		this->falling = false;
+		this->fallen = false;
 		return;
 	}
 

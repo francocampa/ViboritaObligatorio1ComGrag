@@ -13,14 +13,16 @@ void Goal::draw()
 {
 	//TODO: arreglar giro de la meta
 	glPushMatrix();
+	Material goalMaterial = { {0.8f, 0.8f, 0.8f, 1.0f} , {0.1f, 0.1f, 0.1f, 1.0f} ,  {0.4f, 0.4f, 0.4f, 1.0f}, {100.0f} };
+	applyMaterial(goalMaterial);
 	glTranslatef(position.x + 0.5, position.y-1.2f, position.z); //TODO sacar estos valores hardcodeados, que sean en base a TILE_SIZE
 	glScalef(0.5, 0.5, 0.5);
-	//glRotatef(this->angle, 0.5f, 0.5f , 0.5f);
+	//glRotatef(this->angle, 1, 1 , 1);
 	glRotatef(90, 0, 1, 0);
-	glColor3f(0, 0, 0); //color negro
+	//glColor3f(0, 0, 0); //color negro
 	drawModel(GOAL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
-	glColor3f(1, 1, 1); //color negro
 	glPopMatrix();
+	applyMaterial(defaultMaterial);
 }
 
 GAME_ENTITY_TYPE Goal::getType()

@@ -362,12 +362,12 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 		glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
 	}
 	
-	vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[indexModel].vertices.data());
+	const VertexData* vertexDataPtr = modelsInfo[indexModel].vertices.data();
 	indexData = modelsInfo[indexModel].indices.data();
 	normalsData = modelsInfo[indexModel].normals.data();
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexData[0]);
+	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexDataPtr[0].position);
 	glNormalPointer(GL_FLOAT, 0, normalsData);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexData), &vertexData[offsetof(VertexData, texCoord)]);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexData), &vertexDataPtr[0].texCoord);
 	for (size_t i = 0; i < modelsInfo[indexModel].indices.size() / 3; ++i) {
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
