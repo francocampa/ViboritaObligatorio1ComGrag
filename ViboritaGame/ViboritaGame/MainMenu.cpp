@@ -33,6 +33,17 @@ MainMenu::MainMenu() {
 		}
 		prevWidth += levelBtn->getRect()->w;
 	}
+	prevWidth = 0;
+	for (Level* level : customLevels) {
+		Button* levelBtn = new Button(level->getName().c_str(), 50 + 20 * i + prevWidth, 220 + j * 60, loadLevel, level->getName());
+		btns.push_back(levelBtn);
+		i++;
+		if (i == 5) {
+			i = 0;
+			j++;
+		}
+		prevWidth += levelBtn->getRect()->w;
+	}
 	this->levelButtons = btns;
 }
 

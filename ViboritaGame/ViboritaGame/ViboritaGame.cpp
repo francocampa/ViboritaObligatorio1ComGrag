@@ -188,6 +188,7 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setMouseUp(false);
 		GameController::getInstance()->setSpaceKey(false);
 		GameController::getInstance()->setMouseDown(false);
+		GameController::getInstance()->setKeyPressed("");
 
 		if(GameController::getInstance()->getGamePlay() == GameController::getInstance()->getState())
 			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
@@ -207,7 +208,9 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_KEYUP:
 				if (event.key.keysym.sym >= SDLK_SPACE && event.key.keysym.sym <= SDLK_z) {
-					GameController::getInstance()->setKeyPressed(static_cast<char>(event.key.keysym.sym)+""); //TRUQUITOS DE JAVA JEJEJEJE
+					std::string key;
+					key.push_back(static_cast<char>(event.key.keysym.sym));
+					GameController::getInstance()->setKeyPressed(key); 
 				}
 				else {
 					switch (event.key.keysym.sym) {
