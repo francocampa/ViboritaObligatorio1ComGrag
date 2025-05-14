@@ -1,5 +1,6 @@
 #pragma once
 #include "utils.h"
+#include "GL/glu.h"
 
 class Settings
 {
@@ -9,7 +10,9 @@ private:
 	bool textures;
 	TEX_SETTINGS texSettings;
 	int lightAngle;
-	Vec3 lightColor;
+    Vec3 lightColor;
+    float lightAlpha;
+    GLenum SELECTED_LIGHT = GL_AMBIENT;
 public:
 	Settings();
 	//Agregar getters y setters :D
@@ -20,6 +23,7 @@ public:
     TEX_SETTINGS getTexSettings() const;
     int getLightAngle() const;
     Vec3 getLightColor() const;
+    float getLightAlpha() const;
 
     // Setters
     void setGameSpeed(float speed);
@@ -27,6 +31,7 @@ public:
     void setTextures(bool value);
     void setTexSettings(TEX_SETTINGS settings);
     void setLightAngle(int angle);
-    void setLightColor(Vec3 color);
+    void setLightColor(Vec3 color,float alpha);
+    void setSelectedLight(GLenum light);
 };
 

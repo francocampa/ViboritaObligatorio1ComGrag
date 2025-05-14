@@ -164,8 +164,7 @@ int main(int argc, char* argv[]) {
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
-		if(!paused)
-			GameController::getInstance()->processFrame(deltaTime);
+		GameController::getInstance()->processFrame(deltaTime);
 
 		GameController::getInstance()->setArrowRight(false);
 		GameController::getInstance()->setArrowLeft(false);
@@ -178,7 +177,8 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setSpaceKey(false);
 		GameController::getInstance()->setMouseDown(false);
 
-		drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
+		if(GameController::getInstance()->getGamePlay() == GameController::getInstance()->getState())
+			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
 		/*glPointSize(10.0f); //Debug arrow center jiji
 		glBegin(GL_POINTS);
 		glColor3f(0, 1, 0);
@@ -196,7 +196,7 @@ int main(int argc, char* argv[]) {
 			case SDL_KEYUP:
 				switch (event.key.keysym.sym) {
 					case SDLK_p:
-						/*if (GameController::getInstance()->getGamePlay() != GameController::getInstance()->getState())
+						if (!paused && GameController::getInstance()->getGamePlay() != GameController::getInstance()->getState())
 							break;
 
 						paused = !paused;
@@ -206,7 +206,7 @@ int main(int argc, char* argv[]) {
 						else {
 							GameController::getInstance()->setState(GameController::getInstance()->getGamePlay());
 						}
-						break;*/
+						break;
 					case SDLK_ESCAPE:
 						quit = true;
 						break;

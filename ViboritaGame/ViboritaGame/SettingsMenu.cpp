@@ -33,6 +33,22 @@ void goToMainMenuFromSettingsCallback(std::string z) {
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
 	sm->goBackToMainMenu();
 }
+void setLightRedCallback(float red) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->changeLightRed(red);
+}
+void setLightGreenCallback(float green) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->changeLightGreen(green);
+}
+void setLightBlueCallback(float blue) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->changeLightBlue(blue);
+}
+void setLightAlphaCallback(float alpha) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->changeLightAlpha(alpha);
+}
 SettingsMenu::SettingsMenu(Settings* settings) {
 	this->settings = settings;
 
@@ -81,17 +97,21 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	lightDirText = new Button("Direccion de luz", 450, 20, 100, 32);
 	lightDirSlider = new Slider("Prueba", 450, 70, 150, 0, 2*M_PI, setLightAngleCallback, settings->getLightAngle());
 
+	//TODO: agregar para seleccionar qu[e tipo de luz que cambi[as el color ambient, difuse,specular, usar el settings->setSelectedLight
 	lightRText = new Button("Rojo de luz", 450, 120, 100, 32);
-	lightRSlider = new Slider("Prueba", 450, 160, 150, 0, 1, setLightAngleCallback, 0);
+	lightRSlider = new Slider("Prueba", 450, 160, 150, 0, 1, setLightRedCallback, settings->getLightColor().x);
 
 	lightGText = new Button("Verde de luz", 450, 220, 100, 32);
-	lightGSlider = new Slider("Prueba", 450, 260, 150, 0, 1, setLightAngleCallback, 0);
+	lightGSlider = new Slider("Prueba", 450, 260, 150, 0, 1, setLightGreenCallback, settings->getLightColor().y);
 
 	lightBText = new Button("Azul de luz", 450, 320, 100, 32);
-	lightBSlider = new Slider("Prueba", 450, 360, 150, 0, 1, setLightAngleCallback, 0);
+	lightBSlider = new Slider("Prueba", 450, 360, 150, 0, 1, setLightBlueCallback, settings->getLightColor().z);
+
+	lightAlphaText = new Button("Alfa de luz", 450, 420, 100, 32);
+	lightAlphaSlider = new Slider("Prueba", 450, 460, 150, 0, 1, setLightAlphaCallback, settings->getLightAlpha());
 
 
-	backToMenu = new Button("Volver al menu", 170, 10, 200, 32, goToMainMenuFromSettingsCallback, "");
+	backToMenu = new Button("Volver al menu", 170, 440, 265, 32, goToMainMenuFromSettingsCallback, "");
 	backToGame = new Button("X", 580, 10, 50, 50, goBackToGameCallback,"");
 }
 
@@ -141,9 +161,37 @@ void SettingsMenu::setTexSettings(TEX_SETTINGS texSettings)
 	this->settings->setTexSettings(texSettings);
 }
 
+void SettingsMenu::changeLightRed(float red)
+{
+	Vec3 currentLight = settings->getLightColor();
+	float alpha = settings->getLightAlpha();
+	settings->setLightColor({red,currentLight.y,currentLight.z},alpha);
+}
+
+void SettingsMenu::changeLightGreen(float green)
+{
+	Vec3 currentLight = settings->getLightColor();
+	float alpha = settings->getLightAlpha();
+	settings->setLightColor({ currentLight.x, green,currentLight.z },alpha);
+}
+
+void SettingsMenu::changeLightBlue(float blue)
+{
+	Vec3 currentLight = settings->getLightColor();
+	float alpha = settings->getLightAlpha();
+	settings->setLightColor({ currentLight.x,currentLight.y,blue },alpha);
+}
+
 void SettingsMenu::changeLightAngle(int angle)
 {
 	this->settings->setLightAngle(angle);
+}
+
+void SettingsMenu::changeLightAlpha(float alpha)
+{
+	printf("%f\n",alpha);
+	Vec3 currentLight = settings->getLightColor();
+	settings->setLightColor({ currentLight.x,currentLight.y,currentLight.z },alpha);
 }
 
 void SettingsMenu::goBackToGame()
@@ -159,7 +207,7 @@ void SettingsMenu::goBackToMainMenu()
 
 void SettingsMenu::process(float deltaTime)
 {
-	GameController::getInstance()->getGamePlay()->draw();
+	GameController::getInstance()->getGamePlay()->draw(); //Only draw but don't process (Viborita can't move)
 }
 
 void SettingsMenu::draw()
@@ -191,5 +239,7 @@ std::vector<IHudElement*> SettingsMenu::getHudElements()
 	buttons.push_back(lightGSlider);
 	buttons.push_back(lightBText);
 	buttons.push_back(lightBSlider);
+	//buttons.push_back(lightAlphaText); //No cambia nada en realidad
+	//buttons.push_back(lightAlphaSlider);
 	return buttons;
 }

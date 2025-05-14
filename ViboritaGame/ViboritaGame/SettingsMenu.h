@@ -40,6 +40,8 @@ private:
 	Slider* lightGSlider;
 	Button* lightBText;
 	Slider* lightBSlider;
+	Button* lightAlphaText;
+	Slider* lightAlphaSlider;
 public:
 	SettingsMenu(Settings* settings);
 	void process(float deltaTime);
@@ -48,7 +50,11 @@ public:
 	void setWireframe(bool wireframe);
 	void setTextures(bool texture);
 	void setTexSettings(TEX_SETTINGS texSettings);
+	void changeLightRed(float red);
+	void changeLightGreen(float green);
+	void changeLightBlue(float blue);
 	void changeLightAngle(int angle);
+	void changeLightAlpha(float alpha);
 	void goBackToGame();
 	void goBackToMainMenu();
 	virtual std::vector<IHudElement*> getHudElements();
