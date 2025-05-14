@@ -1,4 +1,5 @@
 #include "Block.h"
+#include "GameController.h"
 
 Block::Block(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position) {
 	for (int i = 0; i < 24;i++) {
@@ -23,7 +24,7 @@ Block::Block(Vec3 gridIndexes, Vec3 position) : IGameEntity(gridIndexes,position
 void Block::draw() {
 	glPushMatrix();
 	glTranslatef(position.x,position.y,position.z);
-	drawCubeWithNormals({0.3,0.3,0.3});
+	drawCubeWithNormals({0.3,0.3,0.3}, GameController::getInstance()->getSettings()->hasTextures());
 	glPopMatrix();
 }
 

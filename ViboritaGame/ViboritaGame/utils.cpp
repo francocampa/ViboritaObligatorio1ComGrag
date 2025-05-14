@@ -7,6 +7,38 @@ float distance(const Vec3& a, const Vec3& b) {
 	return std::sqrt(dx * dx + dy * dy + dz * dz);
 }
 
+GLfloat cubeTextureCoords[] = {
+	0.0f, 0.0f,
+	1.0f, 0.0f,
+	1.0f, 1.0f,
+	0.0f, 1.0f,
+
+	1.0f, 0.0f,
+	0.0f, 0.0f,
+	0.0f, 1.0f,
+	1.0f, 1.0f,
+
+	0.0f, 0.0f,
+	1.0f, 0.0f,
+	1.0f, 1.0f,
+	0.0f, 1.0f,
+
+	0.0f, 0.0f,
+	1.0f, 0.0f,
+	1.0f, 1.0f,
+	0.0f, 1.0f,
+
+	0.0f, 0.0f,
+	1.0f, 0.0f,
+	1.0f, 1.0f,
+	0.0f, 1.0f,
+
+	0.0f, 0.0f,
+	1.0f, 0.0f,
+	1.0f, 1.0f,
+	0.0f, 1.0f
+};
+
 void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -150,7 +182,7 @@ void drawArrowKeys(Vec3 position) {
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
 	glTranslatef(1.2f,0,0);
-	drawCubeWithNormals(color); // ^
+	drawCubeWithNormals(color, false); // ^
 	
 	glPopMatrix();
 
@@ -158,13 +190,13 @@ void drawArrowKeys(Vec3 position) {
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
 	glTranslatef(0, 0, -1.2f);
-	drawCubeWithNormals(color); // <
+	drawCubeWithNormals(color, false); // <
 	
 	glTranslatef(1.2f, 0, 0);
-	drawCubeWithNormals(color); // \/
+	drawCubeWithNormals(color, false); // \/
 
 	glTranslatef(1.2f, 0, 0);
-	drawCubeWithNormals(color); // >
+	drawCubeWithNormals(color, false); // >
 	glPopMatrix();
 
 }
@@ -339,8 +371,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	if (textures)
+	if (textures) {
 		glDisable(GL_TEXTURE_2D);
+	}
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 }
@@ -465,14 +498,23 @@ GLuint cubeNormalsIndices[] = {
 };
 
 
-void drawCubeWithNormals(Vec3 color) {
+void drawCubeWithNormals(Vec3 color, bool textures) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	if (textures) {
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, modelsInfo[5].textureId);
+		glTexCoordPointer(2, GL_FLOAT, 0, cubeTextureCoords);
+	}
 	glColor3f(color.x,color.y,color.z);
 	glVertexPointer(3, GL_FLOAT, 0, normalCubeVertices);
 	glNormalPointer(GL_FLOAT, 0, cubeNormals);
 	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_INT, &cubeNormalsIndices);
-	
+	if (textures) {
+		glDisable(GL_TEXTURE_2D);
+	}
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 	glColor3f(1, 1, 1);
