@@ -33,8 +33,8 @@ public:
 	Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void (*callback)(std::string arg), std::string arg); //Button ocn hover y un callback con string
 	Button(const char* texturePath, const char* hoverPath, int x, int y, int width, int height, void (*callback)(std::string arg), std::string arg); //Button ocn hover y un callback con string
 	Button(const char* texturePath, int x, int y, int width, int height, void (*callback)()); //Button sin hover
-	Button(const char* text, int x, int y, int width, int height); //Renderiza solo texto
-	Button(const char* text, int x, int y, int width, int height, void (*callback)(std::string arg), std::string arg); //Button texto y callback con string
+	Button(const char* text, int x, int y); //Renderiza solo texto
+	Button(const char* text, int x, int y, void (*callback)(std::string arg), std::string arg); //Button texto y callback con string
 	void draw();
 	BUTTON_TYPE getType();
 	void handleClick();

@@ -17,7 +17,7 @@ GameController::GameController() {
 	settings = NULL;
 	timeCounter = 0.0f;
 	fps = 0;
-	fpsBtn = new Button("60",10,400,100,32);
+	fpsBtn = new Button("60",10,400);
 }
 
 GameController* GameController::getInstance() {

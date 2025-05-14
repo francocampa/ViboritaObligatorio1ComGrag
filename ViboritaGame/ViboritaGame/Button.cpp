@@ -103,12 +103,13 @@ Button::Button(const char* texturePath, int x, int y, int width, int height, voi
 	this->strcallback = NULL;
 }
 
-Button::Button(const char* text, int x, int y, int width, int height)
+Button::Button(const char* text, int x, int y)
 {//Renderizador de texto xdxd
 	hover = false;
 	selected = false;
-
-	loadTextTexture(this->textureId, text, font);
+	int width = 0;
+	int height = 0;
+	loadTextTexture(this->textureId, text, font,width,height);
 	this->hoverTextureId = NULL;
 
 	this->rectangle = new SDL_Rect();
@@ -120,17 +121,20 @@ Button::Button(const char* text, int x, int y, int width, int height)
 	this->strcallback = NULL;
 }
 
-Button::Button(const char* text, int x, int y, int width, int height, void(*callback)(std::string arg), std::string arg)
+Button::Button(const char* text, int x, int y, void(*callback)(std::string arg), std::string arg)
 {
 	hover = false;
 	selected = false;
-
-	loadTextTexture(this->textureId, text, font);
+	int width = 0;
+	int height = 0;
+	loadTextTexture(this->textureId, text, font, width,height);
 	this->hoverTextureId = NULL;
 
 	this->rectangle = new SDL_Rect();
 	this->rectangle->x = x;
 	this->rectangle->y = y;
+	
+	GLuint id = textureId;
 	this->rectangle->w = width;
 	this->rectangle->h = height;
 	this->callback = NULL;
@@ -174,7 +178,11 @@ bool Button::isHovering()
 void Button::updateText(const char* newText)
 {
 	glDeleteTextures(1, &textureId);
-	loadTextTexture(this->textureId, newText, font);
+	int width = 0;
+	int height = 0;
+	loadTextTexture(this->textureId, newText, font,width,height);
+	this->rectangle->w = width;
+	this->rectangle->h = height;
 }
 
 SDL_Rect* Button::getRect()

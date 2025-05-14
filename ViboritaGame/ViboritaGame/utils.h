@@ -71,7 +71,7 @@ struct Vec2 {
 };
 
 void loadTexture(GLuint& textureId, const char* path);
-void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font);
+void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font, int& width, int& height);
 
 float distance(const Vec3& a, const Vec3& b);
 

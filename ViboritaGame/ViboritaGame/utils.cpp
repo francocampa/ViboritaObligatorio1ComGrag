@@ -46,9 +46,10 @@ void loadTexture(GLuint& textureId, const char* path) {
 	SDL_FreeSurface(converted);
 }
 
-void loadTextTexture(GLuint& textureId, const char* text,TTF_Font* font) {
+void loadTextTexture(GLuint& textureId, const char* text,TTF_Font* font, int &width, int &height) {
 	SDL_Surface* surfaceText = TTF_RenderText_Blended(font, text, {255,255,255});
-
+	width = surfaceText->w;
+	height = surfaceText->h;
 	glGenTextures(1, &textureId);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surfaceText->w, surfaceText->h, 0,

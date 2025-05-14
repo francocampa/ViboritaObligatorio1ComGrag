@@ -15,21 +15,23 @@ void callbackForSlider(float newValue) {
 }
 
 MainMenu::MainMenu() {
-	levelCreatorButton = new Button("Creador de niveles", 10, 10, 100, 32, goToLevelCreatorFromMainMenuCallback, "");
+	levelCreatorButton = new Button("Creador de niveles", 10, 10, goToLevelCreatorFromMainMenuCallback, "");
 
 	loadLevels();
 
 	std::vector<Button*> btns;
 	int i = 0;
 	int j = 0;
+	int prevWidth = 0;
 	for (Level* level : levels) {
-		Button* levelBtn = new Button(level->getName().c_str(), 50 + i * 60, 120 + j * 60, 50, 50, loadLevel, level->getName());
+		Button* levelBtn = new Button(level->getName().c_str(), 50 + 20*i + prevWidth , 120 + j * 60, loadLevel, level->getName());
 		btns.push_back(levelBtn);
 		i++;
 		if (i == 5) {
 			i = 0;
 			j++;
 		}
+		prevWidth += levelBtn->getRect()->w;
 	}
 	this->levelButtons = btns;
 }

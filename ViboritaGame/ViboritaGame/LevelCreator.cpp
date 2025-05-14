@@ -57,14 +57,14 @@ LevelCreator::LevelCreator()
 }
 void LevelCreator::createButtons()
 {
-	blockButton = new Button("Bloque", 10, 10, 100, 32, selectEntityCallback, "block");
-	appleButton = new Button("Manzana", 10, 52, 100, 32, selectEntityCallback, "apple");
-	goalButton = new Button("Meta", 10, 94, 100, 32, selectEntityCallback, "goal");
-	viboritaButton = new Button("Viborita", 10, 136, 100, 32, selectEntityCallback, "viborita");
-	erasorButton = new Button("Borrador", 10, 178, 100, 32, selectEraseCallback, "");
+	blockButton = new Button("Bloque", 10, 10, selectEntityCallback, "block");
+	appleButton = new Button("Manzana", 10, 52, selectEntityCallback, "apple");
+	goalButton = new Button("Meta", 10, 94, selectEntityCallback, "goal");
+	viboritaButton = new Button("Viborita", 10, 136, selectEntityCallback, "viborita");
+	erasorButton = new Button("Borrador", 10, 178, selectEraseCallback, "");
 	
-	saveButton = new Button("Guardar", 10, 350, 100, 32, saveLevelCallback, "");
-	mainMenuButton = new Button("Volver al menu", 10, 392, 100, 32, goToMainMenuFromLevelCreatorCallback, "");
+	saveButton = new Button("Guardar", 10, 350, saveLevelCallback, "");
+	mainMenuButton = new Button("Volver al menu", 10, 392, goToMainMenuFromLevelCreatorCallback, "");
 	//erasorButton = new Button("Borrador",10,178,100,32,selectEraseCallback,"");
 }
 void LevelCreator::process(float deltaTime)

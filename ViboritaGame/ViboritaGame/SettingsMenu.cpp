@@ -52,10 +52,10 @@ void setLightAlphaCallback(float alpha) {
 SettingsMenu::SettingsMenu(Settings* settings) {
 	this->settings = settings;
 
-	speedText = new Button("Velocidad",20,20,100,32);
+	speedText = new Button("Velocidad",20,20);
 	speedSlider = new Slider("Prueba", 20, 70, 150, 0.5f, 3.0f, setSpeedCallback, settings->getGameSpeed());
 
-	wireFrameText = new Button("Wireframe", 20, 120, 100, 32);
+	wireFrameText = new Button("Wireframe", 20, 120);
 	wireFrameTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 40, 160, 40, 40, setWireframeCallback, "true");
 	wireFrameFalse = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 90, 160, 40, 40, setWireframeCallback, "false");
 	if (settings->isWireframe())
@@ -67,7 +67,7 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		wireFrameTrue->setSelected(false);
 		wireFrameFalse->setSelected(true);
 	}
-	texturesText = new Button("Textures", 20, 220, 100, 32);
+	texturesText = new Button("Textures", 20, 220);
 	texturesTrue = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 40, 260, 40, 40, setTexturesCallback, "true");
 	texturesFalse = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 90, 260, 40, 40, setTexturesCallback, "false");
 	if (settings->hasTextures())
@@ -80,9 +80,9 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		texturesFalse->setSelected(true);
 	}
 
-	interpoladoText = new Button("Interpolado", 20, 320, 100, 32);
+	interpoladoText = new Button("Interpolado", 20, 320);
 	interpoladoCheck = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 40, 360, 40, 40, setTexSettingsCallback, "interpolado");
-	facetadoText = new Button("Facetado", 130, 320, 100, 32);
+	facetadoText = new Button("Facetado", 130, 320);
 	facetadoCheck = new Button("images/Checkbox.png", "images/CheckboxHover.png", "images/CheckboxSelected.png", 150, 360, 40, 40, setTexSettingsCallback, "facetado");
 	if (settings->getTexSettings() == INTERPOLADO)
 	{
@@ -94,25 +94,25 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 		facetadoCheck->setSelected(true);
 	}
 
-	lightDirText = new Button("Direccion de luz", 450, 20, 100, 32);
+	lightDirText = new Button("Direccion de luz", 450, 20);
 	lightDirSlider = new Slider("Prueba", 450, 70, 150, 0, 2*M_PI, setLightAngleCallback, settings->getLightAngle());
 
 	//TODO: agregar para seleccionar qu[e tipo de luz que cambi[as el color ambient, difuse,specular, usar el settings->setSelectedLight
-	lightRText = new Button("Rojo de luz", 450, 120, 100, 32);
+	lightRText = new Button("Rojo de luz", 450, 120);
 	lightRSlider = new Slider("Prueba", 450, 160, 150, 0, 1, setLightRedCallback, settings->getLightColor().x);
 
-	lightGText = new Button("Verde de luz", 450, 220, 100, 32);
+	lightGText = new Button("Verde de luz", 450, 220);
 	lightGSlider = new Slider("Prueba", 450, 260, 150, 0, 1, setLightGreenCallback, settings->getLightColor().y);
 
-	lightBText = new Button("Azul de luz", 450, 320, 100, 32);
+	lightBText = new Button("Azul de luz", 450, 320);
 	lightBSlider = new Slider("Prueba", 450, 360, 150, 0, 1, setLightBlueCallback, settings->getLightColor().z);
 
-	lightAlphaText = new Button("Alfa de luz", 450, 420, 100, 32);
+	lightAlphaText = new Button("Alfa de luz", 450, 420);
 	lightAlphaSlider = new Slider("Prueba", 450, 460, 150, 0, 1, setLightAlphaCallback, settings->getLightAlpha());
 
 
-	backToMenu = new Button("Volver al menu", 170, 440, 265, 32, goToMainMenuFromSettingsCallback, "");
-	backToGame = new Button("X", 580, 10, 50, 50, goBackToGameCallback,"");
+	backToMenu = new Button("Volver al menu", 170, 440, goToMainMenuFromSettingsCallback, "");
+	backToGame = new Button("X", 580, 10, goBackToGameCallback,"");
 }
 
 void SettingsMenu::changeGameSpeed(float speed)

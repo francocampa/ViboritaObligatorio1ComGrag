@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 	IMG_Init(IMG_INIT_PNG);
 	TTF_Init();
 
-	TTF_Font* mainFont = TTF_OpenFont("fonts/Sans Serif Shaded.ttf", 32);
+	TTF_Font* mainFont = TTF_OpenFont("fonts/Sans Serif Shaded.ttf", 24);
 	if (mainFont == NULL)
 		printf("Failed to load font");
 	HudController::getInstance()->setFont(mainFont);

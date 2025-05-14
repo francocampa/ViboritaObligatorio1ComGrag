@@ -13,8 +13,8 @@ GamePlay::GamePlay(Level* level)
 	settings = new Button("images/settings.png", "images/settingsHover.png", 580, 10, 50, 50, openSettings);
 	reset = new Button("images/restart.png", "images/restartHover.png", 520, 10, 50, 50, resetLevelCallback);
 	std::string sText = "0/" + std::to_string(level->getMaxScore());
-	scoreText = new Button(sText.c_str(), 10, 10, 50, 50);
-	timerText = new Button("00:00", 280, 10, 80, 50);
+	scoreText = new Button(sText.c_str(), 10, 10);
+	timerText = new Button("00:00", 280, 10);
 	
 	startLevel();
 }
