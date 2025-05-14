@@ -203,3 +203,13 @@ bool GameController::isShowFps()
 {
 	return showFps;
 }
+
+void GameController::setMoveCamera(bool move)
+{
+	this->moveCamera = move;
+}
+
+bool GameController::getMoveCamera()
+{
+	return moveCamera;
+}

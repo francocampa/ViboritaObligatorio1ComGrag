@@ -167,8 +167,7 @@ int main(int argc, char* argv[]) {
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
-		if(!paused)
-			GameController::getInstance()->processFrame(deltaTime);
+		GameController::getInstance()->processFrame(deltaTime);
 
 		GameController::getInstance()->setArrowRight(false);
 		GameController::getInstance()->setArrowLeft(false);
@@ -179,8 +178,10 @@ int main(int argc, char* argv[]) {
 		GameController::getInstance()->setClick(false);
 		GameController::getInstance()->setMouseUp(false);
 		GameController::getInstance()->setSpaceKey(false);
+		GameController::getInstance()->setMouseDown(false);
 
-		drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
+		if(GameController::getInstance()->getGamePlay() == GameController::getInstance()->getState())
+			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
 		/*glPointSize(10.0f); //Debug arrow center jiji
 		glBegin(GL_POINTS);
 		glColor3f(0, 1, 0);
@@ -188,13 +189,7 @@ int main(int argc, char* argv[]) {
 		glEnd();
 		glColor3f(1, 1, 1);*/
 
-		glPushMatrix();
-		glRotatef(120,0,1.0f,1.0f);
-		sunAngle += deltaTime * 1.0f;
-		GLfloat lightPos[] = { 10.0f*cos(sunAngle), 10.0f*sin(sunAngle), 0.0f, 0.0f}; // Last value: 1.0 = positional, 0.0 = directional
-		glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
 		
-		glPopMatrix();
 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -204,8 +199,16 @@ int main(int argc, char* argv[]) {
 			case SDL_KEYUP:
 				switch (event.key.keysym.sym) {
 					case SDLK_p:
+						if (!paused && GameController::getInstance()->getGamePlay() != GameController::getInstance()->getState())
+							break;
+
 						paused = !paused;
-						printf(paused ? "pausado" : "despausao");
+						if (paused) {
+							GameController::getInstance()->setState(new SettingsMenu(GameController::getInstance()->getSettings()));
+						}
+						else {
+							GameController::getInstance()->setState(GameController::getInstance()->getGamePlay());
+						}
 						break;
 					case SDLK_ESCAPE:
 						quit = true;
@@ -272,12 +275,11 @@ int main(int argc, char* argv[]) {
 				if(timeFromDown <= CLICK_TIME)
 					GameController::getInstance()->setClick(true);
 				GameController::getInstance()->setMouseUp(true);
-				GameController::getInstance()->setMouseDown(false);
 				SDL_SetRelativeMouseMode(SDL_FALSE);
 				break;
 			case SDL_MOUSEMOTION:
 				GameController::getInstance()->setMousePos({ event.motion.x, event.motion.y });
-				if (moveCamera) {
+				if (moveCamera && GameController::getInstance()->getMoveCamera()) {
 					int deltaX = event.motion.xrel;
 					int deltaY = event.motion.yrel;
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "utils.h"
+#include "GL/glu.h"
 
 class Settings
 {
@@ -8,8 +9,10 @@ private:
 	bool wireframe;
 	bool textures;
 	TEX_SETTINGS texSettings;
-	float lightAngle;
-	Vec3 lightColor;
+	int lightAngle;
+    Vec3 lightColor;
+    float lightAlpha;
+    GLenum SELECTED_LIGHT = GL_AMBIENT;
 public:
 	Settings();
 	//Agregar getters y setters :D
@@ -18,15 +21,17 @@ public:
     bool isWireframe() const;
     bool hasTextures() const;
     TEX_SETTINGS getTexSettings() const;
-    float getLightAngle() const;
+    int getLightAngle() const;
     Vec3 getLightColor() const;
+    float getLightAlpha() const;
 
     // Setters
     void setGameSpeed(float speed);
     void setWireframe(bool value);
     void setTextures(bool value);
     void setTexSettings(TEX_SETTINGS settings);
-    void setLightAngle(float angle);
-    void setLightColor(Vec3 color);
+    void setLightAngle(int angle);
+    void setLightColor(Vec3 color,float alpha);
+    void setSelectedLight(GLenum light);
 };
 

@@ -10,6 +10,10 @@ void goToLevelCreatorFromMainMenuCallback(std::string z) {
 	mm->goToLevelCreator();
 }
 
+void callbackForSlider(float newValue) {
+	printf("%f\n",newValue);
+}
+
 MainMenu::MainMenu() {
 	levelCreatorButton = new Button("Creador de niveles", 10, 10, 100, 32, goToLevelCreatorFromMainMenuCallback, "");
 
@@ -19,7 +23,7 @@ MainMenu::MainMenu() {
 	int i = 0;
 	int j = 0;
 	for (Level* level : levels) {
-		Button* levelBtn = new Button(level->getName().c_str(), 50+i*60, 120+j*60, 50, 50,loadLevel,level->getName());
+		Button* levelBtn = new Button(level->getName().c_str(), 50 + i * 60, 120 + j * 60, 50, 50, loadLevel, level->getName());
 		btns.push_back(levelBtn);
 		i++;
 		if (i == 5) {

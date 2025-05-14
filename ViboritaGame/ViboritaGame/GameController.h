@@ -46,6 +46,7 @@ private:
 	bool space = false;
 	bool mouseDown = false;
 	bool mouseUp = false;
+	bool moveCamera = true;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -87,9 +88,7 @@ public:
 	bool isMouseUp();
 	bool isShowFps();
 
-
-	//De ac[a a abajo son cosas que son temporales, hay que irlas borrando cuando no se necesiten
-	Level* getLevel1();
-	Level* getLevel2();
+	void setMoveCamera(bool move);
+	bool getMoveCamera();
 };
 
