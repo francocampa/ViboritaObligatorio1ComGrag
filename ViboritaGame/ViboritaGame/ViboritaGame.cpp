@@ -118,7 +118,7 @@ int main(int argc, char* argv[]) {
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(cubeTextureId, "textures/grass_texture.jpg");
 	modelsInfo[0].textureId = textureId;
-	modelsInfo[5].textureId = cubeTextureId;
+	cubeTexture = cubeTextureId;
 	
 	bool quit = false;
 	bool moveCamera = false;

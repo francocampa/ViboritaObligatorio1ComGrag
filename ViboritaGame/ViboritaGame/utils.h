@@ -65,6 +65,8 @@ Vec3* getVec3FromVec3(Vec3 vecPrev);
 
 extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información de cada modelo
 
+extern GLuint cubeTexture;//ID de la textura del cubo
+
 struct Vec2 {
 	int x, y;
 };

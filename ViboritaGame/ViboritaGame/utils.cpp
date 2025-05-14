@@ -237,6 +237,7 @@ GLfloat headColors[24] = {
 };
 
 std::vector<modelInfo> modelsInfo;
+GLuint cubeTexture;
 
 void cargarModelo(std::string& filePath, std::string name,int pos) {
 	// Implementación de cargarModelo
@@ -504,7 +505,7 @@ void drawCubeWithNormals(Vec3 color, bool textures) {
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	if (textures) {
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, modelsInfo[5].textureId);
+		glBindTexture(GL_TEXTURE_2D, cubeTexture);
 		glTexCoordPointer(2, GL_FLOAT, 0, cubeTextureCoords);
 	}
 	glColor3f(color.x,color.y,color.z);
