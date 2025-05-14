@@ -18,7 +18,7 @@ void Goal::draw()
 	//glRotatef(this->angle, 0.5f, 0.5f , 0.5f);
 	glRotatef(90, 0, 1, 0);
 	glColor3f(0, 0, 0); //color negro
-	drawModel(GOAL_MODEL);
+	drawModel(GOAL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 	glColor3f(1, 1, 1); //color negro
 	glPopMatrix();
 }

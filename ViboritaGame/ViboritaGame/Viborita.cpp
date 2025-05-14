@@ -38,13 +38,13 @@ void Viborita::draw() {
 		//glScalef(0.3f, 0.3f, 0.3f);
 		/*glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
 		if (bodyPart == this->body.head) {
-			drawModel(WORM_HEAD_MODEL);
+			drawModel(WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
 		else if (bodyPart == this->body.tail) {
-			drawModel(WORM_TAIL_MODEL);
+			drawModel(WORM_TAIL_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
 		else {
-			drawModel(WORM_BODY_MODEL);
+			drawModel(WORM_BODY_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}*/
 		
 		drawCubeWithNormals(this->body.head == bodyPart ? headColor:viboritaColor);

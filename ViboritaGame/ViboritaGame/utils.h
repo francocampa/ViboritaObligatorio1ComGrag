@@ -104,7 +104,7 @@ extern GLfloat headColors[24];
 
 void cargarModelo(std::string& filePath, std::string name, int pos);
 
-void drawModel(MODEL_TYPE);
+void drawModel(MODEL_TYPE,bool textures);
 
 extern GLfloat cubeNormals[];
 extern GLfloat cubeNormalsColors[];

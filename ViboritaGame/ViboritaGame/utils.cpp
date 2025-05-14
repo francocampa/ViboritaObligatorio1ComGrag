@@ -295,7 +295,7 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 	modelsInfo[pos].normals = normals;
 }
 
-void drawModel(MODEL_TYPE modelType) {
+void drawModel(MODEL_TYPE modelType, bool textures) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -323,9 +323,11 @@ void drawModel(MODEL_TYPE modelType) {
 	default:
 		break;
 	}
-	//TODO: agregar logica para desactivar y activar texturas
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
+	if (textures) {
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
+	}
+	
 	vertexData = reinterpret_cast<const GLfloat*>(modelsInfo[indexModel].vertices.data());
 	indexData = modelsInfo[indexModel].indices.data();
 	normalsData = modelsInfo[indexModel].normals.data();
@@ -336,7 +338,8 @@ void drawModel(MODEL_TYPE modelType) {
 		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisable(GL_TEXTURE_2D);
+	if (textures)
+		glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 }

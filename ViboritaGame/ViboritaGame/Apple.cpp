@@ -29,7 +29,7 @@ void Apple::draw() {
 	glTranslatef(this->pyramid[0] + 0.5f, this->pyramid[1], this->pyramid[2] + 0.5f);
 	glScalef(0.2f, 0.2f, 0.2f);
 	//glColor3f(1, 0.388f, 0.278f);//color rojo de las manzanas
-	drawModel(APPLE_MODEL);
+	drawModel(APPLE_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 	glPopMatrix();
 	applyMaterial(defaultMaterial);
 }
