@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
 	name = "portal";
 	cargarModelo(filePath, name, 4);
 	loadTexture(textureId, "textures/apple_texture.jpg");
-	loadTexture(cubeTextureId, "textures/grass_texture.png");
+	loadTexture(cubeTextureId, "textures/grass_texture.jpg");
 	modelsInfo[0].textureId = textureId;
 	modelsInfo[5].textureId = cubeTextureId;
 	

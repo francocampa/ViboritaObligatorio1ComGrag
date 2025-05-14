@@ -502,18 +502,18 @@ void drawCubeWithNormals(Vec3 color, bool textures) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	/**if (textures) {
+	if (textures) {
 		glEnable(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, modelsInfo[5].textureId);
 		glTexCoordPointer(2, GL_FLOAT, 0, cubeTextureCoords);
-	}*/
+	}
 	glColor3f(color.x,color.y,color.z);
 	glVertexPointer(3, GL_FLOAT, 0, normalCubeVertices);
 	glNormalPointer(GL_FLOAT, 0, cubeNormals);
 	glDrawElements(GL_QUADS, 24, GL_UNSIGNED_INT, &cubeNormalsIndices);
-	/*if (textures) {
+	if (textures) {
 		glDisable(GL_TEXTURE_2D);
-	}*/
+	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
