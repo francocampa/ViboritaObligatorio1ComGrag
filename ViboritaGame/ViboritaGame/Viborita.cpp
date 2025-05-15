@@ -149,10 +149,19 @@ void Viborita::draw() {
 			handlePartRotation(bodyPart->dirToFront,subtractV3(bodyPart->dirToFront, dirToBack));
 			drawModel(WORM_BODY_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}
-	/*	
-		glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
-		drawCubeWithNormals(this->body.head == bodyPart ? headColor : viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
-		}*/
+		if (GameController::getInstance()->isShowFps()) {
+			glPopMatrix();
+			
+			glPushMatrix();
+			glTranslatef(GameController::getInstance()->getGridPosition(bodyPart->gridIndex.x),
+				GameController::getInstance()->getGridPosition(bodyPart->gridIndex.y),
+				GameController::getInstance()->getGridPosition(bodyPart->gridIndex.z));
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
+			drawCubeWithNormals(this->body.head == bodyPart ? headColor : viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			
+		}
 		
 		glPopMatrix();
 		frontPart = bodyPart;
@@ -351,7 +360,7 @@ void Viborita::process(float deltaTime) {
 	}
 
 	if (this->fallen && falling != 0) {
-		this->falling += this->falling;
+		this->falling += 10.0f* deltaTime;
 		return;
 	}
 	else {
