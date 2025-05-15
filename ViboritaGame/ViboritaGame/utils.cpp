@@ -544,3 +544,29 @@ Vec3 subtractV3(Vec3 v,Vec3 u) {
 
 	return { x,y,z };
 }
+
+Vec2 subtractV2(Vec2 v, Vec2 u)
+{
+	int x = v.x - u.x;
+	int y = v.y - u.y;
+	return { x,y };
+}
+Vec3 sumV3(Vec3 v, Vec3 u) {
+	float x = v.x + u.x;
+	float y = v.y + u.y;
+	float z = v.z + u.z;
+
+	return { x,y,z };
+}
+
+Vec2 sumV2(Vec2 v, Vec2 u)
+{
+	int x = v.x + u.x;
+	int y = v.y + u.y;
+	return { x,y };
+}
+
+bool equalsV3(Vec3 v, Vec3 u)
+{
+	return v.x == u.x && v.y == u.y && v.z == u.z;
+}

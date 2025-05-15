@@ -26,6 +26,9 @@ struct Vec3 {
        return x == other.x && y == other.y && z == other.z;  
    }  
 };  
+struct Vec2 {
+	int x, y;
+};
 
 struct VertexData {
 	glm::vec3 position;
@@ -40,6 +43,11 @@ struct ViboritaPart {
 	Vec3 orientationToFront; // y = 0 , x,z = -1 | 1
 	Vec3 gridIndex;
 	Vec3 position;
+
+	Vec2 lastRotation = { 0,0 };
+	Vec3 lastOffset = { 0,0,0 };
+	Vec3 lastMovementDir = { 0,0,0 };
+
 	ViboritaPart* next;  
 };  
 
@@ -68,10 +76,6 @@ Vec3* getVec3FromVec3(Vec3 vecPrev);
 extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información de cada modelo
 
 extern GLuint cubeTexture;//ID de la textura del cubo
-
-struct Vec2 {
-	int x, y;
-};
 
 void loadTexture(GLuint& textureId, const char* path);
 void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font, int& width, int& height);
@@ -134,3 +138,8 @@ extern Material defaultMaterial;
 void applyMaterial(Material);
 
 Vec3 subtractV3(Vec3 v, Vec3 u);
+Vec2 subtractV2(Vec2 v, Vec2 u);
+
+Vec3 sumV3(Vec3 v, Vec3 u);
+Vec2 sumV2(Vec2 v, Vec2 u);
+bool equalsV3(Vec3 v, Vec3 u);
