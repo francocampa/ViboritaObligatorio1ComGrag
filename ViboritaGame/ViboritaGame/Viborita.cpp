@@ -36,7 +36,7 @@ float angle = 90;
 //ej, si tenemos una vibora de 3 partes, rf tiene la diferencia de: hacia donde va la cabeza con respecto al torso y hacia donde va la cola con respecto al torso.
 //rf nos permite detectar las curvas, ya que si las dos partes van en la misma direcci[on, va a venir como 0
 void handlePartRotation(Vec3 dir,Vec3 dirToBack,Vec3 orientation, bool end) { 
-	Vec3 rf = subtractV3(dir,dirToBack);
+	Vec3 rf = subtractV3(dir,dirToBack); //dirToBack viene negado, por eso se resta, que en realidad se tendr[ia que hacer una suma
 	if(!end)
 		printf("%f,%f,%f | ", rf.x, rf.y, rf.z);
 	int xAngle = 0;
@@ -49,6 +49,14 @@ void handlePartRotation(Vec3 dir,Vec3 dirToBack,Vec3 orientation, bool end) {
 			xAngle -= dir.y*45;
 
 		xDir = -dir.y;
+	}else if (dirToBack.y != 0) {
+		xAngle = 90;
+		if (rf.y == -1)
+			xAngle -= dirToBack.y * 45;
+		else if (rf.y == 1)
+			xAngle += dirToBack.y * 45;
+
+		xDir = -dirToBack.y;
 	}
 	int yAngle = 0;
 	int yDir = 0;
