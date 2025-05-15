@@ -150,6 +150,8 @@ std::string entityTypeString(GAME_ENTITY_TYPE type) {
 }
 void LevelCreator::saveLevel()
 {
+	if (this->viborita == NULL)
+		return;
 	GameController* gc = GameController::getInstance();
 
 	pugi::xml_document* root = new pugi::xml_document();

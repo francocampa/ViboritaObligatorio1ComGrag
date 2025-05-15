@@ -1,7 +1,7 @@
-# Blender 4.2.1 LTS MTL File: 'worm_tail.blend'
+# Blender 4.4.3 MTL File: 'None'
 # www.blender.org
 
-newmtl Material.001
+newmtl Material.009
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.000594 0.351931 0.000000
@@ -11,7 +11,7 @@ Ni 1.450000
 d 1.000000
 illum 2
 
-newmtl Material.002
+newmtl Material.010
 Ns 250.000000
 Ka 1.000000 1.000000 1.000000
 Kd 0.003141 0.126810 0.010085

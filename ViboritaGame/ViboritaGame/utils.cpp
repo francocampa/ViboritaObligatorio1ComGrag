@@ -536,3 +536,11 @@ void applyMaterial(Material m) {
 //glLightfv(GL_LIGHT0, GL_AMBIENT, defaultLight.ambient);
 //glLightfv(GL_LIGHT0, GL_DIFFUSE, defaultLight.diffuse);
 //glLightfv(GL_LIGHT0, GL_SPECULAR, defaultLight.specular);
+
+Vec3 subtractV3(Vec3 v,Vec3 u) {
+	float x = v.x - u.x;
+	float y = v.y - u.y;
+	float z = v.z - u.z;
+
+	return { x,y,z };
+}

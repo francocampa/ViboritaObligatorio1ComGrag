@@ -36,9 +36,10 @@ struct VertexData {
 };
 
 struct ViboritaPart {  
-   Vec3 gridIndex;  
-   Vec3 position;
-   ViboritaPart* next;  
+	Vec3 dirToFront;
+	Vec3 gridIndex;
+	Vec3 position;
+	ViboritaPart* next;  
 };  
 
 struct ViboritaBody {  
@@ -130,3 +131,5 @@ struct Material {
 extern Material defaultMaterial;
 
 void applyMaterial(Material);
+
+Vec3 subtractV3(Vec3 v, Vec3 u);

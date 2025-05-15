@@ -9,6 +9,7 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	ViboritaPart* head = new ViboritaPart;
 	head->gridIndex = gridIndexes;
 	head->position = position;
+	head->dirToFront = { 0,0,1 };
 	head->next = nullptr;
 	this->falling = false;
 	this->fallen = false;
@@ -25,31 +26,137 @@ void Viborita::setGameContext(GamePlay* context)
 	this->gameContext = context;
 }
 
+float angle = 90;
+
+void handlePartRotation(Vec3 dir,Vec3 rf) { //rf = rotationFactor 
+	if (dir.y == -1) {
+		if (dir.x == 1) {
+			glRotatef(90, 0, 1, 0); //(-1,0,0)
+			glRotatef(90, 1, 0, 0); //(0,-1,1)
+		}
+		else if (dir.x == -1) {
+			glRotatef(90, 0, -1, 0); //(1,0,0)
+			glRotatef(90, 1, 0, 0); //(0,-1,1)
+		}
+		else if (dir.z == -1) {
+			glRotatef(180, 0, 1, 0); //(0,0,-1)
+			glRotatef(90, 1, 0, 0); //(0,-1,1)
+		}
+		else if (dir.z == 1) {
+			glRotatef(90, 1, 0, 0); //(0,-1,1)
+		}
+	}
+	else if (dir.y == 1) {
+		if (dir.x == 1) {
+			glRotatef(90, 0, 1, 0); //(-1,0,0)
+			glRotatef(90, -1, 0, 0);
+			if (rf.y == -1)
+				glRotatef(45, -1, 0, 0); //(0,0,-1)
+			if (rf.y == 1)
+				glRotatef(45, 1, 0, 0); //(0,0,-1)
+		}
+		else if (dir.x == -1) {
+			glRotatef(90, 0, -1, 0); //(1,0,0)
+			glRotatef(90, -1, 0, 0);
+			if (rf.y == -1)
+				glRotatef(45, -1, 0, 0); //(0,0,-1)
+			if (rf.y == 1)
+				glRotatef(45, 1, 0, 0); //(0,0,-1)
+		}
+		else if (dir.z == -1) {
+			glRotatef(180, 0, 1, 0); //(0,1,-1)
+			glRotatef(90, -1, 0, 0); 
+			if (rf.y == -1)
+				glRotatef(45, -1, 0, 0); //(0,0,-1)
+			if (rf.y == 1)
+				glRotatef(45, 1, 0, 0); //(0,0,-1)
+		}
+		else if (dir.z == 1) {
+			glRotatef(90, -1, 0, 0); //(0,1,1)
+			if (rf.y == 1)
+				glRotatef(45, 1, 0, 0); //(0,0,-1)
+			if (rf.y == -1)
+				glRotatef(45, -1, 0, 0); //(0,0,-1)
+		}
+	}
+	else {
+		if (dir.x == 1) {
+			glRotatef(90, 0, 1, 0); //(1,0,0)
+			if (rf.z == 1)
+				glRotatef(45, 0, 1, 0); //(0,0,-1)
+			if (rf.z == -1)
+				glRotatef(45, 0, -1, 0); //(0,0,-1)
+		}
+		else if (dir.x == -1) {
+			glRotatef(90, 0, -1, 0); //(-1,0,0)
+			if (rf.z == 1)
+				glRotatef(45, 0, -1, 0); //(0,0,-1)
+			if (rf.z == -1)
+				glRotatef(45, 0, 1, 0); //(0,0,-1)
+		}
+		else if (dir.z == -1) {
+			glRotatef(180, 0, 1, 0); //(0,0,-1)
+
+			if (rf.x == -1)
+				glRotatef(45, 0, -1, 0); //(0,0,-1)
+			if (rf.x == 1)
+				glRotatef(45, 0, 1, 0); //(0,0,-1)
+		}
+		else if (dir.z == 1) {
+			if(rf.x == -1)
+				glRotatef(45, 0, 1, 0); //(0,0,-1)
+			if (rf.x == 1)
+				glRotatef(45, 0, -1, 0); //(0,0,-1)
+			//glRotatef(180, 0, 0, 0); //(0,0,1)
+		}
+	}
+
+
+}
+
 void Viborita::draw() {
+	float TILE_SIZE = GameController::getInstance()->TILE_SIZE;
 	ViboritaPart* bodyPart = this->body.head;
+	ViboritaPart* frontPart = NULL;
+	Vec3 cero = { 0,0,0 };
 	Vec3 headColor = { 0.0f, 0.25f, 0.3f };
 	Vec3 viboritaColor = { 0.0f, 0.40f, 0.0f };
 	glColor3f(0.0f, 0.50f, 0.0f);
+
 	while(bodyPart != NULL)
 	{
 		
 		glPushMatrix();
 		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z );
-		/*glRotatef(270, 0, 1, 0);
-		glScalef(0.3f, 0.3f, 0.3f);
-		glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
+
+		glTranslatef(TILE_SIZE/2,0,TILE_SIZE/2);
+
+		glScalef(0.5f, 0.5f, 0.5f);
 		if (bodyPart == this->body.head) {
+			handlePartRotation(this->body.head->dirToFront, cero);
 			drawModel(WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
 		else if (bodyPart == this->body.tail) {
-			drawModel(WORM_TAIL_MODEL,GameController::getInstance()->getSettings()->hasTextures());
+			handlePartRotation(this->body.tail->dirToFront, cero);
+			drawModel(WORM_TAIL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
+		}else {
+			Vec3 dirToBack = subtractV3(bodyPart->gridIndex, { bodyPart->next->gridIndex.x,bodyPart->next->gridIndex.y,bodyPart->next->gridIndex.z });
+			printf("%f,%f,%f \n", dirToBack.x, dirToBack.y, dirToBack.z);
+			//printf("%f,%f,%f - ", frontPart->gridIndex.x, frontPart->gridIndex.y, frontPart->gridIndex.z);
+			//printf("%f,%f,%f \n", bodyPart->next->gridIndex.x, bodyPart->next->gridIndex.y, bodyPart->next->gridIndex.z);
+			Vec3 verticalDirToBack = { bodyPart->dirToFront.x, dirToBack.y,  bodyPart->dirToFront.z };
+			dirToBack = dirToBack.y != 0 ? verticalDirToBack : dirToBack;
+			//printf("%f,%f,%f | ", bodyPart->dirToFront.x, bodyPart->dirToFront.y, bodyPart->dirToFront.z);
+			handlePartRotation(bodyPart->dirToFront,subtractV3(bodyPart->dirToFront, dirToBack));
+			drawModel(WORM_BODY_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}
-		else {
-			drawModel(WORM_BODY_MODEL,GameController::getInstance()->getSettings()->hasTextures());
+	/*	
+		glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
+		drawCubeWithNormals(this->body.head == bodyPart ? headColor : viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
 		}*/
 		
-		drawCubeWithNormals(this->body.head == bodyPart ? headColor:viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
 		glPopMatrix();
+		frontPart = bodyPart;
 		bodyPart = bodyPart->next;	
 	}
 	glColor3f(1, 1, 1);
@@ -63,17 +170,39 @@ Vec3* Viborita::getMovementDirection()
 	movementDir->z = 0;
 
 	if (GameController::getInstance()->isArrowUp())
+	{
 		movementDir->z = 1;
+		this->body.head->dirToFront = { 0,0,1 };
+	}
 	else if (GameController::getInstance()->isArrowDown())
+	{
 		movementDir->z = -1;
+		this->body.head->dirToFront = { 0,0,-1 };
+	}
 	else if (GameController::getInstance()->isArrowLeft())
+	{
 		movementDir->x = 1;
+		this->body.head->dirToFront = { 1,0,0 };
+	}
 	else if (GameController::getInstance()->isArrowRight())
+	{
 		movementDir->x = -1;
+		this->body.head->dirToFront = { -1,0,0 };
+	}
 	else if (GameController::getInstance()->isZKey())
+	{
 		movementDir->y = 1;
+		float x = this->body.head->dirToFront.x;
+		float z = this->body.head->dirToFront.z;
+		this->body.head->dirToFront = { x,1,z };
+	}
 	else if (GameController::getInstance()->isXKey())
+	{
+		float x = this->body.head->dirToFront.x;
+		float z = this->body.head->dirToFront.z;
+		this->body.head->dirToFront = { x,-1,z };
 		movementDir->y = -1;
+	}
 	return movementDir;
 }
 
@@ -104,17 +233,23 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 	this->body.head->gridIndex = nextGridIndex;
 
 	ViboritaPart* aux = this->body.head->next;
-	ViboritaPart* tail = this->body.head;
+	ViboritaPart* prev = this->body.head;
 	while (aux != NULL) {
 		Vec3 auxPos = { aux->position.x,aux->position.y,aux->position.z };
 		Vec3 auxGrid = { aux->gridIndex.x,aux->gridIndex.y,aux->gridIndex.z };
+		
 		aux->position = { prevPos->x,prevPos->y,prevPos->z };
 		gameContext->clearTile(aux->gridIndex);
 		aux->gridIndex = { prevGrid->x,prevGrid->y,prevGrid->z };
 		gameContext->addViborita(aux->gridIndex);
 
+		Vec3 newDir = subtractV3({ prev->gridIndex.x,prev->gridIndex.y,prev->gridIndex.z }, aux->gridIndex);
+		Vec3 newVerticalDir = { aux->dirToFront.x, newDir.y, aux->dirToFront.z };
+		aux->dirToFront = newDir.y != 0 ? newVerticalDir : newDir;
+
 		prevPos = getVec3FromVec3(auxPos);
 		prevGrid = getVec3FromVec3(auxGrid);
+		prev = aux;
 		aux = aux->next;
 	}
 	return true;
@@ -224,10 +359,10 @@ GAME_ENTITY_TYPE Viborita::getType()
 
 void Viborita::process(float deltaTime) {
 
-	if (!fallen && !hasFloor() && this->falling) {
-		animationFall(deltaTime);
-		return;
-	}
+	//if (!fallen && !hasFloor() && this->falling) {
+	//	animationFall(deltaTime);
+	//	return;
+	//}
 	if (!hasFloor()) {
 		handleFall();
 		this->falling = false;
