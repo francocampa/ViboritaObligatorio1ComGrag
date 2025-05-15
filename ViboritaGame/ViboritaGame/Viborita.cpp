@@ -11,7 +11,7 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	head->position = position;
 	head->dirToFront = { 0,0,1 };
 	head->next = nullptr;
-	this->falling = false;
+	this->falling = 0;
 	this->fallen = false;
 
 	body.head = head;
@@ -125,9 +125,8 @@ void Viborita::draw() {
 
 	while(bodyPart != NULL)
 	{
-		
 		glPushMatrix();
-		glTranslatef(bodyPart->position.x, bodyPart->position.y, bodyPart->position.z );
+		glTranslatef(bodyPart->position.x, bodyPart->position.y - (TILE_SIZE * this->falling), bodyPart->position.z);
 
 		glTranslatef(TILE_SIZE/2,0,TILE_SIZE/2);
 
@@ -158,6 +157,9 @@ void Viborita::draw() {
 		glPopMatrix();
 		frontPart = bodyPart;
 		bodyPart = bodyPart->next;	
+	}
+	if (this->falling >= 1) {
+		this->falling = 0;
 	}
 	glColor3f(1, 1, 1);
 }
@@ -278,26 +280,9 @@ bool Viborita::hasFloor()
 			return true;
 		aux = aux->next;
 	}
-	this->falling = true;
 	return false;
 }
 
-void Viborita::animationFall(float deltaTime) {
-	ViboritaPart* aux = this->body.head;
-	while (aux != NULL)
-	{
-		//TODO: arreglar caso en el que cae sobre un bloque, por ahora no hay colisiones
-		gameContext->clearTile(aux->gridIndex);
-		Vec3 positionUnderPart = { aux->position.x,aux->position.y - 10.0*deltaTime,aux->position.z };
-		aux->position = positionUnderPart;
-		gameContext->addViborita(aux->gridIndex);
-		aux = aux->next;
-	}
-	if (this->body.head->position.y <= -5) {
-		this->falling = false;
-		this->fallen = true;
-	}
-}
 
 void Viborita::handleFall()
 {
@@ -359,17 +344,24 @@ GAME_ENTITY_TYPE Viborita::getType()
 
 void Viborita::process(float deltaTime) {
 
-	//if (!fallen && !hasFloor() && this->falling) {
-	//	animationFall(deltaTime);
-	//	return;
-	//}
-	if (!hasFloor()) {
-		handleFall();
-		this->falling = false;
-		this->fallen = false;
+	if (!this->fallen && !hasFloor()) {
+		this->falling = 0.00000001f;
+		this->fallen = true;
 		return;
 	}
 
+	if (this->fallen && falling != 0) {
+		this->falling += this->falling;
+		return;
+	}
+	else {
+		this->fallen = false;
+	}
+
+	if (!hasFloor()) {
+		handleFall();
+		return;
+	}
 
 	Vec3* movementDir = this->getMovementDirection();
 

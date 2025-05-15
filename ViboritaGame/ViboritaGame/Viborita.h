@@ -19,7 +19,7 @@ private:
 	ViboritaBody body;
 	Vec3 headDirection;
 	Vec3 prevMovement;
-	bool falling;
+	float falling;
 	bool fallen;
 public:
 	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24]);
@@ -35,7 +35,6 @@ public:
 	bool handleMovement(Vec3* movementDir);
 	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);
 	bool hasFloor();
-	void animationFall(float deltaTime);
 	void handleFall();
 	void handleDeath();
 	void removeBodyFromGridIndex(int x,int y, int z);
