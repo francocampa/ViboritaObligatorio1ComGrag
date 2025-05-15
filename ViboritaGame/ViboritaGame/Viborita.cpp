@@ -396,12 +396,23 @@ void Viborita::setHead() {
 
 void Viborita::addTail(Vec3 gridIndex)
 {
+	Vec3 dir = subtractV3(this->body.tail->gridIndex, gridIndex);
+	float dirSum = (dir.x + dir.y + dir.z);
+	if (abs(dirSum) != 1) //Una direcci[on tiene que ser x o y o z = -1 1 y el resto 0
+		return;
+
 	ViboritaPart* newTail = new ViboritaPart();
 	newTail->next = NULL;
 	newTail->gridIndex = gridIndex;
 	newTail->position = { GameController::getInstance()->getGridPosition(gridIndex.x),GameController::getInstance()->getGridPosition(gridIndex.y) ,GameController::getInstance()->getGridPosition(gridIndex.z) };
-	newTail->dirToFront = subtractV3(newTail->gridIndex, this->body.tail->gridIndex);
-	newTail->orientationToFront = { this->body.tail->orientationToFront.x,this->body.tail->orientationToFront.y,this->body.tail->orientationToFront.z };
+	newTail->dirToFront = dir;
+	if (this->body.head == this->body.tail) {
+		this->body.head->dirToFront = { newTail->dirToFront.x ,newTail->dirToFront.y ,newTail->dirToFront.z };
+		this->body.head->orientationToFront = { newTail->dirToFront.x ,newTail->dirToFront.y ,newTail->dirToFront.z };
+	}
+	Vec3 dirCopy = { newTail->dirToFront.x,newTail->dirToFront.y,newTail->dirToFront.z };
+	Vec3 verticalOr = { this->body.tail->orientationToFront.x,dirCopy.y,this->body.tail->orientationToFront.z };
+	newTail->orientationToFront = newTail->dirToFront.y != 0 ? verticalOr: dirCopy;
 	this->body.tail->next = newTail;
 	this->body.tail = newTail;
 	this->body.size++;

@@ -265,7 +265,7 @@ void LevelCreator::handlePlaceEntity()
 		if (this->viborita == NULL) {
 			this->viborita = new Viborita(gridIndex,position,baseViboritaColors);
 		}
-		else {
+		else if(grid[x][y][z] != this->viborita){
 			this->viborita->addTail(gridIndex);
 		}
 		grid[x][y][z] = this->viborita;
