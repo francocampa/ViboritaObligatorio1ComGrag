@@ -10,6 +10,7 @@ Viborita::Viborita(Vec3 gridIndexes, Vec3 position, GLfloat colors[24]) : IGameE
 	head->gridIndex = gridIndexes;
 	head->position = position;
 	head->dirToFront = { 0,0,1 };
+	head->orientationToFront = { 0,0,1 };
 	head->next = nullptr;
 	this->falling = 0;
 	this->fallen = false;
@@ -28,39 +29,63 @@ void Viborita::setGameContext(GamePlay* context)
 
 float angle = 90;
 
-void handlePartRotation(Vec3 dir,Vec3 rf) { //rf = rotationFactor 
+//Este es mi bebe, mi funcioncita de manejar las rotaciones del cuerpo de la v[ibora <3
+//dir: es un vector con valores -1 0 o 1, las posiciones x y z son exclusivas entre si, si una es distinta de 0, la otra es 0
+//y puede tener valor junto a x y z, de hecho se espera, as[i adem[as de mirar para arriba se orienta correctamente la parte del cuerpo con respecto al plano x z
+//rf: inicialmente era rotationFactor, pero al final no se us[o como factor pers[e, es la diferencia de la direcci[on hacia la parte de adelante, y la parte de atr[as de esa parte del cuerpo
+//ej, si tenemos una vibora de 3 partes, rf tiene la diferencia de: hacia donde va la cabeza con respecto al torso y hacia donde va la cola con respecto al torso.
+//rf nos permite detectar las curvas, ya que si las dos partes van en la misma direcci[on, va a venir como 0
+void handlePartRotation(Vec3 dir,Vec3 dirToBack,Vec3 orientation, bool end) { 
+	Vec3 rf = subtractV3(dir,dirToBack);
+	if(!end)
+		printf("%f,%f,%f | ", rf.x, rf.y, rf.z);
 	int xAngle = 0;
 	int xDir = 0;
 	if (dir.y != 0) {
 		xAngle = 90;
 		if (rf.y == -1)
-			xAngle += 45;
+			xAngle += dir.y*45;
 		else if (rf.y == 1)
-			xAngle -= 45;
+			xAngle -= dir.y*45;
+
 		xDir = -dir.y;
 	}
 	int yAngle = 0;
 	int yDir = 0;
-	if (dir.x != 0) {
+	if (orientation.x != 0) {
 		yAngle = 90;
 		if (rf.z == 1)
 			yAngle += 45;
 		if (rf.z == -1)
 			yAngle -= 45;
-		yDir = dir.x;
+		
+		yDir = orientation.x;
 	}
-	else if (dir.z != 0) {
-		yAngle = dir.z == 1 ? 0 : 180;
+	else if (orientation.z != 0) {
+		yAngle = orientation.z == 1 ? 0 : 180;
 		if (rf.x == -1)
 			yAngle += 45;
 		if (rf.x == 1)
 			yAngle -= 45;
-		yDir = dir.z;
+
+		yDir = orientation.z;
 	}
 
+	float offset = GameController::getInstance()->TILE_SIZE / 2.0f;
+	Vec3 posOffset = { rf.y != 0 ? -rf.x * offset : 0,
+						rf.y != 0 ? dir.y * offset : 0,
+						rf.y != 0 ? -rf.z * offset : 0};
 
-	glRotatef(yAngle, 0, yDir, 0);
-	glRotatef(xAngle, xDir, 0, 0);
+	if (!end) {
+		posOffset.x = rf.x * offset;
+		posOffset.z = rf.z * offset;
+		printf("%f,%f,%f \n", posOffset.x, posOffset.y, posOffset.z);
+	}
+
+	Vec2 effectiveAngle = { xDir * xAngle, yDir * yAngle };
+	glTranslatef(posOffset.x, posOffset.y, posOffset.z);
+	glRotatef(effectiveAngle.y, 0, 1, 0); //ROTATE FROM y FIRST
+	glRotatef(effectiveAngle.x, 1, 0, 0);
 }
 
 void Viborita::draw() {
@@ -77,25 +102,23 @@ void Viborita::draw() {
 		glPushMatrix();
 		glTranslatef(bodyPart->position.x, bodyPart->position.y - (TILE_SIZE * this->falling), bodyPart->position.z);
 
-		glTranslatef(TILE_SIZE/2, TILE_SIZE / 4,TILE_SIZE/2);
+		glTranslatef(TILE_SIZE/2, TILE_SIZE/6,TILE_SIZE/2);
 
-		glScalef(0.7f, 0.7f, 0.7f);
+		glScalef(0.5f, 0.5f, 0.5f);
 		if (bodyPart == this->body.head) {
-			handlePartRotation(this->body.head->dirToFront, cero);
+			handlePartRotation(this->body.head->dirToFront, this->body.head->dirToFront, bodyPart->orientationToFront, true);
 			drawModel(WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
 		else if (bodyPart == this->body.tail) {
-			handlePartRotation(this->body.tail->dirToFront, cero);
+			handlePartRotation(this->body.tail->dirToFront, this->body.tail->dirToFront, bodyPart->orientationToFront, true);
 			drawModel(WORM_TAIL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}else {
 			Vec3 dirToBack = subtractV3(bodyPart->gridIndex, { bodyPart->next->gridIndex.x,bodyPart->next->gridIndex.y,bodyPart->next->gridIndex.z });
-			printf("%f,%f,%f \n", dirToBack.x, dirToBack.y, dirToBack.z);
 			//printf("%f,%f,%f - ", frontPart->gridIndex.x, frontPart->gridIndex.y, frontPart->gridIndex.z);
 			//printf("%f,%f,%f \n", bodyPart->next->gridIndex.x, bodyPart->next->gridIndex.y, bodyPart->next->gridIndex.z);
-			Vec3 verticalDirToBack = { bodyPart->dirToFront.x, dirToBack.y,  bodyPart->dirToFront.z };
-			dirToBack = dirToBack.y != 0 ? verticalDirToBack : dirToBack;
-			//printf("%f,%f,%f | ", bodyPart->dirToFront.x, bodyPart->dirToFront.y, bodyPart->dirToFront.z);
-			handlePartRotation(bodyPart->dirToFront,subtractV3(bodyPart->dirToFront, dirToBack));
+			printf("%f,%f,%f - ", bodyPart->dirToFront.x, bodyPart->dirToFront.y, bodyPart->dirToFront.z);
+			printf("%f,%f,%f = ", dirToBack.x, dirToBack.y, dirToBack.z);
+			handlePartRotation(bodyPart->dirToFront,dirToBack,bodyPart->orientationToFront,false);
 			drawModel(WORM_BODY_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}
 		if (GameController::getInstance()->isShowFps()) {
@@ -172,9 +195,10 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 	}
 
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
-	Vec3 verticalHeadDir = { this->body.head->dirToFront.x, movementDir->y, this->body.head->dirToFront.z };
-	Vec3 iunno = { movementDir->x,movementDir->y,movementDir->z };
-	this->body.head->dirToFront = movementDir->y != 0 ?  verticalHeadDir : iunno;
+	Vec3 dirCopy = {movementDir->x,movementDir->y,movementDir->z};
+	Vec3 verticalHeadDir = { this->body.head->dirToFront.x, 0, this->body.head->dirToFront.z };
+	this->body.head->dirToFront = { movementDir->x,movementDir->y,movementDir->z };
+	this->body.head->orientationToFront = dirCopy.y != 0 ? verticalHeadDir : dirCopy;
 
 	Vec3* prevPos = getVec3FromVec3(this->body.head->position);
 	Vec3* prevGrid = getVec3FromVec3(this->body.head->gridIndex);
@@ -197,8 +221,10 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 		gameContext->addViborita(aux->gridIndex);
 
 		Vec3 newDir = subtractV3({ prev->gridIndex.x,prev->gridIndex.y,prev->gridIndex.z }, aux->gridIndex);
-		Vec3 newVerticalDir = { aux->dirToFront.x, newDir.y, aux->dirToFront.z };
-		aux->dirToFront = newDir.y != 0 ? newVerticalDir : newDir;
+		Vec3 nDirCopy = { newDir.x,newDir.y,newDir.z };
+		Vec3 newOrientation = { aux->dirToFront.x, 0, aux->dirToFront.z };
+		aux->dirToFront = newDir;
+		aux->orientationToFront = newDir.y != 0 ? newOrientation : nDirCopy;
 
 		prevPos = getVec3FromVec3(auxPos);
 		prevGrid = getVec3FromVec3(auxGrid);
@@ -213,6 +239,8 @@ void Viborita::handleEatApple(Vec3* lastTailPos, Vec3* lastTailGrid)
 	ViboritaPart* newTail = new ViboritaPart;
 	newTail->position = { lastTailPos->x,lastTailPos->y,lastTailPos->z };
 	newTail->gridIndex = { lastTailGrid->x,lastTailGrid->y,lastTailGrid->z };
+	newTail->dirToFront = subtractV3(newTail->gridIndex,this->body.tail->gridIndex);
+	newTail->orientationToFront = { this->body.tail->orientationToFront.x,this->body.tail->orientationToFront.y,this->body.tail->orientationToFront.z};
 	newTail->next = NULL;
 	this->body.tail->next = newTail;
 	this->body.tail = newTail;
@@ -364,7 +392,8 @@ void Viborita::addTail(Vec3 gridIndex)
 	newTail->next = NULL;
 	newTail->gridIndex = gridIndex;
 	newTail->position = { GameController::getInstance()->getGridPosition(gridIndex.x),GameController::getInstance()->getGridPosition(gridIndex.y) ,GameController::getInstance()->getGridPosition(gridIndex.z) };
-
+	newTail->dirToFront = subtractV3(newTail->gridIndex, this->body.tail->gridIndex);
+	newTail->orientationToFront = { this->body.tail->orientationToFront.x,this->body.tail->orientationToFront.y,this->body.tail->orientationToFront.z };
 	this->body.tail->next = newTail;
 	this->body.tail = newTail;
 	this->body.size++;

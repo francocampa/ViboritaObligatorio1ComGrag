@@ -36,7 +36,8 @@ struct VertexData {
 };
 
 struct ViboritaPart {  
-	Vec3 dirToFront;
+	Vec3 dirToFront; 
+	Vec3 orientationToFront; // y = 0 , x,z = -1 | 1
 	Vec3 gridIndex;
 	Vec3 position;
 	ViboritaPart* next;  
