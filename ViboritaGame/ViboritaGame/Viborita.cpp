@@ -137,8 +137,8 @@ void Viborita::draw() {
 			float yRotation = rotationDiff.y * movingProgress;
 			offsetDiff = { offsetDiff.x * movingProgress,offsetDiff.y * movingProgress,offsetDiff.z * movingProgress };
 
-			//translateAndRotateBodyPart(sumV2(bodyPart->lastRotation,{(int)xRotation,(int)yRotation}),sumV3(bodyPart->lastOffset, offsetDiff));
-			translateAndRotateBodyPart(currentRotation, currentOffset);
+			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation,{(int)xRotation,(int)yRotation}),sumV3(bodyPart->lastOffset, offsetDiff));
+			//translateAndRotateBodyPart(currentRotation, currentOffset);
 
 			drawModel(WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
@@ -151,8 +151,8 @@ void Viborita::draw() {
 			float yRotation = rotationDiff.y * movingProgress;
 			offsetDiff = { offsetDiff.x * movingProgress,offsetDiff.y * movingProgress,offsetDiff.z * movingProgress };
 
-			//translateAndRotateBodyPart(sumV2(bodyPart->lastRotation, { (int)xRotation,(int)yRotation }), sumV3(bodyPart->lastOffset, offsetDiff));
-			translateAndRotateBodyPart(currentRotation, currentOffset);
+			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation, { (int)xRotation,(int)yRotation }), sumV3(bodyPart->lastOffset, offsetDiff));
+			//translateAndRotateBodyPart(currentRotation, currentOffset);
 			drawModel(WORM_TAIL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}else {
 			Vec3 dirToBack = subtractV3(bodyPart->gridIndex, { bodyPart->next->gridIndex.x,bodyPart->next->gridIndex.y,bodyPart->next->gridIndex.z });
@@ -164,8 +164,8 @@ void Viborita::draw() {
 			float yRotation = rotationDiff.y * movingProgress;
 			offsetDiff = { offsetDiff.x * movingProgress,offsetDiff.y * movingProgress,offsetDiff.z * movingProgress };
 
-			//translateAndRotateBodyPart(sumV2(bodyPart->lastRotation, { (int)xRotation,(int)yRotation }), sumV3(bodyPart->lastOffset, offsetDiff));
-			translateAndRotateBodyPart(currentRotation, currentOffset);
+			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation, { (int)xRotation,(int)yRotation }), sumV3(bodyPart->lastOffset, offsetDiff));
+			//translateAndRotateBodyPart(currentRotation, currentOffset);
 
 			drawModel(WORM_BODY_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}
