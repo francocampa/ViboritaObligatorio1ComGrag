@@ -2,6 +2,7 @@
 
 void openSettings() {
 	GameController::getInstance()->setState(new SettingsMenu(GameController::getInstance()->getSettings()));
+	GameController::getInstance()->setPaused(true);
 }
 void resetLevelCallback() {
 	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();

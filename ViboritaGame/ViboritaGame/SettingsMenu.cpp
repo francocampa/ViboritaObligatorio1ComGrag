@@ -197,6 +197,7 @@ void SettingsMenu::changeLightAlpha(float alpha)
 void SettingsMenu::goBackToGame()
 {
 	GameController::getInstance()->setState(GameController::getInstance()->getGamePlay());
+	GameController::getInstance()->setPaused(false);
 }
 
 void SettingsMenu::goBackToMainMenu()

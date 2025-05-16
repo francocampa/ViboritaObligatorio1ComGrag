@@ -27,77 +27,15 @@ void calculateArrowKeysPos(Vec3 cameraPos, Vec3 center, Vec3& arrowKeyPos) {
 		cameraPos.z + forward.z * distance + right.z * xOffset + up.z * yOffset
 	};
 }
-
-
-void setupLighting() {
-	glEnable(GL_LIGHT0);
-	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_NORMALIZE);
-
-	GLfloat lightPos[] = { 0.0f, 10.0f, 10.0f, 0.0f }; // Last value: 1.0 = positional, 0.0 = directional
-	GLfloat ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
-	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
-
-	
-}
-
-
-int WINDOW_WIDTH = 640;
-int WINDOW_HEIGHT = 480;
-
-using namespace std;
-int main(int argc, char* argv[]) {
-	//void main() {
-
-	//	Init sld
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		exit(1);
-	}
-
-	SDL_Window* win = SDL_CreateWindow("Viborita",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH, WINDOW_HEIGHT,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
-	SDL_GLContext context = SDL_GL_CreateContext(win);
-	IMG_Init(IMG_INIT_PNG);
+void loadFonts() {
 	TTF_Init();
-
 	TTF_Font* mainFont = TTF_OpenFont("fonts/Sans Serif Shaded.ttf", 24);
 	if (mainFont == NULL)
 		printf("Failed to load font");
 	HudController::getInstance()->setFont(mainFont);
-	TTF_Font* textFieldFont = TTF_OpenFont("fonts/Sans Serif Shaded.ttf", 16);
-	TextField::font = textFieldFont;
+}
 
-	if (glewInit() != GLEW_OK)
-	{
-		// Manejar error de inicialización de GLEW
-		return -1;
-	}
-
-	//Camera setup
-	glMatrixMode(GL_PROJECTION);
-
-	glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
-	gluPerspective(45, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1, 100);
-	glEnable(GL_DEPTH_TEST);
-
-	glMatrixMode(GL_MODELVIEW);
-
-	GameController::getInstance()->setState(new MainMenu());
-	Settings* settings = new Settings();
-	GameController::getInstance()->setSettings(settings);
-
-	//TODO: borrar nombres (innescesarios)
-	//Carga de modelos y texturas
+void loadModelsAndTextures() {
 	std::string filePath = "models/apple.obj";
 	std::string name = "apple";
 	GLuint textureId;
@@ -123,37 +61,80 @@ int main(int argc, char* argv[]) {
 	modelsInfo[0].textureId = textureId;
 	modelsInfo[4].textureId = portalTexId;
 	cubeTexture = cubeTextureId;
+}
+
+void setupLighting() {
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_NORMALIZE);
+
+	GLfloat lightPos[] = { 0.0f, 10.0f, 10.0f, 0.0f };
+	GLfloat ambient[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat diffuse[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+}
+
+int WINDOW_WIDTH = 640;
+int WINDOW_HEIGHT = 480;
+
+using namespace std;
+int main(int argc, char* argv[]) {
+	//void main() {
+
+	//	Init sld
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		exit(1);
+	}
+
+	SDL_Window* win = SDL_CreateWindow("Viborita",
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		WINDOW_WIDTH, WINDOW_HEIGHT,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+	SDL_GLContext context = SDL_GL_CreateContext(win);
+	IMG_Init(IMG_INIT_PNG);
+
+	loadFonts();
+
+	if (glewInit() != GLEW_OK)
+	{
+		// Manejar error de inicialización de GLEW
+		return -1;
+	}
+
+	//Camera setup
+	glMatrixMode(GL_PROJECTION);
+
+	glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
+	gluPerspective(45, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1, 100);
+	glEnable(GL_DEPTH_TEST);
+
+	glMatrixMode(GL_MODELVIEW);
+	GameController* gc = GameController::getInstance();
+
+	gc->setState(new MainMenu());
+	gc->setSettings(new Settings());
+
+	loadModelsAndTextures();
 	
 	bool quit = false;
 	bool moveCamera = false;
-	bool rotate = false;
 	bool alreadyMoved = false;
-	bool paused = false;
-	int speed = 1;
 	SDL_Event event;
-	float cameraVel = 0.1f;
-	float cameraAngle = 0.0;
-	Vec3 cameraPos = { 0,0,30 };
+	Vec3 cameraPos = { 0,0,0 };
 	Vec3 center = { 0,0,0 };
-	float objDistance = distance(cameraPos, center);
 	Uint64 currentTick = SDL_GetPerformanceCounter();
 	Uint64 lastTick = currentTick;
-	float degrees = 0;
-	float cameraRadius = 20;
 
-	GLfloat cubever[24];
-	for (int i = 0;i < 24;i++) {
-		cubever[i] = baseCubeVertices[i] + 1;
-	}
-	float theta = 0;
-	float phi = M_PI / 2;
-	float sensitivity = 0.5f;
-
-	float sunAngle = 0;
-
-	cameraPos.x = cameraRadius * sin(phi) * cos(theta);
-	cameraPos.y = cameraRadius * cos(phi);
-	cameraPos.z = cameraRadius * sin(phi) * sin(theta);
+	cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
+	cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
+	cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
 
 	Vec3 arrowKeysPos = { 0,0,0 };
 
@@ -164,6 +145,7 @@ int main(int argc, char* argv[]) {
 
 	setupLighting();
 
+
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -171,36 +153,28 @@ int main(int argc, char* argv[]) {
 		currentTick = SDL_GetPerformanceCounter();
 
 		float deltaTime = (currentTick - lastTick) / (float)SDL_GetPerformanceFrequency();
-		deltaTime *= settings->getGameSpeed();
+		deltaTime *= gc->getSettings()->getGameSpeed();
 		lastTick = currentTick;
-		timeFromDown += deltaTime/settings->getGameSpeed();
+		timeFromDown += deltaTime/gc->getSettings()->getGameSpeed();
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
-		GameController::getInstance()->processFrame(deltaTime);
+		gc->processFrame(deltaTime);
 
-		GameController::getInstance()->setArrowRight(false);
-		GameController::getInstance()->setArrowLeft(false);
-		GameController::getInstance()->setArrowDown(false);
-		GameController::getInstance()->setArrowUp(false);
-		GameController::getInstance()->setZKey(false);
-		GameController::getInstance()->setXKey(false);
-		GameController::getInstance()->setClick(false);
-		GameController::getInstance()->setMouseUp(false);
-		GameController::getInstance()->setSpaceKey(false);
-		GameController::getInstance()->setMouseDown(false);
-		GameController::getInstance()->setKeyPressed("");
+		gc->setArrowRight(false);
+		gc->setArrowLeft(false);
+		gc->setArrowDown(false);
+		gc->setArrowUp(false);
+		gc->setZKey(false);
+		gc->setXKey(false);
+		gc->setClick(false);
+		gc->setMouseUp(false);
+		gc->setSpaceKey(false);
+		gc->setMouseDown(false);
+		gc->setKeyPressed("");
 
-		if(GameController::getInstance()->getGamePlay() == GameController::getInstance()->getState())
-			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });
-		/*glPointSize(10.0f); //Debug arrow center jiji
-		glBegin(GL_POINTS);
-		glColor3f(0, 1, 0);
-		glVertex3f(arrowKeysPos.x, arrowKeysPos.y, arrowKeysPos.z);
-		glEnd();
-		glColor3f(1, 1, 1);*/
-
-		
+		if(gc->getGamePlay() == gc->getState())
+			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });		
 
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
@@ -211,26 +185,26 @@ int main(int argc, char* argv[]) {
 				if (event.key.keysym.sym >= SDLK_SPACE && event.key.keysym.sym <= SDLK_z) {
 					std::string key;
 					key.push_back(static_cast<char>(event.key.keysym.sym));
-					GameController::getInstance()->setKeyPressed(key); 
+					gc->setKeyPressed(key);
 				}
 				else {
 					switch (event.key.keysym.sym) {
-						case SDLK_RETURN: GameController::getInstance()->setKeyPressed("ENTER"); break;
-						case SDLK_BACKSPACE:GameController::getInstance()->setKeyPressed("BACKSPACE"); break;
-						default: GameController::getInstance()->setKeyPressed(""); break;
+						case SDLK_RETURN: gc->setKeyPressed("ENTER"); break;
+						case SDLK_BACKSPACE:gc->setKeyPressed("BACKSPACE"); break;
+						default: gc->setKeyPressed(""); break;
 					}
 				}
 				switch (event.key.keysym.sym) {
 					case SDLK_p:
-						if (!paused && GameController::getInstance()->getGamePlay() != GameController::getInstance()->getState())
+						if (!gc->isPaused() && gc->getGamePlay() != gc->getState())
 							break;
 
-						paused = !paused;
-						if (paused) {
-							GameController::getInstance()->setState(new SettingsMenu(GameController::getInstance()->getSettings()));
+						gc->setPaused(!gc->isPaused());
+						if (gc->isPaused()) {
+							gc->setState(new SettingsMenu(gc->getSettings()));
 						}
 						else {
-							GameController::getInstance()->setState(GameController::getInstance()->getGamePlay());
+							gc->setState(gc->getGamePlay());
 						}
 						break;
 					case SDLK_ESCAPE:
@@ -246,7 +220,7 @@ int main(int argc, char* argv[]) {
 						alreadyMoved = false;
 						break;
 					case SDLK_d:
-						GameController::getInstance()->setShowFps(!GameController::getInstance()->isShowFps());
+						gc->setShowFps(!gc->isShowFps());
 						break;
 				}
 				break;
@@ -254,35 +228,34 @@ int main(int argc, char* argv[]) {
 			case SDL_KEYDOWN:
 				if (alreadyMoved)
 					break;
-				
 
 				switch (event.key.keysym.sym) {
 				case SDLK_UP:
-					GameController::getInstance()->setArrowUp(true);
+					gc->setArrowUp(true);
 					alreadyMoved = true;
 					break;
 				case SDLK_DOWN:
-					GameController::getInstance()->setArrowDown(true);
+					gc->setArrowDown(true);
 					alreadyMoved = true;
 					break;
 				case SDLK_LEFT:
-					GameController::getInstance()->setArrowLeft(true);
+					gc->setArrowLeft(true);
 					alreadyMoved = true;
 					break;
 				case SDLK_RIGHT:
-					GameController::getInstance()->setArrowRight(true);
+					gc->setArrowRight(true);
 					alreadyMoved = true;
 					break;
 				case SDLK_z:
-					GameController::getInstance()->setZKey(true);
+					gc->setZKey(true);
 					alreadyMoved = true;
 					break;
 				case SDLK_x:
-					GameController::getInstance()->setXKey(true);
+					gc->setXKey(true);
 					alreadyMoved = true;
 					break;
 				case SDLK_SPACE:
-					GameController::getInstance()->setSpaceKey(true);
+					gc->setSpaceKey(true);
 					alreadyMoved = true;
 					break;
 				}
@@ -290,27 +263,28 @@ int main(int argc, char* argv[]) {
 			case SDL_MOUSEBUTTONDOWN:
 				moveCamera = true;
 				timeFromDown = 0.0f;
-				GameController::getInstance()->setMouseDown(true);
+				gc->setMouseDown(true);
 				SDL_SetRelativeMouseMode(SDL_TRUE);
 				break;
 			case SDL_MOUSEBUTTONUP:
 				moveCamera = false;
 				if(timeFromDown <= CLICK_TIME)
-					GameController::getInstance()->setClick(true);
-				GameController::getInstance()->setMouseUp(true);
+					gc->setClick(true);
+				gc->setMouseUp(true);
 				SDL_SetRelativeMouseMode(SDL_FALSE);
 				break;
 			case SDL_MOUSEMOTION:
-				GameController::getInstance()->setMousePos({ event.motion.x, event.motion.y });
-				if (moveCamera && GameController::getInstance()->getMoveCamera()) {
+				gc->setMousePos({ event.motion.x, event.motion.y });
+				if (moveCamera && gc->getMoveCamera()) {
 					int deltaX = event.motion.xrel;
 					int deltaY = event.motion.yrel;
 
 					/*int horDir = deltaX != 0 ? deltaX / abs(deltaX) : 0;
 					int verDir = deltaY != 0 ? deltaY / abs(deltaY) : 0;*/ //Noble but flawed idea sadly :c
-
-					theta += sensitivity * deltaTime * deltaX;
-					phi += sensitivity * sin(deltaTime * deltaY);
+					float sensitivity = gc->getSensitivity();
+					float cameraRadius = gc->getCameraProps().z;
+					float theta = gc->getCameraProps().x + sensitivity * deltaTime * deltaX;
+					float phi = gc->getCameraProps().y + sensitivity * sin(deltaTime * deltaY);
 
 					float epsilon = 0.5f;
 					if (phi < epsilon) phi = epsilon;
@@ -320,6 +294,7 @@ int main(int argc, char* argv[]) {
 					cameraPos.y = cameraRadius * cos(phi);
 					cameraPos.z = cameraRadius * sin(phi) * sin(theta);
 
+					gc->setCameraCoordinates(theta,phi);
 					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
 
@@ -327,7 +302,12 @@ int main(int argc, char* argv[]) {
 			case SDL_MOUSEWHEEL:
 				int scrollY = event.wheel.y;
 				if (scrollY != 0) {
-					float movement = deltaTime * speed * 20 * (scrollY / abs(scrollY));
+					float sensitivity = gc->getSensitivity();
+					float theta = gc->getCameraProps().x;
+					float phi = gc->getCameraProps().y;
+					float cameraRadius = gc->getCameraProps().z;
+
+					float movement = deltaTime * sensitivity * scrollY;
 					cameraRadius += -movement;
 					if (cameraRadius < 0.5 || cameraRadius > 40)
 						cameraRadius += movement;
@@ -336,6 +316,9 @@ int main(int argc, char* argv[]) {
 					cameraPos.x = cameraRadius * sin(phi) * cos(theta);
 					cameraPos.y = cameraRadius * cos(phi);
 					cameraPos.z = cameraRadius * sin(phi) * sin(theta);
+
+					gc->setCameraRadius(cameraRadius);
+					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
 
 				break;
@@ -348,7 +331,7 @@ int main(int argc, char* argv[]) {
 
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(win);
-	TTF_CloseFont(mainFont);
+	//TTF_CloseFont(); TODO: que libere las fuentes
 	SDL_Quit();
 	return 0;
 }

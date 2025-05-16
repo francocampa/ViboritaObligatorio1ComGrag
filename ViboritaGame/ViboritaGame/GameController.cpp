@@ -223,3 +223,44 @@ bool GameController::getMoveCamera()
 {
 	return moveCamera;
 }
+
+Vec3 GameController::getCameraProps()
+{
+	return cameraProps;
+}
+
+float GameController::getSensitivity()
+{
+	return sensitivity;
+}
+
+bool GameController::isPaused()
+{
+	return paused;
+}
+
+void GameController::setPaused(bool paused)
+{
+	this->paused = paused;
+}
+
+void GameController::setCameraCoordinates(float theta, float phi)
+{
+	cameraProps.x = theta;
+	cameraProps.y = phi;
+}
+
+void GameController::setCameraRadius(float radius)
+{
+	cameraProps.z = radius;
+}
+
+void GameController::setSensitivity(float sensitivity)
+{
+	this->sensitivity = sensitivity;
+}
+
+
+
+
+

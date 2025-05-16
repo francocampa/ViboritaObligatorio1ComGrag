@@ -1,5 +1,7 @@
 #include "IHudElement.h"
 
+TTF_Font* IHudElement::font = nullptr;
+
 IHudElement::IHudElement()
 {
 }
@@ -16,4 +18,9 @@ BUTTON_TYPE IHudElement::getType()
 SDL_Rect* IHudElement::getRect()
 {
 	return nullptr;
+}
+
+void IHudElement::setFont(TTF_Font* font)
+{
+	IHudElement::font = font;
 }

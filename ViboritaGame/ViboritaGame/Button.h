@@ -25,7 +25,6 @@ private:
 	void (*callback)();
 	void (*strcallback)(std::string arg);
 	std::string arg;
-	static TTF_Font* font;
 public:
 	Button();
 	Button(const char* texturePath, const char* hoverPath, const char* selectedPath, int x, int y, int width, int height, void (*callback)()); //Button ocn hover and selected
@@ -42,7 +41,6 @@ public:
 	bool isHovering();
 	void updateText(const char* texturePath); //Only when text rendering
 	SDL_Rect* getRect();
-	static void setFont(TTF_Font* font);
 	void setSelected(bool selected);
 	~Button();
 };

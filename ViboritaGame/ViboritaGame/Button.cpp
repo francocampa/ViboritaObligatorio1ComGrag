@@ -1,7 +1,5 @@
 #include "Button.h"
 
-TTF_Font* Button::font = nullptr;
-
 Button::Button()
 {
 }
@@ -188,11 +186,6 @@ void Button::updateText(const char* newText)
 SDL_Rect* Button::getRect()
 {
 	return this->rectangle;
-}
-
-void Button::setFont(TTF_Font* font)
-{
-	Button::font = font;
 }
 
 void Button::setSelected(bool selected)

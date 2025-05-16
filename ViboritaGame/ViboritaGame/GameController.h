@@ -21,22 +21,32 @@
 #include "GamePlay.h"
 #include "MainMenu.h"
 #include "LoadLevel.h"
-#include "MainMenu.h"
 #include "SettingsMenu.h"
+
+class LevelCreator;
+class MainMenu;
 
 class GameController
 {
 private:
 	GameController();
 	static GameController* instance;
-	GamePlay* game;
-	IGameState* state;
 	Settings* settings;
+	
+	GamePlay* game;
+	MainMenu* mainMenu;
+	LevelCreator* levelCreator;
+	IGameState* state;
+
+	bool paused = false;
+
 	Vec2 mousePos;
 	float timeCounter;
+	
 	bool showFps = false;
 	int fps = 0;
 	Button* fpsBtn;
+
 	bool up = false;
 	bool down = false;
 	bool left = false;
@@ -49,6 +59,11 @@ private:
 	bool mouseUp = false;
 	bool moveCamera = true;
 	std::string keyPressed = "";
+
+	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
+	float sensitivity = 0.5f;
+
+
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -94,5 +109,14 @@ public:
 
 	void setMoveCamera(bool move);
 	bool getMoveCamera();
+
+	Vec3 getCameraProps();
+	float getSensitivity();
+	bool isPaused();
+
+	void setPaused(bool paused);
+	void setCameraCoordinates(float theta, float phi);
+	void setCameraRadius(float radius);
+	void setSensitivity(float sensitivity);
 };
 
