@@ -253,14 +253,12 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 		return ;
 	}
 
-	std::vector<VertexData> vertices;
-	std::vector<unsigned int> indices;
-	std::vector<float> normals;
+	std::vector<subMesh> subMeshes;
+	subMeshes.resize(scene->mNumMeshes);
 
 	// Procesar cada malla en la escena
 	for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
 		const aiMesh* mesh = scene->mMeshes[i];;
-		unsigned int materialIndex = mesh->mMaterialIndex;
 
 		// Procesar vértices
 		for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
@@ -277,9 +275,9 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 				vertex.normal.y = mesh->mNormals[j].y;
 				vertex.normal.z = mesh->mNormals[j].z;
 
-				normals.push_back(mesh->mNormals[j].x);
-				normals.push_back(mesh->mNormals[j].y);
-				normals.push_back(mesh->mNormals[j].z);
+				subMeshes[i].normals.push_back(mesh->mNormals[j].x);
+				subMeshes[i].normals.push_back(mesh->mNormals[j].y);
+				subMeshes[i].normals.push_back(mesh->mNormals[j].z);
 			}
 			else {
 				vertex.normal = glm::vec3(0.0f, 0.0f, 0.0f); // Si no hay normales, ponerlas a cero
@@ -305,14 +303,14 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 				vertex.color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f); // Color blanco por defecto
 			}
 
-			vertices.push_back(vertex);
+			subMeshes[i].vertices.push_back(vertex);
 		}
 
 		// Procesar caras (índices)
 		for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
 			const aiFace& face = mesh->mFaces[j];
 			for (unsigned int k = 0; k < face.mNumIndices; ++k) {
-				indices.push_back(face.mIndices[k]);
+				subMeshes[i].indices.push_back(face.mIndices[k]);
 			}
 		}
 
@@ -324,18 +322,13 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 
 	// Guardar el VAO para usarlo en el bucle de renderizado
 	modelsInfo[pos].name = name;
-	modelsInfo[pos].vertices = vertices;
-	modelsInfo[pos].indices = indices;
-	modelsInfo[pos].normals = normals;
+	modelsInfo[pos].subMeshes = subMeshes;
 }
 
 void drawModel(MODEL_TYPE modelType, bool textures) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	const GLfloat* vertexData;
-	const GLuint* indexData;
-	const GLfloat* normalsData;
 	int indexModel;
 	switch (modelType)
 	{
@@ -362,14 +355,16 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 		glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
 	}
 	
-	const VertexData* vertexDataPtr = modelsInfo[indexModel].vertices.data();
-	indexData = modelsInfo[indexModel].indices.data();
-	normalsData = modelsInfo[indexModel].normals.data();
-	glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexDataPtr[0].position);
-	glNormalPointer(GL_FLOAT, 0, normalsData);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(VertexData), &vertexDataPtr[0].texCoord);
-	for (size_t i = 0; i < modelsInfo[indexModel].indices.size() / 3; ++i) {
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, &indexData[i * 3]);
+	for (const subMesh& mesh : modelsInfo[indexModel].subMeshes) {
+		const VertexData* vertexDataPtr = mesh.vertices.data();
+		const GLuint* indexData = mesh.indices.data();
+		const GLfloat* normalsData = mesh.normals.data();
+
+		glVertexPointer(3, GL_FLOAT, sizeof(VertexData), &vertexDataPtr[0].position);
+		glNormalPointer(GL_FLOAT, 0, normalsData);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(VertexData), &vertexDataPtr[0].texCoord);
+
+		glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, indexData);
 	}
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	if (textures) {

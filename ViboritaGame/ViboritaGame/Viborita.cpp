@@ -98,8 +98,6 @@ void calculatePartRotation(Vec3 dir,Vec3 dirToBack,Vec3 orientation, bool end,	 
 	finalOffset = { posOffset.x,posOffset.y,posOffset.z };
 }
 
-
-
 void Viborita::draw() {
 	float TILE_SIZE = GameController::getInstance()->TILE_SIZE;
 	ViboritaPart* bodyPart = this->body.head;

@@ -102,6 +102,7 @@ int main(int argc, char* argv[]) {
 	std::string name = "apple";
 	GLuint textureId;
 	GLuint cubeTextureId;
+	GLuint wormTextureId;
 	GLuint portalTexId;
 	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
 	filePath = "models/worm_head.obj";

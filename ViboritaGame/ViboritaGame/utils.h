@@ -57,12 +57,15 @@ struct ViboritaBody {
    ViboritaPart* tail;  
 };  
 
-struct modelInfo {
-	std::string name;
+struct subMesh {
 	std::vector<VertexData> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<float> normals;
-	GLuint objectVAO;
+};
+
+struct modelInfo {
+	std::string name;
+	std::vector<subMesh> subMeshes;
 	GLuint textureId;
 };
 
