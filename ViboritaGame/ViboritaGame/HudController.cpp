@@ -82,7 +82,7 @@ void HudController::process()
 void HudController::setFont(TTF_Font* mainFont)
 {
     this->mainFont = mainFont;
-    Button::setFont(mainFont);
+    IHudElement::setFont(mainFont);
 }
 
 TTF_Font* HudController::getFont()

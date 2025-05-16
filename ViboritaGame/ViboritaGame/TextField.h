@@ -16,7 +16,6 @@ private:
 
 	void changeText(std::string newText);
 public:
-	static TTF_Font* font;
 	TextField(std::string text,int x,int y,int length, void (*callback)(std::string newValue), std::string initialValue);
 	void draw();
 	void process();

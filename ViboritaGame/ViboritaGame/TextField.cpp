@@ -1,7 +1,5 @@
 #include "TextField.h"
 
-TTF_Font* TextField::font = NULL;
-
 void TextField::changeText(std::string newText)
 {
 	if(textTextureId != NULL)
