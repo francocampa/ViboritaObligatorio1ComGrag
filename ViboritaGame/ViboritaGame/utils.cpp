@@ -565,3 +565,18 @@ bool equalsV3(Vec3 v, Vec3 u)
 {
 	return v.x == u.x && v.y == u.y && v.z == u.z;
 }
+
+//Used for Hud elements that are rendered as 3d objects, it returns a pos in 3d that is always in the same position in the screen depending on the offsets and distance
+void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffset, float yOffset, Vec3& pos) {
+
+	//Normalized directions with respect to the vector from your face to the center of the viewport
+	Vec3 forward = normalize({ center.x - cameraPos.x,center.y - cameraPos.y ,center.z - cameraPos.z });
+	Vec3 right = normalize(crossProduct(forward, { 0,1,0 }));
+	Vec3 up = normalize(crossProduct(right, forward));
+
+	pos = {
+		cameraPos.x + forward.x * distance + right.x * xOffset + up.x * yOffset,
+		cameraPos.y + forward.y * distance + right.y * xOffset + up.y * yOffset,
+		cameraPos.z + forward.z * distance + right.z * xOffset + up.z * yOffset
+	};
+}

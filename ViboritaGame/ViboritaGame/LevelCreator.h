@@ -21,14 +21,22 @@ private:
     GAME_ENTITY_TYPE selectedEntityType;
 
     TextField* nameField;
+    Button* mainMenuButton;
+    Button* saveButton;
+    Button* clearButton;
+
+    //To remove
     Button* blockButton;
     Button* appleButton;
     Button* goalButton;
     Button* viboritaButton;
     Button* erasorButton;
-    Button* saveButton;
-    Button* clearButton;
-    Button* mainMenuButton;
+
+    int selectedIndex = 0;
+    IGameEntity* selectBar[8];
+    Button* selectBarBoxes[8];
+    float selectAngles[8];
+
 
     bool erase;
 

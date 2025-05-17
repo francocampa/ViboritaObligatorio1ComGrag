@@ -179,7 +179,6 @@ void Viborita::draw() {
 				GameController::getInstance()->getGridPosition(bodyPart->gridIndex.y),
 				GameController::getInstance()->getGridPosition(bodyPart->gridIndex.z));
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			glColor3f(viboritaColors[0], viboritaColors[1], viboritaColors[2]);
 			drawCubeWithNormals(this->body.head == bodyPart ? headColor : viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			

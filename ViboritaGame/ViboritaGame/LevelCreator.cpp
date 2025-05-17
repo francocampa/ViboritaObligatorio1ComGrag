@@ -61,16 +61,34 @@ LevelCreator::LevelCreator()
 }
 void LevelCreator::createButtons()
 {
-	blockButton = new Button("Bloque", 10, 10, selectEntityCallback, "block",true);
-	appleButton = new Button("Manzana", 10, 52, selectEntityCallback, "apple",true);
-	goalButton = new Button("Meta", 10, 94, selectEntityCallback, "goal",true);
-	viboritaButton = new Button("Viborita", 10, 136, selectEntityCallback, "viborita",true);
-	erasorButton = new Button("Borrador", 10, 178, selectEraseCallback, "",true);
+	blockButton = new Button("Bloque", 10, 60, selectEntityCallback, "block",true);
+	appleButton = new Button("Manzana", 10, 102, selectEntityCallback, "apple",true);
+	goalButton = new Button("Meta", 10, 144, selectEntityCallback, "goal",true);
+	viboritaButton = new Button("Viborita", 10, 186, selectEntityCallback, "viborita",true);
+	erasorButton = new Button("Borrador", 10, 228, selectEraseCallback, "",true);
 	
-	nameField = new TextField("Nombre", 10, 300, 200, changeNameCallback, "");
-	saveButton = new Button("Guardar", 10, 350, saveLevelCallback, "",false);
-	mainMenuButton = new Button("Volver al menu", 10, 392, goToMainMenuFromLevelCreatorCallback, "",false);
-	//erasorButton = new Button("Borrador",10,178,100,32,selectEraseCallback,"");
+	nameField = new TextField("Nombre", 640 / 2 - 200 / 2, 10, 200, changeNameCallback, "");
+	saveButton = new Button("Guardar", 10, 10, saveLevelCallback, "",false);
+	mainMenuButton = new Button("Menu", 450, 10, goToMainMenuFromLevelCreatorCallback, "",false);
+	
+	for (int i = 0;i < 8;i++) {
+		selectBar[i] = NULL;
+		selectBarBoxes[i] = NULL;
+		selectAngles[i] = 0;
+	}
+
+	int leftOffset = 175;
+	int bottomOffset = 20;
+	selectBar[0] = new Block({0,0,0},{0,0,0});
+	selectBarBoxes[0] = new Button(leftOffset, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "block");
+	selectBar[1] = new Apple({ 0,0,0 }, { 0,0,0 });
+	selectBarBoxes[1] = new Button(leftOffset + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "apple");
+	selectBar[2] = new Goal({ 0,0,0 }, { 0,0,0 });
+	selectBarBoxes[2] = new Button(leftOffset + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "goal");
+	selectBar[3] = new Viborita({ 0,0,0 }, { 0,0,0 }, baseViboritaColors);
+	selectBarBoxes[3] = new Button(leftOffset + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "viborita");
+	selectBarBoxes[4] = new Button(leftOffset + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEraseCallback, "");
+
 }
 void LevelCreator::process(float deltaTime)
 {
@@ -102,36 +120,85 @@ void LevelCreator::process(float deltaTime)
 				
 	if(this->viborita != NULL)
 		this->viborita->draw();	
+	
+	selectAngles[selectedIndex] += 50.0f * deltaTime;
+	this->draw();
 	glDisable(GL_LIGHTING);
 }
 
 void LevelCreator::draw()
 {
+
+	for (int i = 0;i < 8;i++)
+		if (selectBar[i] != NULL)
+		{
+			glPushMatrix();
+			Button* hitBox = selectBarBoxes[i];
+			Vec3 pos;
+			float TILE_SIZE = GameController::getInstance()->TILE_SIZE;
+			calc3dCoordsForHud(GameController::getInstance()->getCameraPos(),{0,0,0},25,(i-2)*2.5,-8.5 + 2*hitBox->getHoverProgress(), pos);
+			glTranslatef(pos.x,pos.y,pos.z);
+			glRotatef(selectAngles[i],0,1,0);
+			glTranslatef(-TILE_SIZE / 2, -TILE_SIZE / 2, -TILE_SIZE / 2);
+			selectBar[i]->draw();
+			//if (selectedIndex == i) { //TODO: indicator de que est[a seleccionado
+			//	calc3dCoordsForHud(GameController::getInstance()->getCameraPos(), { 0,0,0 }, 25, (i - 2) * 2.5, -9, pos);
+			//	glTranslatef(pos.x, pos.y, pos.z);
+			//	drawPyramid(basePyramidVertices,basePyramidColors,basePyramydIndices);
+			//}
+			glPopMatrix();
+		}
 }
 
 std::vector<IHudElement*> LevelCreator::getHudElements()
 {
 	std::vector<IHudElement*> btns;
-	btns.push_back(blockButton);
-	btns.push_back(appleButton);
-	btns.push_back(goalButton);
-	btns.push_back(viboritaButton);
-	btns.push_back(erasorButton);
+	//btns.push_back(blockButton);
+	//btns.push_back(appleButton);
+	//btns.push_back(goalButton);
+	//btns.push_back(viboritaButton);
+	//btns.push_back(erasorButton);
+
 	btns.push_back(saveButton);
 	btns.push_back(mainMenuButton);
 	btns.push_back(nameField);
+
+	for (int i = 0;i < 8;i++) 
+		if (selectBarBoxes[i] != NULL)
+			btns.push_back(selectBarBoxes[i]);
+	
 	return btns;
 }
 
 void LevelCreator::setEntityTipe(GAME_ENTITY_TYPE type)
 {
 	this->selectedEntityType = type;
+	switch (type)
+	{
+	case BLOCK:
+		selectedIndex = 0;
+		break;
+	case VIBORITA:
+		selectedIndex = 3;
+		break;
+	case APPLE:
+		selectedIndex = 1;
+		break;
+	case GOAL:
+		selectedIndex = 2;
+		break;
+	default:
+		selectedIndex = 0;
+		break;
+	}
 	this->erase = false;
 }
 
 void LevelCreator::setErase(bool erase)
 {
 	this->erase = erase;
+	if(erase)
+		selectedIndex = 4;
 }
 
 std::string entityTypeString(GAME_ENTITY_TYPE type) {

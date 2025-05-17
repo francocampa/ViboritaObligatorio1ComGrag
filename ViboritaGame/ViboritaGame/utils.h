@@ -146,3 +146,5 @@ Vec2 subtractV2(Vec2 v, Vec2 u);
 Vec3 sumV3(Vec3 v, Vec3 u);
 Vec2 sumV2(Vec2 v, Vec2 u);
 bool equalsV3(Vec3 v, Vec3 u);
+
+void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffset, float yOffset, Vec3& arrowKeyPos);

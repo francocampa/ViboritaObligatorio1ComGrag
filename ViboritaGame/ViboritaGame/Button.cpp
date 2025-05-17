@@ -101,6 +101,22 @@ Button::Button(const char* texturePath, int x, int y, int width, int height, voi
 	this->strcallback = NULL;
 }
 
+Button::Button(int x, int y, int width, int height, void(*callback)(std::string arg), std::string arg)
+{
+	this->textureId = NULL;
+	this->hoverTextureId = NULL;
+	this->selectedTextureId = NULL;
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = NULL;
+	this->strcallback = callback;
+	this->arg = arg;
+}
+
 Button::Button(const char* text, int x, int y)
 {//Renderizador de texto xdxd
 	hover = false;
@@ -144,8 +160,15 @@ Button::Button(const char* text, int x, int y, void(*callback)(std::string arg),
 
 void Button::draw()
 {
-	glBindTexture(GL_TEXTURE_2D, selected ? selectedTextureId : hoverTextureId != NULL && isHovering() ? hoverTextureId : textureId);
-	glEnable(GL_TEXTURE_2D);
+	if (textureId != NULL) {
+		glBindTexture(GL_TEXTURE_2D, selected ? selectedTextureId : hoverTextureId != NULL && isHovering() ? hoverTextureId : textureId);
+		glEnable(GL_TEXTURE_2D);
+	}
+	else
+		return;
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
+
+	
 	int yOffset = 0;
 	glColor3f(hoverProgress, hoverProgress, hoverProgress);
 	yOffset = -rectangle->h * hoverProgress;
@@ -158,7 +181,11 @@ void Button::draw()
 	glTexCoord2f(0.0f, 1.0f); glVertex2i(rectangle->x, yOffset + rectangle->y + rectangle->h);
 	glEnd();
 	glColor3f(0, 0, 0);
-	glDisable(GL_TEXTURE_2D);
+
+	if (textureId != NULL) 
+		glDisable(GL_TEXTURE_2D);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void Button::process(float deltaTime)
@@ -186,6 +213,11 @@ void Button::handleHover()
 bool Button::isHovering()
 {
 	return hover;
+}
+
+float Button::getHoverProgress()
+{
+	return hoverProgress;
 }
 
 void Button::updateText(const char* newText)
