@@ -18,7 +18,8 @@ private:
 public:
 	TextField(std::string text,int x,int y,int length, void (*callback)(std::string newValue), std::string initialValue);
 	void draw();
-	void process();
+	void process(float deltaTime);
+	void processKeyPress();
 	BUTTON_TYPE getType();
 	SDL_Rect* getRect();
 

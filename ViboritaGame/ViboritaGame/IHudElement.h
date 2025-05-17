@@ -9,6 +9,7 @@ protected:
 public:
 	IHudElement();
 	virtual void draw();
+	virtual void process(float deltaTime);
 	virtual BUTTON_TYPE getType();
 	virtual SDL_Rect* getRect();
 	static void setFont(TTF_Font* font);

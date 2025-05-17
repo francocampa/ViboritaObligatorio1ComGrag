@@ -119,8 +119,10 @@ Button::Button(const char* text, int x, int y)
 	this->strcallback = NULL;
 }
 
-Button::Button(const char* text, int x, int y, void(*callback)(std::string arg), std::string arg)
+Button::Button(const char* text, int x, int y, void(*callback)(std::string arg), std::string arg,bool selectable)
 {
+	this->selectable = selectable;
+	textBtn = true;
 	hover = false;
 	selected = false;
 	int width = 0;
@@ -142,17 +144,30 @@ Button::Button(const char* text, int x, int y, void(*callback)(std::string arg),
 
 void Button::draw()
 {
-	glBindTexture(GL_TEXTURE_2D, selected ? selectedTextureId : isHovering() ? hoverTextureId : textureId);
+	glBindTexture(GL_TEXTURE_2D, selected ? selectedTextureId : hoverTextureId != NULL && isHovering() ? hoverTextureId : textureId);
 	glEnable(GL_TEXTURE_2D);
-
+	int yOffset = 0;
+	glColor3f(hoverProgress, hoverProgress, hoverProgress);
+	yOffset = -rectangle->h * hoverProgress;
+	
+	
 	glBegin(GL_QUADS);
-	glTexCoord2f(0.0f, 0.0f); glVertex2i(rectangle->x, rectangle->y);
-	glTexCoord2f(1.0f, 0.0f); glVertex2i(rectangle->x + rectangle->w, rectangle->y);
-	glTexCoord2f(1.0f, 1.0f); glVertex2i(rectangle->x + rectangle->w, rectangle->y + rectangle->h);
-	glTexCoord2f(0.0f, 1.0f); glVertex2i(rectangle->x, rectangle->y + rectangle->h);
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(rectangle->x, yOffset + rectangle->y);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i(rectangle->x + rectangle->w, yOffset + rectangle->y);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(rectangle->x + rectangle->w, yOffset + rectangle->y + rectangle->h);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(rectangle->x, yOffset + rectangle->y + rectangle->h);
 	glEnd();
-
+	glColor3f(0, 0, 0);
 	glDisable(GL_TEXTURE_2D);
+}
+
+void Button::process(float deltaTime)
+{
+	if (hover) 
+		hoverProgress += hoverProgress < 0.3 ? 2.0f * deltaTime : 0;
+	else if(hoverProgress > 0)
+		hoverProgress -= 2.0f * deltaTime;
+	
 }
 
 void Button::handleClick()
@@ -170,7 +185,7 @@ void Button::handleHover()
 
 bool Button::isHovering()
 {
-	return hoverTextureId != NULL && hover;
+	return hover;
 }
 
 void Button::updateText(const char* newText)

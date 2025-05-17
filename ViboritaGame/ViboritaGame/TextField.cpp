@@ -55,13 +55,17 @@ void TextField::draw()
 		glVertex2i(rect->x + rect->w, rect->y);
 		glVertex2i(rect->x + rect->w, rect->y + rect->h);
 		glVertex2i(rect->x, rect->y + rect->h);
-		glColor3f(1,1,1);
+		glColor3f(0,0,0);
 	glEnd();
 
 
 }
 
-void TextField::process()
+void TextField::process(float deltaTime)
+{
+}
+
+void TextField::processKeyPress()
 {
 	if (!selected || keyPressed == "")
 		return;

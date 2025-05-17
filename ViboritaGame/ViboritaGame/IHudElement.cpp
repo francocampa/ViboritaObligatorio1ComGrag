@@ -9,6 +9,9 @@ IHudElement::IHudElement()
 void IHudElement::draw()
 {
 }
+void IHudElement::process(float deltaTime)
+{
+}
 
 BUTTON_TYPE IHudElement::getType()
 {

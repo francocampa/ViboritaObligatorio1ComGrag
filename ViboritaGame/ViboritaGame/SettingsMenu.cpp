@@ -111,8 +111,8 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	lightAlphaSlider = new Slider("Prueba", 450, 460, 150, 0, 1, setLightAlphaCallback, settings->getLightAlpha());
 
 
-	backToMenu = new Button("Volver al menu", 170, 440, goToMainMenuFromSettingsCallback, "");
-	backToGame = new Button("X", 580, 10, goBackToGameCallback,"");
+	backToMenu = new Button("Volver al menu", 170, 440, goToMainMenuFromSettingsCallback, "", false);
+	backToGame = new Button("X", 580, 10, goBackToGameCallback,"", false);
 }
 
 void SettingsMenu::changeGameSpeed(float speed)

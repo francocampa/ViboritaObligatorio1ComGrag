@@ -192,7 +192,7 @@ void Viborita::draw() {
 	if (this->falling >= 1) {
 		this->falling = 0;
 	}
-	glColor3f(1, 1, 1);
+	glColor3f(0, 0, 0);
 }
 
 Vec3* Viborita::getMovementDirection()

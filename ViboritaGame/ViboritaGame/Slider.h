@@ -33,7 +33,7 @@ public:
 	void draw();
 	void mouseDown(Vec2 mousePos);
 	void mouseUp();
-	void process(Vec2 mousePos);
+	void processMousePos(Vec2 mousePos);
 	virtual SDL_Rect* getRect();
 	BUTTON_TYPE getType();
 };

@@ -38,13 +38,13 @@ void loadLevel(std::string levelName) {
 }
 
 MainMenu::MainMenu() {
-	levelCreatorButton = new Button("Creador de niveles", 640 / 2 - 100, 50, goToLevelCreatorFromMainMenuCallback, "");
-	showLevelCarousel = new Button("Niveles", 640 / 2 - 100, 100, callbackShowLevelCarousel, "");
-	showCustomLevelCarousel = new Button("Niveles personalizados", 640/2 - 100, 150, callbackShowCustomLevelCarousel, "");
+	levelCreatorButton = new Button("Creador de niveles", 640 / 2 - 100, 50, goToLevelCreatorFromMainMenuCallback, "",false);
+	showLevelCarousel = new Button("Niveles", 640 / 2 - 100, 100, callbackShowLevelCarousel, "", false);
+	showCustomLevelCarousel = new Button("Niveles personalizados", 640/2 - 100, 150, callbackShowCustomLevelCarousel, "", false);
 	
 	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10,480/2 - 30/2, 30,30,callbackCarouselLeft);
 	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", 640 - 10 - 30 / 2, 480 / 2 - 30 / 2, 30, 30, callbackCarouselRight);
-	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel,"");
+	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel,"", false);
 
 	loadLevels();
 

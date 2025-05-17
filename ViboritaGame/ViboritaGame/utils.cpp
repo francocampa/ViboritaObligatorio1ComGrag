@@ -513,7 +513,7 @@ void drawCubeWithNormals(Vec3 color, bool textures) {
 	}
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
-	glColor3f(1, 1, 1);
+	glColor3f(0, 0, 0);
 }
 
 Light defaultLight = { { 0.0f, 10.0f, 0.0f, 1.0f } ,{ 0.2f, 0.2f, 0.2f, 1.0f },{ 0.8f, 0.8f, 0.8f, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f } };

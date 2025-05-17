@@ -36,7 +36,7 @@ void Slider::draw()
 	glVertex2i(progressLine->x + progressLine->w, progressLine->y);
 	glVertex2i(progressLine->x + progressLine->w, progressLine->y + progressLine->h);
 	glVertex2i(progressLine->x, progressLine->y + progressLine->h);
-	glColor3f(1, 1, 1);
+	glColor3f(0, 0, 0);
 	glEnd();
 }
 
@@ -52,7 +52,7 @@ void Slider::mouseUp()
 	GameController::getInstance()->setMoveCamera(true);
 }
 
-void Slider::process(Vec2 mousePos)
+void Slider::processMousePos(Vec2 mousePos)
 {
 	if (!movingSelector)
 		return;

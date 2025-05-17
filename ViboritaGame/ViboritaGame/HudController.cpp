@@ -35,12 +35,14 @@ void HudController::process(float deltaTime)
     glLoadIdentity();
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor3f(0,0,0);
     for (IHudElement* hudElement : hud) {
         bool mouseOver = SDL_HasIntersection(&mouse, hudElement->getRect());
         Button* btn;
         LevelButton* lvlbtn;
         Slider* slider;
         TextField* tf;
+        hudElement->process(deltaTime);
         switch (hudElement->getType())
         {
         case BUTTON:
@@ -56,8 +58,7 @@ void HudController::process(float deltaTime)
                 slider->mouseDown(mousePos);
             if (gc->isMouseUp())
                 slider->mouseUp();
-
-            slider->process(mousePos);           
+            slider->processMousePos(mousePos);           
             break;
         case CHECKBOX:
             break;
@@ -66,7 +67,7 @@ void HudController::process(float deltaTime)
             if (gc->clicked())
                 mouseOver ? tf->click(mousePos) : tf->clickOutside();
             tf->setKeyPressed(gc->getKeyPressed());
-            tf->process();
+            tf->processKeyPress();
             tf->setKeyPressed("");
             break;
         case LEVELBUTTON:
@@ -75,13 +76,13 @@ void HudController::process(float deltaTime)
                 lvlbtn->click();
             if ((!mouseOver && lvlbtn->isHovering()) || (mouseOver && !lvlbtn->isHovering()))
                 lvlbtn->handleHover();
-            lvlbtn->process(deltaTime);
             break;
         default:
             break;
         }
         hudElement->draw();
     }
+    glColor3f(0, 0, 0);
     glDisable(GL_BLEND);
     glPopMatrix();                      
     glMatrixMode(GL_PROJECTION);
