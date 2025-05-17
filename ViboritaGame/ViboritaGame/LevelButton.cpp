@@ -112,6 +112,8 @@ SDL_Rect* LevelButton::getRect()
 void LevelButton::handleHover()
 {
 	this->hover = !hover;
+	if (hover)
+		playSound(HOVER);
 }
 
 bool LevelButton::isHovering()

@@ -580,3 +580,18 @@ void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffs
 		cameraPos.z + forward.z * distance + right.z * xOffset + up.z * yOffset
 	};
 }
+
+Mix_Chunk* sounds[10] = {NULL,NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+
+
+void playSound(SOUND_ENUM sound)
+{
+	int i = -1;
+	switch (sound) {
+	case HOVER:
+		i = 0;
+		break;
+	}
+	if (i != -1 && sounds[i] != NULL)
+		Mix_PlayChannel(-1, sounds[i], 0);
+}

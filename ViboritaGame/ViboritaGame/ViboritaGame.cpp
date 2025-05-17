@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include <iostream>
 #include <GL/glu.h>
 #include <iostream>
@@ -80,6 +81,24 @@ void setupLighting() {
 	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
 }
 
+void setupSounds() {
+	if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+		SDL_Log("Failed to init SDL: %s", SDL_GetError());
+	}
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+		SDL_Log("Failed to init SDL_mixer: %s", Mix_GetError());
+	}
+
+	Mix_Chunk* hoverSound = Mix_LoadWAV("sounds/hover.wav");
+	if (!hoverSound) {
+		SDL_Log("Failed to load sound: %s", Mix_GetError());
+	}
+	else {
+		sounds[0] = hoverSound;
+	}
+
+
+}
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
 
@@ -101,6 +120,8 @@ int main(int argc, char* argv[]) {
 	IMG_Init(IMG_INIT_PNG);
 
 	loadFonts();
+
+	setupSounds();
 
 	if (glewInit() != GLEW_OK)
 	{

@@ -216,7 +216,11 @@ void Button::handleClick()
 void Button::handleHover()
 {
 	if(callback != NULL || strcallback != NULL)
-	hover = !hover;
+	{
+		hover = !hover;
+		if (hover)
+			playSound(HOVER);
+	}
 }
 
 bool Button::isHovering()

@@ -15,6 +15,7 @@ private:
     Vec3 lightColor;
     float lightAlpha;
     GLenum SELECTED_LIGHT = GL_AMBIENT;
+    int volume;
 public:
 	Settings();
 	//Agregar getters y setters :D
@@ -28,6 +29,7 @@ public:
     int getLightAngle() const;
     Vec3 getLightColor() const;
     float getLightAlpha() const;
+    int getVolume();
 
     // Setters
     void setGameSpeed(float speed);
@@ -39,5 +41,6 @@ public:
     void setLightAngle(int angle);
     void setLightColor(Vec3 color,float alpha);
     void setSelectedLight(GLenum light);
+    void setVolume(int volume);
 };
 

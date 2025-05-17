@@ -17,6 +17,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <SDL_mixer.h>
 
 struct Vec3 {  
    float x, y, z;  
@@ -148,3 +149,11 @@ Vec2 sumV2(Vec2 v, Vec2 u);
 bool equalsV3(Vec3 v, Vec3 u);
 
 void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffset, float yOffset, Vec3& arrowKeyPos);
+
+enum SOUND_ENUM {
+	HOVER
+};
+
+extern Mix_Chunk* sounds[10];
+
+void playSound(SOUND_ENUM sound);

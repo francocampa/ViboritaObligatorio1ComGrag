@@ -16,6 +16,9 @@ private:
 	Button* speedText;
 	Slider* speedSlider;
 
+	Button* volumeText;
+	Slider* volumeSlider;
+
 	Button* graphicsText;
 
 	Button* wireFrameText;
@@ -46,6 +49,7 @@ public:
 	void process(float deltaTime);
 	void draw();
 	void changeGameSpeed(float gameSpeed);
+	void changeVolume(int volume);
 	void setWireframe(bool wireframe);
 	void setTextures(bool texture);
 	void setFacetado(bool val);

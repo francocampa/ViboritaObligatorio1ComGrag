@@ -9,6 +9,7 @@ Settings::Settings()
 	this->texSettings = INTERPOLADO;
     this->lightColor = { 0.2f,0.2f,0.2f };
     this->lightAlpha = 1.0f;
+    setVolume(128);
     setLightAngle(0);
 }
 
@@ -98,4 +99,15 @@ void Settings::setLightColor(Vec3 color, float alpha) {
 void Settings::setSelectedLight(GLenum light)
 {
     this->SELECTED_LIGHT = light; //Podr[ia validar si es uno de los 3 enums que espero, pero yo conf[io que si ;)
+}
+
+void Settings::setVolume(int volume)
+{
+    this->volume = volume;
+    Mix_Volume(-1,volume);
+    Mix_VolumeMusic(volume);
+}
+
+int Settings::getVolume() {
+    return volume;
 }

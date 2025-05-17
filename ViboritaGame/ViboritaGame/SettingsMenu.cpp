@@ -9,6 +9,10 @@ void setSpeedCallback(float speed) {
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
 	sm->changeGameSpeed(speed);
 }
+void setVolumeCallback(float volume) {
+	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
+	sm->changeVolume(volume);
+}
 void setLightAngleCallback(float angle) {
 	printf("%f\n",angle);
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
@@ -61,13 +65,15 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	this->settings = settings;
 
 	speedText = new Button("Velocidad",20,20);
-	speedSlider = new Slider("Prueba", 20, 70, 150, 0.5f, 3.0f, setSpeedCallback, settings->getGameSpeed());
+	speedSlider = new Slider("Prueba", 30, 70, 150, 0.5f, 3.0f, setSpeedCallback, settings->getGameSpeed());
+	volumeText = new Button("Volumen", 20, 100);
+	volumeSlider = new Slider("Prueba", 30, 150, 150, 0, 128, setVolumeCallback, settings->getVolume());
 
-	graphicsText = new Button("Graficos", 20, 120);
-	wireFrameText = new Button("Wireframe", 30, 120 + 50,setWireframeCallback,"", true, settings->isWireframe());
-	texturesText = new Button("Textures", 30, 170 + 50,setTexturesCallback,"",true, settings->hasTextures());
-	interpoladoText = new Button("Interpolado", 30, 220 + 50, setFacetadoCallback,"",true,settings->hasFacetado());
-	facetadoText = new Button("Facetado", 30, 270 + 50, setInterpoladoCallback,"",true,settings->hasInterpolado());
+	graphicsText = new Button("Graficos", 20, 80 + 120);
+	wireFrameText = new Button("Wireframe", 30, 120 + 80 + 50,setWireframeCallback,"", true, settings->isWireframe());
+	texturesText = new Button("Textures", 30, 170 + 80 + 50,setTexturesCallback,"",true, settings->hasTextures());
+	interpoladoText = new Button("Interpolado", 30, 220 + 80 + 50, setFacetadoCallback,"",true,settings->hasFacetado());
+	facetadoText = new Button("Facetado", 30, 270 + 80 + 50, setInterpoladoCallback,"",true,settings->hasInterpolado());
 
 
 	lightText = new Button("Luz",450, 20);
@@ -91,6 +97,11 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 void SettingsMenu::changeGameSpeed(float speed)
 {
 	this->settings->setGameSpeed(speed);
+}
+
+void SettingsMenu::changeVolume(int volume)
+{
+	this->settings->setVolume(volume);
 }
 
 void SettingsMenu::setWireframe(bool wireframe)
@@ -177,6 +188,8 @@ std::vector<IHudElement*> SettingsMenu::getHudElements()
 	std::vector<IHudElement*> buttons;
 	buttons.push_back(speedText);
 	buttons.push_back(speedSlider);
+	buttons.push_back(volumeText);
+	buttons.push_back(volumeSlider);
 	buttons.push_back(wireFrameText);
 	buttons.push_back(texturesText);
 	buttons.push_back(backToGame);
