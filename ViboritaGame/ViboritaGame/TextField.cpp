@@ -25,7 +25,7 @@ TextField::TextField(std::string text, int x, int y, int length, void (*callback
 	indicator->x = x;
 	indicator->y = y;
 	indicator->h = height;
-	indicator->w = 5;
+	indicator->w = 2;
 
 	this->textRect = new SDL_Rect();
 	textRect->x = x;
@@ -56,11 +56,20 @@ TextField::TextField(std::string text, int x, int y, int length, void (*callback
 
 void TextField::draw()
 {
+	SDL_Rect* rectForText = textRect;
+	GLuint textId = textTextureId;
+	float alpha = 1;
+	if (textTextureId == NULL) {
+		rectForText = placeholderRect;
+		textId = placeHolderTextureId;
+		alpha = 0.5;
+	}
+
 	if (selected && cos(angle) > 0) {
 		glBegin(GL_QUADS);
 		//Renderizo el rectangulo del indicador
 		glColor3f(0.2f, 0.2f, 0.2f);
-		int wordSize = charactedLength * this->value.size();
+		int wordSize = this->value.size() == 0 ? 0 : rectForText->w;
 		glVertex2i(wordSize + indicator->x, indicator->y);
 		glVertex2i(wordSize + indicator->x + indicator->w, indicator->y);
 		glVertex2i(wordSize + indicator->x + indicator->w, indicator->y + height - 3);
@@ -68,14 +77,7 @@ void TextField::draw()
 		glEnd();
 	}
 
-	SDL_Rect* rectForText = textRect;
-	GLuint textId = textTextureId;
-	float alpha = 1;
-	if (textTextureId == NULL ) {
-		rectForText = placeholderRect;
-		textId = placeHolderTextureId;
-		alpha = 0.5;
-	}
+	
 	glColor4f(0,0,0,alpha);
 	glBindTexture(GL_TEXTURE_2D, textId);
 	glEnable(GL_TEXTURE_2D);
@@ -106,8 +108,8 @@ void TextField::draw()
 		//Renderizo el rectangulo del input
 		glVertex2i(rect->x, rect->y + height );
 		glVertex2i(rect->x + rect->w, rect->y + height);
-		glVertex2i(rect->x + rect->w, rect->y +height + 5);
-		glVertex2i(rect->x, rect->y+height + 5);
+		glVertex2i(rect->x + rect->w, rect->y +height + 3);
+		glVertex2i(rect->x, rect->y+height + 3);
 	glEnd();
 
 
