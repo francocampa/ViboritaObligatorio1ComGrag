@@ -124,7 +124,7 @@ void Viborita::draw() {
 		Vec2 currentRotation = { 0,0 };
 		Vec3 currentOffset = {0,0,0};
 
-		glScalef(0.5f, 0.5f, 0.5f);
+		glScalef(0.5f * TILE_SIZE , 0.5f * TILE_SIZE, 0.5f * TILE_SIZE);
 		if (bodyPart == this->body.head) {
 			calculatePartRotation(this->body.head->dirToFront, this->body.head->dirToFront, bodyPart->orientationToFront, true, currentRotation, currentOffset);
 			
@@ -309,7 +309,7 @@ bool Viborita::hasFloor()
 	while (aux != NULL)
 	{
 		Vec3 indexUnderPart = { aux->gridIndex.x,aux->gridIndex.y - 1,aux->gridIndex.z };
-		if (gameContext->hasSolidBlock(indexUnderPart))
+		if (gameContext->hasSolidBlock(indexUnderPart) || gameContext->tileHasApple(indexUnderPart))
 			return true;
 		aux = aux->next;
 	}

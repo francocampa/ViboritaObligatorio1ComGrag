@@ -13,6 +13,7 @@ void TextField::changeText(std::string newText)
 
 TextField::TextField(std::string text, int x, int y, int length, void (*callback)(std::string newValue), std::string initialValue) {
 	this->height = 32;
+	this->charactedLength = 18;
 	this->value = initialValue;
 	this->textTextureId = NULL;
 	this->rect = new SDL_Rect();
@@ -20,42 +21,93 @@ TextField::TextField(std::string text, int x, int y, int length, void (*callback
 	rect->y = y;
 	rect->h = height;
 	rect->w = length;
+	this->indicator = new SDL_Rect();
+	indicator->x = x;
+	indicator->y = y;
+	indicator->h = height;
+	indicator->w = 5;
+
 	this->textRect = new SDL_Rect();
-	textRect->x = x+5;
-	textRect->y = y+4;
+	textRect->x = x;
+	textRect->y = y+2;
 	textRect->w = 0;
 	textRect->h = 0;
 
+	this->placeholderRect = new SDL_Rect();
+	placeholderRect->x = x;
+	placeholderRect->y = y + 2;
+	placeholderRect->w = 0;
+	placeholderRect->h = 0;
 	if(initialValue != "")
 		changeText(initialValue);
 
-	this->maxValueSize = length / 10;
+	if (text != "") {
+		int width = 0;
+		int height = 0;
+		loadTextTexture(this->placeHolderTextureId, text.c_str(), font, width, height);
+		this->placeholderRect->w = width;
+		this->placeholderRect->h = height;
+	}
+
+	this->maxValueSize = 11;
+
+	this->callback = callback;
 }
 
 void TextField::draw()
 {
-	if (textTextureId != NULL) {
-		glBindTexture(GL_TEXTURE_2D, textTextureId);
-		glEnable(GL_TEXTURE_2D);
+	if (selected && cos(angle) > 0) {
 		glBegin(GL_QUADS);
-		//Renderizo el texto
-
-		glTexCoord2f(0.0f, 0.0f); glVertex2i(textRect->x, textRect->y);
-		glTexCoord2f(1.0f, 0.0f); glVertex2i(textRect->x + textRect->w, textRect->y);
-		glTexCoord2f(1.0f, 1.0f); glVertex2i(textRect->x + textRect->w, textRect->y + textRect->h);
-		glTexCoord2f(0.0f, 1.0f); glVertex2i(textRect->x, textRect->y + textRect->h);
+		//Renderizo el rectangulo del indicador
+		glColor3f(0.2f, 0.2f, 0.2f);
+		int wordSize = charactedLength * this->value.size();
+		glVertex2i(wordSize + indicator->x, indicator->y);
+		glVertex2i(wordSize + indicator->x + indicator->w, indicator->y);
+		glVertex2i(wordSize + indicator->x + indicator->w, indicator->y + height - 3);
+		glVertex2i(wordSize + indicator->x, indicator->y + height - 3);
 		glEnd();
-		glDisable(GL_TEXTURE_2D);
 	}
+
+	SDL_Rect* rectForText = textRect;
+	GLuint textId = textTextureId;
+	float alpha = 1;
+	if (textTextureId == NULL ) {
+		rectForText = placeholderRect;
+		textId = placeHolderTextureId;
+		alpha = 0.5;
+	}
+	glColor4f(0,0,0,alpha);
+	glBindTexture(GL_TEXTURE_2D, textId);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);
+	//Renderizo el texto
+
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(rectForText->x, rectForText->y);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i(rectForText->x + rectForText->w, rectForText->y);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(rectForText->x + rectForText->w, rectForText->y + rectForText->h);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(rectForText->x, rectForText->y + rectForText->h);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	glColor4f(0, 0, 0, 1);
+
+	/*glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glBegin(GL_QUADS);*/
+	//Renderizo el rectangulo del input
+	//glColor3f(0.8f, 0.8f, 0.8f);
+	//glVertex2i(rect->x, rect->y);
+	//glVertex2i(rect->x + rect->w, rect->y);
+	//glVertex2i(rect->x + rect->w, rect->y + rect->h);
+	//glVertex2i(rect->x, rect->y + rect->h);
+	//glColor3f(0, 0, 0);
+	//glEnd();
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	glBegin(GL_QUADS);
 		//Renderizo el rectangulo del input
-		glColor3f(0.8f, 0.8f, 0.8f);
-		glVertex2i(rect->x, rect->y);
-		glVertex2i(rect->x + rect->w, rect->y);
-		glVertex2i(rect->x + rect->w, rect->y + rect->h);
-		glVertex2i(rect->x, rect->y + rect->h);
-		glColor3f(0,0,0);
+		glVertex2i(rect->x, rect->y + height );
+		glVertex2i(rect->x + rect->w, rect->y + height);
+		glVertex2i(rect->x + rect->w, rect->y +height + 5);
+		glVertex2i(rect->x, rect->y+height + 5);
 	glEnd();
 
 
@@ -63,6 +115,7 @@ void TextField::draw()
 
 void TextField::process(float deltaTime)
 {
+	angle += 5.0f * deltaTime;
 }
 
 void TextField::processKeyPress()
@@ -86,6 +139,7 @@ void TextField::processKeyPress()
 		this->value += keyPressed;
 		changeText(this->value);
 	}
+	callback(this->value);
 }
 
 BUTTON_TYPE TextField::getType()
@@ -111,6 +165,11 @@ void TextField::clickOutside()
 void TextField::setKeyPressed(std::string key)
 {
 	this->keyPressed = key;
+}
+
+bool TextField::isSelected()
+{
+	return selected;
 }
 
 

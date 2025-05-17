@@ -31,25 +31,10 @@ void changeNameCallback(std::string name) {
 	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
 	lc->setName(name);
 }
-int LevelCreator::autoId = 0;
 LevelCreator::LevelCreator()
 {
-	int maxId = 0;
 	noOfApples = 0;
-	for (const auto& entry : std::filesystem::directory_iterator("customLevels")) 
-		if (entry.is_regular_file()) {
-			std::string fileName = entry.path().filename().string();
-			int newId = 0;
-			try {
-				newId = std::stoi(fileName.substr(0, fileName.size() - 3));
-			}catch(std::invalid_argument){}
-			if (newId > maxId) {
-				maxId = newId;
-			}
-		}
-
-	autoId= maxId+1;
-
+	this->name = "";
 	createButtons();
 	selectedGridIndex = { 0,0,0 };
 	selectedEntityType = BLOCK;
@@ -60,16 +45,10 @@ LevelCreator::LevelCreator()
 				grid[x][y][z] = NULL;
 }
 void LevelCreator::createButtons()
-{
-	blockButton = new Button("Bloque", 10, 60, selectEntityCallback, "block",true);
-	appleButton = new Button("Manzana", 10, 102, selectEntityCallback, "apple",true);
-	goalButton = new Button("Meta", 10, 144, selectEntityCallback, "goal",true);
-	viboritaButton = new Button("Viborita", 10, 186, selectEntityCallback, "viborita",true);
-	erasorButton = new Button("Borrador", 10, 228, selectEraseCallback, "",true);
-	
+{	
 	nameField = new TextField("Nombre", 640 / 2 - 200 / 2, 10, 200, changeNameCallback, "");
 	saveButton = new Button("Guardar", 10, 10, saveLevelCallback, "",false);
-	mainMenuButton = new Button("Menu", 450, 10, goToMainMenuFromLevelCreatorCallback, "",false);
+	mainMenuButton = new Button("Menu", 540, 10, goToMainMenuFromLevelCreatorCallback, "",false);
 	
 	for (int i = 0;i < 8;i++) {
 		selectBar[i] = NULL;
@@ -141,23 +120,21 @@ void LevelCreator::draw()
 			glRotatef(selectAngles[i],0,1,0);
 			glTranslatef(-TILE_SIZE / 2, -TILE_SIZE / 2, -TILE_SIZE / 2);
 			selectBar[i]->draw();
+			glPopMatrix();
 			//if (selectedIndex == i) { //TODO: indicator de que est[a seleccionado
-			//	calc3dCoordsForHud(GameController::getInstance()->getCameraPos(), { 0,0,0 }, 25, (i - 2) * 2.5, -9, pos);
+			//	glPushMatrix();
+			//	glScalef(0.7f,0.7f,0.7f);
+			//	calc3dCoordsForHud(GameController::getInstance()->getCameraPos(), { 0,0,0 }, 25, (i - 2) * 2.5, -10, pos);
 			//	glTranslatef(pos.x, pos.y, pos.z);
 			//	drawPyramid(basePyramidVertices,basePyramidColors,basePyramydIndices);
+			//	glPopMatrix();
 			//}
-			glPopMatrix();
 		}
 }
 
 std::vector<IHudElement*> LevelCreator::getHudElements()
 {
 	std::vector<IHudElement*> btns;
-	//btns.push_back(blockButton);
-	//btns.push_back(appleButton);
-	//btns.push_back(goalButton);
-	//btns.push_back(viboritaButton);
-	//btns.push_back(erasorButton);
 
 	btns.push_back(saveButton);
 	btns.push_back(mainMenuButton);
@@ -219,13 +196,15 @@ void LevelCreator::saveLevel()
 {
 	if (this->viborita == NULL)
 		return;
+	if (this->name == "")
+		return;
 	GameController* gc = GameController::getInstance();
 
 	pugi::xml_document* root = new pugi::xml_document();
 	pugi::xml_node levelNode = root->append_child("Level");
-	levelNode.append_attribute("name").set_value(autoId);
+	levelNode.append_attribute("name").set_value(this->name);
 	levelNode.append_attribute("maxScore").set_value(noOfApples);
-	levelNode.append_attribute("nextLevel").set_value(autoId+1);
+	levelNode.append_attribute("nextLevel").set_value("");
 	
 	
 
@@ -252,11 +231,9 @@ void LevelCreator::saveLevel()
 		aux = aux->next;
 	}
 
-	std::string filePath = "customLevels/" + std::to_string(autoId) + ".xml";
+	std::string filePath = "customLevels/" + name + ".xml";
 	
 	root->save_file(filePath.c_str());
-
-	autoId++;
 }
 
 void LevelCreator::clearGrid()
@@ -293,6 +270,9 @@ void LevelCreator::handleSelectedIndexMovement()
 
 void LevelCreator::handlePlaceEntity()
 {
+	if (nameField->isSelected())
+		return;
+
 	GameController* gc = GameController::getInstance();
 	if (!gc->isSpaceKey())
 		return;

@@ -11,8 +11,6 @@ class LevelCreator :
     public IGameState
 {
 private:
-    static int autoId;
-
     int noOfApples;
     std::string name;
     IGameEntity* grid[8][8][8];
@@ -24,13 +22,6 @@ private:
     Button* mainMenuButton;
     Button* saveButton;
     Button* clearButton;
-
-    //To remove
-    Button* blockButton;
-    Button* appleButton;
-    Button* goalButton;
-    Button* viboritaButton;
-    Button* erasorButton;
 
     int selectedIndex = 0;
     IGameEntity* selectBar[8];

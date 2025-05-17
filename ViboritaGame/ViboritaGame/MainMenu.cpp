@@ -56,7 +56,9 @@ MainMenu::MainMenu() {
 		i++;
 	}
 	this->levelButtons = btns;
+	
 	std::vector<LevelButton*> btnsForCustom;
+	i = 0;
 	for (Level* level : customLevels) {
 		LevelButton* levelBtn = new LevelButton(i%3, level, loadLevel);
 		btnsForCustom.push_back(levelBtn);
