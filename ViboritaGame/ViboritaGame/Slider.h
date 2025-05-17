@@ -19,6 +19,7 @@ class Slider :
 private:
 	std::string text;
 	SDL_Rect* area;
+	SDL_Rect* sliderLine; //Estos dos son los dos rectangulos del slider:
 	SDL_Rect* progressLine; //Estos dos son los dos rectangulos del slider:
 	SDL_Rect* selector;		// 0 ------|---- 100
 	int girth;
@@ -35,6 +36,7 @@ public:
 	void mouseUp();
 	void processMousePos(Vec2 mousePos);
 	virtual SDL_Rect* getRect();
+	virtual SDL_Rect* getSelectorRect();
 	BUTTON_TYPE getType();
 };
 

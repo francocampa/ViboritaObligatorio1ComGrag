@@ -54,6 +54,7 @@ void HudController::process(float deltaTime)
             break;
         case SLIDER:
             slider = (Slider*)hudElement;
+            mouseOver |= SDL_HasIntersection(&mouse, slider->getSelectorRect());
             if (mouseOver && gc->isMouseDown())
                 slider->mouseDown(mousePos);
             if (gc->isMouseUp())

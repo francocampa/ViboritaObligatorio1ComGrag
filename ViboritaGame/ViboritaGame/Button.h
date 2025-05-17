@@ -41,7 +41,7 @@ public:
 	Button(int x, int y, int width, int height, void (*callback)(std::string arg),std::string arg); //Button invisible
 	
 	Button(const char* text, int x, int y); //Renderiza solo texto
-	Button(const char* text, int x, int y, void (*callback)(std::string arg), std::string arg, bool selectable); //Button texto y callback con string
+	Button(const char* text, int x, int y, void (*callback)(std::string arg), std::string arg, bool selectable, bool selected); //Button texto y callback con string
 	void draw();
 	void process(float deltaTime);
 	BUTTON_TYPE getType();

@@ -135,12 +135,12 @@ Button::Button(const char* text, int x, int y)
 	this->strcallback = NULL;
 }
 
-Button::Button(const char* text, int x, int y, void(*callback)(std::string arg), std::string arg,bool selectable)
+Button::Button(const char* text, int x, int y, void(*callback)(std::string arg), std::string arg,bool selectable, bool selected)
 {
 	this->selectable = selectable;
 	textBtn = true;
 	hover = false;
-	selected = false;
+	this->selected = selected;
 	int width = 0;
 	int height = 0;
 	loadTextTexture(this->textureId, text, font, width,height);
@@ -161,7 +161,7 @@ Button::Button(const char* text, int x, int y, void(*callback)(std::string arg),
 void Button::draw()
 {
 	if (textureId != NULL) {
-		glBindTexture(GL_TEXTURE_2D, selected ? selectedTextureId : hoverTextureId != NULL && isHovering() ? hoverTextureId : textureId);
+		glBindTexture(GL_TEXTURE_2D, hoverTextureId != NULL && isHovering() ? hoverTextureId : textureId);
 		glEnable(GL_TEXTURE_2D);
 	}
 	else
@@ -169,8 +169,10 @@ void Button::draw()
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
 
 	
+	float alpha = selectable && !selected ? 0.3f : 1;
+
 	int yOffset = 0;
-	glColor3f(hoverProgress, hoverProgress, hoverProgress);
+	glColor4f(hoverProgress, hoverProgress, hoverProgress,alpha);
 	yOffset = -rectangle->h * hoverProgress;
 	
 	
@@ -180,12 +182,12 @@ void Button::draw()
 	glTexCoord2f(1.0f, 1.0f); glVertex2i(rectangle->x + rectangle->w, yOffset + rectangle->y + rectangle->h);
 	glTexCoord2f(0.0f, 1.0f); glVertex2i(rectangle->x, yOffset + rectangle->y + rectangle->h);
 	glEnd();
-	glColor3f(0, 0, 0);
+	glColor4f(0, 0, 0, 1);
 
 	if (textureId != NULL) 
 		glDisable(GL_TEXTURE_2D);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//else
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void Button::process(float deltaTime)
@@ -201,12 +203,19 @@ void Button::handleClick()
 {
 	if(callback != NULL)
 		this->callback();
-	if (strcallback != NULL)
+	if (this->selectable)
+	{
+		this->setSelected(!selected);
+		this->strcallback(selected ? "true" : "false");
+	}
+	else if (strcallback != NULL)
 		this->strcallback(arg);
+
 }
 
 void Button::handleHover()
 {
+	if(callback != NULL || strcallback != NULL)
 	hover = !hover;
 }
 

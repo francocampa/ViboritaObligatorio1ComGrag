@@ -24,6 +24,16 @@ bool Settings::hasTextures() const {
     return textures;
 }
 
+bool Settings::hasInterpolado() const
+{
+    return interpolado;
+}
+
+bool Settings::hasFacetado() const
+{
+    return facetado;
+}
+
 TEX_SETTINGS Settings::getTexSettings() const {
     return texSettings;
 }
@@ -51,6 +61,16 @@ void Settings::setWireframe(bool value) {
 
 void Settings::setTextures(bool value) {
     textures = value;
+}
+
+void Settings::setFacetado(bool value)
+{
+    this->facetado = value;
+}
+
+void Settings::setInterpolado(bool value)
+{
+    this->interpolado = value;
 }
 
 void Settings::setTexSettings(TEX_SETTINGS settings) {

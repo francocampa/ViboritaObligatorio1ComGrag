@@ -8,7 +8,9 @@ private:
 	float gameSpeed;
 	bool wireframe;
 	bool textures;
-	TEX_SETTINGS texSettings;
+    bool facetado;
+    bool interpolado;
+    TEX_SETTINGS texSettings;
 	int lightAngle;
     Vec3 lightColor;
     float lightAlpha;
@@ -20,6 +22,8 @@ public:
     float getGameSpeed() const;
     bool isWireframe() const;
     bool hasTextures() const;
+    bool hasInterpolado() const;
+    bool hasFacetado() const;
     TEX_SETTINGS getTexSettings() const;
     int getLightAngle() const;
     Vec3 getLightColor() const;
@@ -29,6 +33,8 @@ public:
     void setGameSpeed(float speed);
     void setWireframe(bool value);
     void setTextures(bool value);
+    void setFacetado(bool value);
+    void setInterpolado(bool value);
     void setTexSettings(TEX_SETTINGS settings);
     void setLightAngle(int angle);
     void setLightColor(Vec3 color,float alpha);

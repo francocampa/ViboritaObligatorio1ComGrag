@@ -47,8 +47,8 @@ LevelCreator::LevelCreator()
 void LevelCreator::createButtons()
 {	
 	nameField = new TextField("Nombre", 640 / 2 - 200 / 2, 10, 200, changeNameCallback, "");
-	saveButton = new Button("Guardar", 10, 10, saveLevelCallback, "",false);
-	mainMenuButton = new Button("Menu", 540, 10, goToMainMenuFromLevelCreatorCallback, "",false);
+	saveButton = new Button("Guardar", 10, 10, saveLevelCallback, "",false,false);
+	mainMenuButton = new Button("Menu", 540, 10, goToMainMenuFromLevelCreatorCallback, "",false,false);
 	
 	for (int i = 0;i < 8;i++) {
 		selectBar[i] = NULL;

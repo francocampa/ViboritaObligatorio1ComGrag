@@ -16,22 +16,21 @@ private:
 	Button* speedText;
 	Slider* speedSlider;
 
+	Button* graphicsText;
+
 	Button* wireFrameText;
-	Button* wireFrameTrue;
-	Button* wireFrameFalse;
 
 	Button* texturesText;
-	Button* texturesTrue;
-	Button* texturesFalse;
 
 	Button* backToGame;
 	Button* backToMenu;
 
 	Button* interpoladoText;
-	Button* interpoladoCheck;
 	Button* facetadoText;
-	Button* facetadoCheck;
 	
+
+	Button* lightText;
+
 	Button* lightDirText;
 	Slider* lightDirSlider;
 	Button* lightRText;
@@ -49,6 +48,8 @@ public:
 	void changeGameSpeed(float gameSpeed);
 	void setWireframe(bool wireframe);
 	void setTextures(bool texture);
+	void setFacetado(bool val);
+	void setInterpolado(bool val);
 	void setTexSettings(TEX_SETTINGS texSettings);
 	void changeLightRed(float red);
 	void changeLightGreen(float green);
