@@ -40,3 +40,17 @@ std::string Level::getNextLevelName()
 	return nextLevelName;
 }
 
+void Level::drawPreview(int gridSize)
+{
+	glEnable(GL_LIGHTING);
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	for (int x = 0; x < gridSize;x++)
+		for (int y = 0; y < gridSize;y++)
+			for (int z = 0; z < gridSize;z++)
+				if (initialGrid[x][y][z] != NULL && initialGrid[x][y][z] != this->initialViborita)
+					initialGrid[x][y][z]->draw();
+
+	this->initialViborita->draw();
+	glDisable(GL_LIGHTING);
+}
+

@@ -10,23 +10,43 @@
 #include <filesystem>
 #include "LevelCreator.h"
 
+class LevelButton;
+
 class MainMenu :
     public IGameState
 {
 private:
+	Button* goToTutorial;
+	Button* showLevelCarousel;
+	Button* showCustomLevelCarousel;
 	Button* levelCreatorButton;
-	std::vector<Button*> levelButtons;
+
+	bool showCarousel;
+	std::vector<LevelButton*> levelCarousel;
+	int carouselIndex;
+	Button* leftArrowCarousel;
+	Button* rightArrowCarousel;
+	Button* closeCarouselBtn;
+
+	std::vector<LevelButton*> levelButtons;
+	std::vector<LevelButton*> customLevelsButtons;
+	
 	std::vector<Level*> levels;
-	std::vector<Button*> customLevelsButtons;
 	std::vector<Level*> customLevels;
 	void loadLevels();
 	Level* loadFromXML(pugi::xml_node root);
+
 public:
 	MainMenu();
 	void process(float deltaTime);
 	void draw();
 	void startLevel(std::string levelName);
 	void goToLevelCreator();
+	void moveCarouselRight();
+	void moveCarouselLeft();
 	virtual std::vector<IHudElement*> getHudElements();
+	void setLevelCarousel();
+	void setCustomLevelCarousel();
+	void closeCarousel();
 };
 

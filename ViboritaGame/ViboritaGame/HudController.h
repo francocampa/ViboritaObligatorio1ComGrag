@@ -23,7 +23,7 @@ private:
 	TTF_Font* mainFont;
 public:
 	static HudController* getInstance();
-	void process(); //Draw hud and check for button clicks
+	void process(float deltaTime); //Draw hud and check for button clicks
 	void setFont(TTF_Font* mainFont);
 	TTF_Font* getFont();
 };

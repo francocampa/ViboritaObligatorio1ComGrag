@@ -60,6 +60,7 @@ private:
 	bool moveCamera = true;
 	std::string keyPressed = "";
 
+	Vec3 cameraPos = { 0,0,0 };
 	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
 	float sensitivity = 0.5f;
 
@@ -118,5 +119,8 @@ public:
 	void setCameraCoordinates(float theta, float phi);
 	void setCameraRadius(float radius);
 	void setSensitivity(float sensitivity);
+
+	void setCameraPos(Vec3 pos);
+	Vec3 getCameraPos();
 };
 

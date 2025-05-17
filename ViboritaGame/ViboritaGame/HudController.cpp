@@ -1,4 +1,5 @@
 #include "HudController.h"
+#include "LevelButton.h"
 
 HudController* HudController::instance = NULL;
 
@@ -14,14 +15,14 @@ HudController* HudController::getInstance()
 	return instance;
 }
 
-void HudController::process()
+void HudController::process(float deltaTime)
 {
     GameController* gc =  GameController::getInstance();
     Vec2 mousePos = gc->getMousePos();
     std::vector<IHudElement*> hud = gc->getHudElements();
     SDL_Rect mouse;
-    mouse.h = 20;
-    mouse.w = 20;
+    mouse.h = 1;
+    mouse.w = 1;
     mouse.x = mousePos.x;
     mouse.y = mousePos.y;
 
@@ -37,6 +38,7 @@ void HudController::process()
     for (IHudElement* hudElement : hud) {
         bool mouseOver = SDL_HasIntersection(&mouse, hudElement->getRect());
         Button* btn;
+        LevelButton* lvlbtn;
         Slider* slider;
         TextField* tf;
         switch (hudElement->getType())
@@ -66,6 +68,14 @@ void HudController::process()
             tf->setKeyPressed(gc->getKeyPressed());
             tf->process();
             tf->setKeyPressed("");
+            break;
+        case LEVELBUTTON:
+            lvlbtn = (LevelButton*)hudElement;
+            if (mouseOver && gc->clicked())
+                lvlbtn->click();
+            if ((!mouseOver && lvlbtn->isHovering()) || (mouseOver && !lvlbtn->isHovering()))
+                lvlbtn->handleHover();
+            lvlbtn->process(deltaTime);
             break;
         default:
             break;

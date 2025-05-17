@@ -1,10 +1,6 @@
 #include "MainMenu.h"
+#include "LevelButton.h"
 
-void loadLevel(std::string levelName) {
-	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
-
-	mm->startLevel(levelName);
-}
 void goToLevelCreatorFromMainMenuCallback(std::string z) {
 	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
 	mm->goToLevelCreator();
@@ -14,37 +10,63 @@ void callbackForSlider(float newValue) {
 	printf("%f\n",newValue);
 }
 
+void callbackShowLevelCarousel(std::string z) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->setLevelCarousel();
+}
+void callbackShowCustomLevelCarousel(std::string z) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->setCustomLevelCarousel();
+}
+
+void callbackCarouselRight() {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->moveCarouselRight();
+}
+void callbackCarouselLeft() {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->moveCarouselLeft();
+}
+void callbackCloseCarousel(std::string z) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->closeCarousel();
+}
+void loadLevel(std::string levelName) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+
+	mm->startLevel(levelName);
+}
+
 MainMenu::MainMenu() {
-	levelCreatorButton = new Button("Creador de niveles", 10, 10, goToLevelCreatorFromMainMenuCallback, "");
+	levelCreatorButton = new Button("Creador de niveles", 640 / 2 - 100, 50, goToLevelCreatorFromMainMenuCallback, "");
+	showLevelCarousel = new Button("Niveles", 640 / 2 - 100, 100, callbackShowLevelCarousel, "");
+	showCustomLevelCarousel = new Button("Niveles personalizados", 640/2 - 100, 150, callbackShowCustomLevelCarousel, "");
+	
+	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10,480/2 - 30/2, 30,30,callbackCarouselLeft);
+	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", 640 - 10 - 30 / 2, 480 / 2 - 30 / 2, 30, 30, callbackCarouselRight);
+	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel,"");
 
 	loadLevels();
 
-	std::vector<Button*> btns;
+	std::vector<LevelButton*> btns;
 	int i = 0;
-	int j = 0;
-	int prevWidth = 0;
 	for (Level* level : levels) {
-		Button* levelBtn = new Button(level->getName().c_str(), 50 + 20*i + prevWidth , 120 + j * 60, loadLevel, level->getName());
+		LevelButton* levelBtn = new LevelButton(i%3,level,loadLevel);
 		btns.push_back(levelBtn);
 		i++;
-		if (i == 5) {
-			i = 0;
-			j++;
-		}
-		prevWidth += levelBtn->getRect()->w;
-	}
-	prevWidth = 0;
-	for (Level* level : customLevels) {
-		Button* levelBtn = new Button(level->getName().c_str(), 50 + 20 * i + prevWidth, 220 + j * 60, loadLevel, level->getName());
-		btns.push_back(levelBtn);
-		i++;
-		if (i == 5) {
-			i = 0;
-			j++;
-		}
-		prevWidth += levelBtn->getRect()->w;
 	}
 	this->levelButtons = btns;
+	std::vector<LevelButton*> btnsForCustom;
+	for (Level* level : customLevels) {
+		LevelButton* levelBtn = new LevelButton(i%3, level, loadLevel);
+		btnsForCustom.push_back(levelBtn);
+		i++;
+	}
+	this->customLevelsButtons = btnsForCustom;
+
+	this->showCarousel = false;
+	this->levelCarousel = btnsForCustom;
+	this->carouselIndex = 0;
 }
 
 
@@ -75,6 +97,22 @@ void MainMenu::goToLevelCreator()
 {
 	LevelCreator* lc = new LevelCreator();
 	GameController::getInstance()->setState(lc);
+}
+
+void MainMenu::moveCarouselRight()
+{
+	if (levelCarousel.size() < (carouselIndex+1) * 3)
+		return;
+
+	carouselIndex++;
+}
+
+void MainMenu::moveCarouselLeft()
+{
+	if (carouselIndex == 0)
+		return;
+
+	carouselIndex--;
 }
 
 void parseCoordsFromXMLNode(pugi::xml_node node, Vec3 &gridIndex, Vec3 &position) {
@@ -114,9 +152,6 @@ void MainMenu::loadLevels()
 		Level* l =loadFromXML(levelXMLReader.child("Level"));
 		customLevels.push_back(l);
 	}
-
-	//levels.push_back(GameController::getInstance()->getLevel1());
-	//levels.push_back(GameController::getInstance()->getLevel2());
 }
 
 Level* MainMenu::loadFromXML(pugi::xml_node levelNode)
@@ -197,8 +232,42 @@ void MainMenu::draw()
 std::vector<IHudElement*> MainMenu::getHudElements()
 {
 	std::vector<IHudElement*> buttons;
-	buttons.push_back(levelCreatorButton);
-	for (Button* button : this->levelButtons)
-		buttons.push_back(button);
+	if (showCarousel) {
+		buttons.push_back(levelCarousel.at(carouselIndex * 3));
+		if (levelCarousel.size() > carouselIndex * 3 + 1)
+			buttons.push_back(levelCarousel.at(carouselIndex * 3 + 1));
+		if (levelCarousel.size() > carouselIndex * 3 + 2)
+			buttons.push_back(levelCarousel.at(carouselIndex * 3 + 2));
+
+		buttons.push_back(leftArrowCarousel);
+		buttons.push_back(rightArrowCarousel);
+		buttons.push_back(closeCarouselBtn);
+	}
+	else {
+		buttons.push_back(showLevelCarousel);
+		buttons.push_back(showCustomLevelCarousel);
+		buttons.push_back(levelCreatorButton);
+	}
+
+	
 	return buttons;
+}
+
+void MainMenu::setLevelCarousel()
+{
+	this->showCarousel = true;
+	this->carouselIndex = 0;
+	this->levelCarousel = this->levelButtons;
+}
+
+void MainMenu::setCustomLevelCarousel()
+{
+	this->showCarousel = true;
+	this->carouselIndex = 0;
+	this->levelCarousel = this->customLevelsButtons;
+}
+
+void MainMenu::closeCarousel()
+{
+	this->showCarousel = false;
 }

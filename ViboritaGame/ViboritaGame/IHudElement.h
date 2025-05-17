@@ -12,5 +12,7 @@ public:
 	virtual BUTTON_TYPE getType();
 	virtual SDL_Rect* getRect();
 	static void setFont(TTF_Font* font);
+	static void goBackTo3d();
+	static void goBackTo2d();
 };
 

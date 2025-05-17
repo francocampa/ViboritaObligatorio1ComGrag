@@ -18,5 +18,6 @@ public:
 	int getMaxScore();
 	std::string getName();
 	std::string getNextLevelName();
+	void drawPreview(int gridSize);
 };
 

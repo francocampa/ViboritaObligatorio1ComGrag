@@ -44,7 +44,7 @@ void GameController::processFrame(float deltaTime) {
 	state->process(deltaTime);
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	HudController::getInstance()->process();
+	HudController::getInstance()->process(deltaTime);
 }
 
 float GameController::getGridPosition(float a) {
@@ -258,6 +258,18 @@ void GameController::setCameraRadius(float radius)
 void GameController::setSensitivity(float sensitivity)
 {
 	this->sensitivity = sensitivity;
+}
+
+void GameController::setCameraPos(Vec3 pos)
+{
+	cameraPos.x = pos.x;
+	cameraPos.y = pos.y;
+	cameraPos.z = pos.z;
+}
+
+Vec3 GameController::getCameraPos()
+{
+	return cameraPos;
 }
 
 

@@ -135,7 +135,7 @@ int main(int argc, char* argv[]) {
 	cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 	cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 	cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
-
+	gc->setCameraPos(cameraPos);
 	Vec3 arrowKeysPos = { 0,0,0 };
 
 	calculateArrowKeysPos(cameraPos,center, arrowKeysPos);
@@ -294,6 +294,7 @@ int main(int argc, char* argv[]) {
 					cameraPos.y = cameraRadius * cos(phi);
 					cameraPos.z = cameraRadius * sin(phi) * sin(theta);
 
+					gc->setCameraPos(cameraPos);
 					gc->setCameraCoordinates(theta,phi);
 					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
@@ -307,7 +308,7 @@ int main(int argc, char* argv[]) {
 					float phi = gc->getCameraProps().y;
 					float cameraRadius = gc->getCameraProps().z;
 
-					float movement = deltaTime * sensitivity * scrollY;
+					float movement = deltaTime * sensitivity * scrollY * 40;
 					cameraRadius += -movement;
 					if (cameraRadius < 0.5 || cameraRadius > 40)
 						cameraRadius += movement;
@@ -316,7 +317,8 @@ int main(int argc, char* argv[]) {
 					cameraPos.x = cameraRadius * sin(phi) * cos(theta);
 					cameraPos.y = cameraRadius * cos(phi);
 					cameraPos.z = cameraRadius * sin(phi) * sin(theta);
-
+					
+					gc->setCameraPos(cameraPos);
 					gc->setCameraRadius(cameraRadius);
 					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
