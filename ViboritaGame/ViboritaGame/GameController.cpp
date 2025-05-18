@@ -49,10 +49,12 @@ void GameController::processFrame(float deltaTime) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	if (game != NULL) {
+		glEnable(GL_LIGHTING);
 		cloud1->draw(deltaTime);
 		cloud2->draw(deltaTime);
 		cloud3->draw(deltaTime);
 		cloud4->draw(deltaTime);
+		glDisable(GL_LIGHTING);
 	}
 
 	state->process(deltaTime);
@@ -284,6 +286,16 @@ void GameController::setCameraPos(Vec3 pos)
 Vec3 GameController::getCameraPos()
 {
 	return cameraPos;
+}
+
+void GameController::close()
+{
+	this->closeFlag = true;
+}
+
+bool GameController::shouldClose()
+{
+	return closeFlag;
 }
 
 

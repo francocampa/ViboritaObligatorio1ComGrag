@@ -6,6 +6,17 @@ void goToLevelCreatorFromMainMenuCallback(std::string z) {
 	mm->goToLevelCreator();
 }
 
+
+void goToSettingsFromMainMenuCallback(std::string z) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->goToSettings();
+}
+
+void closeFromMenuCallback(std::string z) {
+	MainMenu* mm = (MainMenu*)GameController::getInstance()->getState();
+	mm->closeGame();
+}
+
 void callbackForSlider(float newValue) {
 	printf("%f\n",newValue);
 }
@@ -38,10 +49,23 @@ void loadLevel(std::string levelName) {
 }
 
 MainMenu::MainMenu() {
-	levelCreatorButton = new Button("Creador de niveles", 640 / 2 - 100, 50, goToLevelCreatorFromMainMenuCallback, "",false,false);
-	showLevelCarousel = new Button("Niveles", 640 / 2 - 100, 100, callbackShowLevelCarousel, "", false,false);
-	showCustomLevelCarousel = new Button("Niveles personalizados", 640/2 - 100, 150, callbackShowCustomLevelCarousel, "", false,false);
 	
+	showLevelCarousel = new Button("Niveles", 0, 150, callbackShowLevelCarousel, "", false,false);
+	showLevelCarousel->center(0, 640);
+	
+	showCustomLevelCarousel = new Button("Niveles personalizados", 0, 200, callbackShowCustomLevelCarousel, "", false,false);
+	showCustomLevelCarousel->center(0, 640);
+	
+	levelCreatorButton = new Button("Creador de niveles", 0, 250, goToLevelCreatorFromMainMenuCallback, "", false, false);
+	levelCreatorButton->center(0, 640);
+
+	settingsButton = new Button("Opciones", 0, 300, goToSettingsFromMainMenuCallback, "", false, false);
+	settingsButton->center(0, 640);
+
+	closeButton = new Button("Salir", 0, 400, closeFromMenuCallback, "", false, false);
+	closeButton->center(0, 640);
+
+
 	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10,480/2 - 30/2, 30,30,callbackCarouselLeft);
 	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", 640 - 10 - 30 / 2, 480 / 2 - 30 / 2, 30, 30, callbackCarouselRight);
 	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
@@ -99,6 +123,17 @@ void MainMenu::goToLevelCreator()
 {
 	LevelCreator* lc = new LevelCreator();
 	GameController::getInstance()->setState(lc);
+}
+
+void MainMenu::goToSettings()
+{
+	SettingsMenu* s = new SettingsMenu(GameController::getInstance()->getSettings());
+	GameController::getInstance()->setState(s);
+}
+
+void MainMenu::closeGame()
+{
+	GameController::getInstance()->close();
 }
 
 void MainMenu::moveCarouselRight()
@@ -249,6 +284,8 @@ std::vector<IHudElement*> MainMenu::getHudElements()
 		buttons.push_back(showLevelCarousel);
 		buttons.push_back(showCustomLevelCarousel);
 		buttons.push_back(levelCreatorButton);
+		buttons.push_back(closeButton);
+		buttons.push_back(settingsButton);
 	}
 
 	

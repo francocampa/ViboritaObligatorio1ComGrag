@@ -20,6 +20,8 @@ private:
 	Button* showLevelCarousel;
 	Button* showCustomLevelCarousel;
 	Button* levelCreatorButton;
+	Button* closeButton;
+	Button* settingsButton;
 
 	bool showCarousel;
 	std::vector<LevelButton*> levelCarousel;
@@ -44,6 +46,8 @@ public:
 	void draw();
 	void startLevel(std::string levelName);
 	void goToLevelCreator();
+	void goToSettings();
+	void closeGame();
 	void moveCarouselRight();
 	void moveCarouselLeft();
 	virtual std::vector<IHudElement*> getHudElements();

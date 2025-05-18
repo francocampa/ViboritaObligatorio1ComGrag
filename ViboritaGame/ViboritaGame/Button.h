@@ -52,6 +52,7 @@ public:
 	void updateText(const char* texturePath); //Only when text rendering
 	SDL_Rect* getRect();
 	void setSelected(bool selected);
+	void center(int begin, int end);
 	~Button();
 };
 

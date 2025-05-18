@@ -145,7 +145,6 @@ int main(int argc, char* argv[]) {
 
 	loadModelsAndTextures();
 	
-	bool quit = false;
 	bool moveCamera = false;
 	bool alreadyMoved = false;
 	SDL_Event event;
@@ -201,7 +200,7 @@ int main(int argc, char* argv[]) {
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
-				quit = true;
+				gc->close();
 				break;
 			case SDL_KEYUP:
 				if (event.key.keysym.sym >= SDLK_SPACE && event.key.keysym.sym <= SDLK_z) {
@@ -230,7 +229,7 @@ int main(int argc, char* argv[]) {
 						}
 						break;
 					case SDLK_ESCAPE:
-						quit = true;
+						gc->close();
 						break;
 					case SDLK_UP:
 					case SDLK_DOWN:
@@ -351,7 +350,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		SDL_GL_SwapWindow(win);
-	} while (!quit);
+	} while (!gc->shouldClose());
 
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(win);

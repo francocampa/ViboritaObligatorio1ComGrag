@@ -73,6 +73,7 @@ private:
 	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
 	float sensitivity = 0.5f;
 
+	bool closeFlag = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -130,5 +131,8 @@ public:
 
 	void setCameraPos(Vec3 pos);
 	Vec3 getCameraPos();
+
+	void close();
+	bool shouldClose();
 };
 

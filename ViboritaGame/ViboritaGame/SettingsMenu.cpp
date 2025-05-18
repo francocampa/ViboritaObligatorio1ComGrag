@@ -14,7 +14,6 @@ void setVolumeCallback(float volume) {
 	sm->changeVolume(volume);
 }
 void setLightAngleCallback(float angle) {
-	printf("%f\n",angle);
 	SettingsMenu* sm = (SettingsMenu*)GameController::getInstance()->getState();
 	sm->changeLightAngle(angle);
 }
@@ -76,7 +75,7 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	facetadoText = new Button("Facetado", 30, 270 + 80 + 50, setInterpoladoCallback,"",true,settings->hasInterpolado());
 
 
-	lightText = new Button("Luz",450, 20);
+	lightText = new Button("Luz",440, 20);
 	lightDirText = new Button("Direccion", 450, 20 + 40);
 	lightDirSlider = new Slider("", 460, 70 + 40, 150, 0, 2*M_PI, setLightAngleCallback, settings->getLightAngle());
 	//TODO: agregar para seleccionar qu[e tipo de luz que cambi[as el color ambient, difuse,specular, usar el settings->setSelectedLight
@@ -176,7 +175,8 @@ void SettingsMenu::goBackToMainMenu()
 
 void SettingsMenu::process(float deltaTime)
 {
-	GameController::getInstance()->getGamePlay()->draw(); //Only draw but don't process (Viborita can't move)
+	if(GameController::getInstance()->getGamePlay() != NULL)
+		GameController::getInstance()->getGamePlay()->draw(); //Only draw but don't process (Viborita can't move)
 }
 
 void SettingsMenu::draw()
@@ -192,7 +192,8 @@ std::vector<IHudElement*> SettingsMenu::getHudElements()
 	buttons.push_back(volumeSlider);
 	buttons.push_back(wireFrameText);
 	buttons.push_back(texturesText);
-	buttons.push_back(backToGame);
+	if (GameController::getInstance()->getGamePlay() != NULL)
+		buttons.push_back(backToGame);
 	buttons.push_back(interpoladoText);
 	buttons.push_back(facetadoText);
 	buttons.push_back(backToMenu);

@@ -253,6 +253,11 @@ void Button::setSelected(bool selected)
 	this->selected = selected;
 }
 
+void Button::center(int begin, int end)
+{
+	rectangle->x = begin + (end - begin) / 2 - rectangle->w / 2;
+}
+
 Button::~Button()
 {
 	glDeleteTextures(1, &textureId);
