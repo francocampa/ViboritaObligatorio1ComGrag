@@ -5,13 +5,13 @@ Cloud::Cloud(int type, float radio, float angle){
 	this->type = type;
 	this->position = {0,0,0};
 	this->angle = angle;
-	this->angleSpeed = 0.0001f;
+	this->angleSpeed = 0.1f;
 	this->radio = radio;
 };
 
-void Cloud::draw() {
+void Cloud::draw(float deltaTime) {
 	glPushMatrix();
-	this->angle += this->angleSpeed;
+	this->angle += this->angleSpeed * deltaTime;
 	position.x = 12 * cos(this->angle);
 	position.y = 0; 
 	position.z = 12 * sin(this->angle);

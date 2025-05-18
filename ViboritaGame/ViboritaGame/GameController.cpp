@@ -1,5 +1,4 @@
 #include "GameController.h"
-#include "Cloud.h"
 
 GameController* GameController::instance = NULL;
 
@@ -50,10 +49,10 @@ void GameController::processFrame(float deltaTime) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	if (game != NULL) {
-		cloud1->draw();
-		cloud2->draw();
-		cloud3->draw();
-		cloud4->draw();
+		cloud1->draw(deltaTime);
+		cloud2->draw(deltaTime);
+		cloud3->draw(deltaTime);
+		cloud4->draw(deltaTime);
 	}
 
 	state->process(deltaTime);
