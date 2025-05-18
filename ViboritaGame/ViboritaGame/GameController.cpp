@@ -1,11 +1,15 @@
 #include "GameController.h"
+#include "Cloud.h"
 
 GameController* GameController::instance = NULL;
+
+std::mt19937 generador(std::time(nullptr));
+std::uniform_int_distribution<> distribucionEnteros(1, 100);
 
 GameController::GameController() {
 	GRID_SIZE = 8;
 	TILE_SIZE = 1;
-	for (int i = 0; i < 24;i++) 
+	for (int i = 0; i < 24;i++)
 		baseCubeVertices[i] = baseCubeVertices[i] * TILE_SIZE;
 	for (int i = 0; i < 12;i++)
 		basePyramidVertices[i] = basePyramidVertices[i] * TILE_SIZE;
@@ -17,7 +21,11 @@ GameController::GameController() {
 	settings = NULL;
 	timeCounter = 0.0f;
 	fps = 0;
-	fpsBtn = new Button("60",10,400);
+	fpsBtn = new Button("60", 10, 400);
+	cloud1 = new Cloud(1, 3, distribucionEnteros(generador));
+	cloud2 = new Cloud(2, 6, distribucionEnteros(generador));
+	cloud3 = new Cloud(3, 9, distribucionEnteros(generador));
+	cloud4 = new Cloud(2, 4, distribucionEnteros(generador));
 }
 
 GameController* GameController::getInstance() {
@@ -40,6 +48,13 @@ void GameController::processFrame(float deltaTime) {
 	
 	if(settings->isWireframe())
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	if (game != NULL) {
+		cloud1->draw();
+		cloud2->draw();
+		cloud3->draw();
+		cloud4->draw();
+	}
 
 	state->process(deltaTime);
 

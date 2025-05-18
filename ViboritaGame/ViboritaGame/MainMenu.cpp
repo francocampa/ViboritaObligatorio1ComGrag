@@ -44,7 +44,7 @@ MainMenu::MainMenu() {
 	
 	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10,480/2 - 30/2, 30,30,callbackCarouselLeft);
 	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", 640 - 10 - 30 / 2, 480 / 2 - 30 / 2, 30, 30, callbackCarouselRight);
-	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel,"", false,false);
+	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
 
 	loadLevels();
 

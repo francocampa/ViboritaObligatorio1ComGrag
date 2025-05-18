@@ -347,6 +347,15 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 	case GOAL_MODEL:
 		indexModel = 4;
 		break;
+	case CLOUD1_MODEL:
+		indexModel = 5;
+		break;
+	case CLOUD2_MODEL:
+		indexModel = 6;
+		break;
+	case CLOUD3_MODEL:
+		indexModel = 7;
+		break;
 	default:
 		break;
 	}

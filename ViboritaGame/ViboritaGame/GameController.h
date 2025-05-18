@@ -15,6 +15,7 @@
 #include "IGameEntity.h"
 #include "Block.h"
 #include "Apple.h"
+#include "Cloud.h"
 #include "Viborita.h"
 #include "Goal.h"
 #include "IGameState.h"
@@ -22,9 +23,12 @@
 #include "MainMenu.h"
 #include "LoadLevel.h"
 #include "SettingsMenu.h"
+#include "random"
+#include <ctime>
 
 class LevelCreator;
 class MainMenu;
+class Cloud;
 
 class GameController
 {
@@ -37,6 +41,11 @@ private:
 	MainMenu* mainMenu;
 	LevelCreator* levelCreator;
 	IGameState* state;
+
+	Cloud* cloud1;
+	Cloud* cloud2;
+	Cloud* cloud3;
+	Cloud* cloud4;
 
 	bool paused = false;
 
@@ -63,7 +72,6 @@ private:
 	Vec3 cameraPos = { 0,0,0 };
 	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
 	float sensitivity = 0.5f;
-
 
 public:
 	int GRID_SIZE;

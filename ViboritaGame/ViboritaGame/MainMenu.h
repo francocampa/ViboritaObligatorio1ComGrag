@@ -27,6 +27,8 @@ private:
 	Button* leftArrowCarousel;
 	Button* rightArrowCarousel;
 	Button* closeCarouselBtn;
+	float cameraTheta;
+	float cameraPhi;
 
 	std::vector<LevelButton*> levelButtons;
 	std::vector<LevelButton*> customLevelsButtons;

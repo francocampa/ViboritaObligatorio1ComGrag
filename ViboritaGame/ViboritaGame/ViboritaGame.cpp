@@ -38,24 +38,25 @@ void loadFonts() {
 
 void loadModelsAndTextures() {
 	std::string filePath = "models/apple.obj";
-	std::string name = "apple";
+	std::string name = "";
 	GLuint textureId;
 	GLuint cubeTextureId;
-	GLuint wormTextureId;
 	GLuint portalTexId;
 	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
 	filePath = "models/worm_head.obj";
-	name = "wormHead";
 	cargarModelo(filePath, name, 1);
 	filePath = "models/worm_body.obj";
-	name = "wormBody";
 	cargarModelo(filePath, name, 2);
 	filePath = "models/worm_tail.obj";
-	name = "wormTail";
 	cargarModelo(filePath, name, 3);
 	filePath = "models/portal.obj";
-	name = "portal";
 	cargarModelo(filePath, name, 4);
+	filePath = "models/nube.obj";
+	cargarModelo(filePath, name, 5);
+	filePath = "models/nube2.obj";
+	cargarModelo(filePath, name, 6);
+	filePath = "models/nube3.obj";
+	cargarModelo(filePath, name, 7);
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(cubeTextureId, "textures/grass_texture.jpg");
 	loadTexture(portalTexId, "textures/portal_texture.jpg");
