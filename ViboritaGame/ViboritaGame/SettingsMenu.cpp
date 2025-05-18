@@ -71,8 +71,8 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	graphicsText = new Button("Graficos", 20, 80 + 120);
 	wireFrameText = new Button("Wireframe", 30, 120 + 80 + 50,setWireframeCallback,"", true, settings->isWireframe());
 	texturesText = new Button("Textures", 30, 170 + 80 + 50,setTexturesCallback,"",true, settings->hasTextures());
-	interpoladoText = new Button("Interpolado", 30, 220 + 80 + 50, setFacetadoCallback,"",true,settings->hasFacetado());
-	facetadoText = new Button("Facetado", 30, 270 + 80 + 50, setInterpoladoCallback,"",true,settings->hasInterpolado());
+	interpoladoText = new Button("Interpolado", 30, 220 + 80 + 50, setInterpoladoCallback,"",true,settings->hasFacetado());
+	facetadoText = new Button("Facetado", 30, 270 + 80 + 50,  setFacetadoCallback,"",true,settings->hasInterpolado());
 
 
 	lightText = new Button("Luz",440, 20);
@@ -90,7 +90,9 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 
 
 	backToMenu = new Button("Volver al menu", 170, 440, goToMainMenuFromSettingsCallback, "", false,false);
+	backToMenu->center(0, 640);
 	backToGame = new Button("X", 640/2 - 8, 10, goBackToGameCallback,"", false,false);
+	backToMenu->center(0, 640);
 }
 
 void SettingsMenu::changeGameSpeed(float speed)

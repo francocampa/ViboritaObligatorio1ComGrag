@@ -9,6 +9,7 @@ Settings::Settings()
 	this->texSettings = INTERPOLADO;
     this->lightColor = { 0.2f,0.2f,0.2f };
     this->lightAlpha = 1.0f;
+    setInterpolado(true);
     setVolume(128);
     setLightAngle(0);
 }
@@ -72,6 +73,10 @@ void Settings::setFacetado(bool value)
 void Settings::setInterpolado(bool value)
 {
     this->interpolado = value;
+    if (interpolado)
+        glShadeModel(GL_SMOOTH);
+    else
+        glShadeModel(GL_FLAT);
 }
 
 void Settings::setTexSettings(TEX_SETTINGS settings) {
