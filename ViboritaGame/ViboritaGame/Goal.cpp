@@ -43,7 +43,7 @@ void Goal::process(float deltaTime){
 	if (ps == NULL) {
 		float TILESIZE = GameController::getInstance()->TILE_SIZE;
 		ps = new ParticleSystem(0.3f, 300.0f, 30);
-		ps->setVelocityRange({ -0.01,0.01f,-0.01 }, { 0.01,0.03f,0.01 });
+		ps->setVelocityRange({ -0.5,0.5f,-0.5 }, { 0.5,1.5f,0.5 });
 		ps->setAccelerationRange({ 0,-0.004f,0 }, { 0,-0.004,0 });
 		ps->setPosRange({ position.x,position.y,position.z + TILESIZE / 2 }, { position.x + TILESIZE, position.y + TILESIZE, position.z + TILESIZE / 2 });
 		ps->setAlphaRange(0.5f, 1);

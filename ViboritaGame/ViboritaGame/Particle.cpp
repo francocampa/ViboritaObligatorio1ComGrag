@@ -25,9 +25,9 @@ void Particle::process(float deltaTime)
 	vel.y += acc.y * deltaTime * 0.5f;
 	vel.z += acc.z * deltaTime * 0.5f;
 
-	pos.x += vel.x;
-	pos.y += vel.y;
-	pos.z += vel.z;
+	pos.x += vel.x *deltaTime;
+	pos.y += vel.y *deltaTime;
+	pos.z += vel.z *deltaTime;
 
 	vel.x += acc.x * deltaTime * 0.5f;
 	vel.y += acc.y * deltaTime * 0.5f;

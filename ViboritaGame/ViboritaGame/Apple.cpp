@@ -40,9 +40,9 @@ void Apple::eatApple()
 {
 	playSound(CRUNCH);
 	float TILESIZE = GameController::getInstance()->TILE_SIZE;
-	ParticleSystem* ps = new ParticleSystem(0.001f, 0.3f, 50);
+	ParticleSystem* ps = new ParticleSystem(0.001f, 0.2f, 50);
 	ps->setLifeSpan(0.2f,0.2f);
-	ps->setVelocityRange({ -0.03,0.01f,-0.03 }, { 0.05,0.05f,0.05 });
+	ps->setVelocityRange({ -3,1,-3 }, { 5,5,5 });
 	ps->setAccelerationRange({ 0,-0.1f,0 }, { 0,-0.1,0 });
 	ps->setPosRange({ position.x,position.y,position.z}, { position.x + TILESIZE, position.y + TILESIZE, position.z + TILESIZE });
 	ps->setAlphaRange(0.5f, 1);
