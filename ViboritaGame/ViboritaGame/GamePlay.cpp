@@ -219,3 +219,22 @@ void GamePlay::ateApple()
 
 	scoreText->updateText(newText.c_str());
 }
+
+GamePlay::~GamePlay()
+{
+	for (int x = 0; x < 8;x++)
+		for (int y = 0; y < 8;y++)
+			for (int z = 0; z < 8;z++) {
+				if (this->grid[x][y][z] != NULL && this->grid[x][y][z] != this->viborita)
+				{
+					IGameEntity* ge = this->grid[x][y][z];
+					delete ge;
+					this->grid[x][y][z] = NULL;
+				}
+			}
+
+	delete settings;
+	delete reset;
+	delete scoreText;
+	delete stats;
+}
