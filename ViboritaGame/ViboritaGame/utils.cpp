@@ -1,4 +1,4 @@
-#include "utils.h"
+Ôªø#include "utils.h"
 
 float distance(const Vec3& a, const Vec3& b) {
 	float dx = b.x - a.x;
@@ -240,7 +240,7 @@ std::vector<modelInfo> modelsInfo;
 GLuint cubeTexture;
 
 void cargarModelo(std::string& filePath, std::string name,int pos) {
-	// ImplementaciÛn de cargarModelo
+	// Implementaci√≥n de cargarModelo
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filePath,
 		aiProcess_Triangulate |
@@ -260,11 +260,11 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 	for (unsigned int i = 0; i < scene->mNumMeshes; ++i) {
 		const aiMesh* mesh = scene->mMeshes[i];;
 
-		// Procesar vÈrtices
+		// Procesar v√©rtices
 		for (unsigned int j = 0; j < mesh->mNumVertices; ++j) {
 			VertexData vertex;
 
-			// PosiciÛn
+			// Posici√≥n
 			vertex.position.x = mesh->mVertices[j].x;
 			vertex.position.y = mesh->mVertices[j].y;
 			vertex.position.z = mesh->mVertices[j].z;
@@ -292,7 +292,7 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 				vertex.texCoord = glm::vec2(0.0f, 0.0f);
 			}
 
-			// Colores de VÈrtice - Tomamos el primer conjunto si existe
+			// Colores de V√©rtice - Tomamos el primer conjunto si existe
 			if (mesh->HasVertexColors(0)) {
 				vertex.color.r = mesh->mColors[0][j].r;
 				vertex.color.g = mesh->mColors[0][j].g;
@@ -306,7 +306,7 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 			subMeshes[i].vertices.push_back(vertex);
 		}
 
-		// Procesar caras (Ìndices)
+		// Procesar caras (√≠ndices)
 		for (unsigned int j = 0; j < mesh->mNumFaces; ++j) {
 			const aiFace& face = mesh->mFaces[j];
 			for (unsigned int k = 0; k < face.mNumIndices; ++k) {
@@ -603,7 +603,21 @@ void playSound(SOUND_ENUM sound)
 	case HOVER:
 		i = 0;
 		break;
+	case MOVING:
+		i = 1;
+		break;
 	}
 	if (i != -1 && sounds[i] != NULL)
 		Mix_PlayChannel(-1, sounds[i], 0);
+}
+
+float getRandomFloat(float min, float max)
+{
+	if (min >= max) {
+		std::swap(min, max); // ‚Üê This avoids the crash
+	}
+	static std::random_device rd;  // Non-deterministic random device
+	static std::mt19937 gen(rd()); // Mersenne Twister engine
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(gen);
 }

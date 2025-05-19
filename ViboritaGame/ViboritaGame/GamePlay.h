@@ -37,6 +37,7 @@ public:
 	bool hasViborita(Vec3 indices);
 	bool hasGoal(Vec3 indices);
 	void addViborita(Vec3 indices);
+	void eatAppleAt(Vec3 indices);
 	void ateApple();
 };
 

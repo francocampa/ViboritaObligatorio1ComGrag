@@ -23,6 +23,7 @@
 #include "MainMenu.h"
 #include "LoadLevel.h"
 #include "SettingsMenu.h"
+#include "ParticleSystem.h"
 #include "random"
 #include <ctime>
 
@@ -43,6 +44,8 @@ private:
 	IGameState* state;
 
 	Cloud* clouds[4];
+
+	std::list<ParticleSystem*> particles;
 
 	bool paused = false;
 
@@ -131,5 +134,8 @@ public:
 
 	void close();
 	bool shouldClose();
+
+	void addParticles(ParticleSystem* ps);
+	void removeParticles(ParticleSystem* ps);
 };
 

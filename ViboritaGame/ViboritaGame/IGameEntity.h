@@ -12,5 +12,6 @@ public:
 	virtual void process(float deltaTime);
 	virtual void draw();
 	virtual GAME_ENTITY_TYPE getType();
+	virtual ~IGameEntity() {}
 };
 

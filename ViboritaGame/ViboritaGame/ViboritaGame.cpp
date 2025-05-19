@@ -99,6 +99,13 @@ void setupSounds() {
 	else {
 		sounds[0] = hoverSound;
 	}
+	Mix_Chunk* movingSound = Mix_LoadWAV("sounds/moving.wav");
+	if (!movingSound) {
+		SDL_Log("Failed to load sound: %s", Mix_GetError());
+	}
+	else {
+		sounds[1] = movingSound;
+	}
 
 
 }
@@ -170,7 +177,6 @@ int main(int argc, char* argv[]) {
 
 	setupLighting();
 
-
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -218,7 +224,7 @@ int main(int argc, char* argv[]) {
 
 		if(gc->getGamePlay() == gc->getState())
 			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });		
-
+	
 		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
 			case SDL_QUIT:
