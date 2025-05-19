@@ -177,6 +177,8 @@ void SettingsMenu::goBackToMainMenu()
 {
 	MainMenu* mm = new MainMenu();
 	GameController::getInstance()->setState(mm);
+	GameController::getInstance()->setPaused(false);
+	GameController::getInstance()->setGamePlay(NULL);
 }
 
 void SettingsMenu::process(float deltaTime)

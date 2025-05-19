@@ -207,12 +207,26 @@ int main(int argc, char* argv[]) {
 
 		//TODO: definir bien los centros 
 		//TODO: definir bien el vector arriba cuando se cambia la vista
-		if (!firstPerson) {
+		if (gc->getGamePlay() != NULL && !firstPerson) {
+			gc->setMoveCamera(true);
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
+			center.x = 0;
+			center.y = 0;
+			center.z = 0;
 		}
-		else {
+		else if ((firstPerson && gc->getGamePlay() == NULL)) {
+			firstPerson = false;
+			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
+			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
+			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
+			center.x = 0;
+			center.y = 0;
+			center.z = 0;
+		}
+		else if(firstPerson){
+			gc->setMoveCamera(false);
 			cameraPos.x = gc->getGamePlay()->getViborita()->getHead()->position.x + 0.4f;
 			cameraPos.y = gc->getGamePlay()->getViborita()->getHead()->position.y + 1;
 			cameraPos.z = gc->getGamePlay()->getViborita()->getHead()->position.z - 1;
