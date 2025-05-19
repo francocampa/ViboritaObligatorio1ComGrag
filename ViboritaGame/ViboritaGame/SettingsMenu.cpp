@@ -175,6 +175,12 @@ void SettingsMenu::goBackToGame()
 
 void SettingsMenu::goBackToMainMenu()
 {
+	if (GameController::getInstance()->getGamePlay() != NULL) {
+		GamePlay* gp = GameController::getInstance()->getGamePlay();
+		delete gp;
+		GameController::getInstance()->setGamePlay(NULL);
+	}
+	GameController::getInstance()->setPaused(false);
 	MainMenu* mm = new MainMenu();
 	GameController::getInstance()->setState(mm);
 }

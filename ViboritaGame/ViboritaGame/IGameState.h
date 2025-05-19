@@ -9,4 +9,5 @@ public:
 	virtual void process(float deltaTime);
 	virtual void draw();
 	virtual std::vector<IHudElement*> getHudElements();
+	virtual ~IGameState(){}
 };

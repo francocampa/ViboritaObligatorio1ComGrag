@@ -15,5 +15,6 @@ public:
 	static void setFont(TTF_Font* font);
 	static void goBackTo3d();
 	static void goBackTo2d();
+	virtual ~IHudElement(){}
 };
 
