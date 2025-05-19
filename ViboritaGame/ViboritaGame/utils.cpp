@@ -356,6 +356,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 	case CLOUD3_MODEL:
 		indexModel = 7;
 		break;
+	case PEAKS_APPLE_MODEL:
+		indexModel = 8;
+		break;
 	default:
 		break;
 	}

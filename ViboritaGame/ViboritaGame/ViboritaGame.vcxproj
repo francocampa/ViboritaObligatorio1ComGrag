@@ -151,6 +151,7 @@
     <ClCompile Include="LevelButton.cpp" />
     <ClCompile Include="LevelCreator.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="PeaksApple.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="LevelButton.h" />
     <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="PeaksApple.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="Slider.h" />

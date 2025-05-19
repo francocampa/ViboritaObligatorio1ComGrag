@@ -5,6 +5,7 @@
 #include "Viborita.h"
 #include <filesystem>
 #include "pugixml.hpp"
+#include "PeaksApple.h"
 //#include "TextField.h"
 //class TextField;
 class LevelCreator :

@@ -3,7 +3,9 @@
 GameController* GameController::instance = NULL;
 
 std::mt19937 generador(std::time(nullptr));
-std::uniform_int_distribution<> distribucionEnteros(1, 100);
+std::uniform_int_distribution<> angles(1, 100);
+std::uniform_int_distribution<> radios(3, 11);
+std::uniform_int_distribution<> cloudModel(1, 3);
 
 GameController::GameController() {
 	GRID_SIZE = 8;
@@ -21,10 +23,10 @@ GameController::GameController() {
 	timeCounter = 0.0f;
 	fps = 0;
 	fpsBtn = new Button("60", 10, 400);
-	cloud1 = new Cloud(1, 3, distribucionEnteros(generador));
-	cloud2 = new Cloud(2, 6, distribucionEnteros(generador));
-	cloud3 = new Cloud(3, 9, distribucionEnteros(generador));
-	cloud4 = new Cloud(2, 4, distribucionEnteros(generador));
+
+	for (int i = 0; i < 4; i++) {
+		clouds[i] = new Cloud(cloudModel(generador), radios(generador), cloudModel(generador));
+	}
 }
 
 GameController* GameController::getInstance() {
@@ -49,12 +51,14 @@ void GameController::processFrame(float deltaTime) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	if (game != NULL) {
-		glEnable(GL_LIGHTING);
-		cloud1->draw(deltaTime);
-		cloud2->draw(deltaTime);
-		cloud3->draw(deltaTime);
-		cloud4->draw(deltaTime);
-		glDisable(GL_LIGHTING);
+		for (int i = 0; i < 4; i++) {
+			glEnable(GL_LIGHTING);
+			if (!paused) {
+				clouds[i]->process(deltaTime);
+			}
+			clouds[i]->draw();
+			glDisable(GL_LIGHTING);
+		}
 	}
 
 	state->process(deltaTime);

@@ -14,7 +14,8 @@ private:
 public:
 	Cloud(int type, float radio, float angle);
 	GAME_ENTITY_TYPE getType();
-	void draw(float deltaTime);
+	void process(float deltaTime);
+	void draw();
 	void setCloudAngle(float angle);
 };
 

@@ -228,6 +228,11 @@ Vec3* Viborita::getMovementDirection()
 	return movementDir;
 }
 
+//TODO: arreglar la rotacion de la cabeza
+float Viborita::getHeadRotationY() {
+	return acos(this->prevMovement.x * this->headDirection.x + this->prevMovement.y * this->headDirection.y + this->prevMovement.z * this->headDirection.z);
+}
+
 bool Viborita::handleMovement(Vec3* movementDir) {
 	Vec3 nextGridIndex = { this->body.head->gridIndex.x + movementDir->x,this->body.head->gridIndex.y + movementDir->y,this->body.head->gridIndex.z + movementDir->z };
 

@@ -1,5 +1,7 @@
 #include "LevelCreator.h"
 
+
+//TODO: agregar peaks_apple al creador de niveles
 void selectEntityCallback(std::string entity) {
 	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
 	if (entity == "block") {
@@ -14,6 +16,7 @@ void selectEntityCallback(std::string entity) {
 	else if (entity == "viborita") {
 		lc->setEntityTipe(VIBORITA);
 	}
+	
 }
 void selectEraseCallback(std::string z) {
 	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
@@ -67,7 +70,6 @@ void LevelCreator::createButtons()
 	selectBar[3] = new Viborita({ 0,0,0 }, { 0,0,0 }, baseViboritaColors);
 	selectBarBoxes[3] = new Button(leftOffset + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "viborita");
 	selectBarBoxes[4] = new Button(leftOffset + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEraseCallback, "");
-
 }
 void LevelCreator::process(float deltaTime)
 {

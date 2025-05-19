@@ -29,6 +29,7 @@ public:
 	void draw();
 	ViboritaPart* getHead();
 	int getSize();
+	float getHeadRotationY();
 	void setHead();
 	void addTail(Vec3 gridPosition);
 	void loadInGrid();

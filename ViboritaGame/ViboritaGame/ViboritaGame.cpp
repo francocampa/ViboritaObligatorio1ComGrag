@@ -57,6 +57,8 @@ void loadModelsAndTextures() {
 	cargarModelo(filePath, name, 6);
 	filePath = "models/nube3.obj";
 	cargarModelo(filePath, name, 7);
+	filePath = "models/peaks_apple.obj";
+	cargarModelo(filePath, name, 8);
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(cubeTextureId, "textures/grass_texture.jpg");
 	loadTexture(portalTexId, "textures/portal_texture.jpg");
@@ -147,6 +149,7 @@ int main(int argc, char* argv[]) {
 	
 	bool moveCamera = false;
 	bool alreadyMoved = false;
+	bool firstPerson = false;
 	SDL_Event event;
 	Vec3 cameraPos = { 0,0,0 };
 	Vec3 center = { 0,0,0 };
@@ -158,6 +161,7 @@ int main(int argc, char* argv[]) {
 	cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
 	gc->setCameraPos(cameraPos);
 	Vec3 arrowKeysPos = { 0,0,0 };
+	Vec3 lookDirection = { 0,0,0 };
 
 	calculateArrowKeysPos(cameraPos,center, arrowKeysPos);
 
@@ -181,6 +185,24 @@ int main(int argc, char* argv[]) {
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
 		gc->processFrame(deltaTime);
+
+		//TODO: definir bien los centros 
+		//TODO: definir bien el vector arriba cuando se cambia la vista
+		if (!firstPerson) {
+			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
+			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
+			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
+		}
+		else {
+			cameraPos.x = gc->getGamePlay()->getViborita()->getHead()->position.x + 0.4f;
+			cameraPos.y = gc->getGamePlay()->getViborita()->getHead()->position.y + 1;
+			cameraPos.z = gc->getGamePlay()->getViborita()->getHead()->position.z - 1;
+			lookDirection.x = cos(gc->getGamePlay()->getViborita()->getHeadRotationY());
+			lookDirection.z = sin(gc->getGamePlay()->getViborita()->getHeadRotationY());
+			center.x = cameraPos.x + lookDirection.x;
+			center.y = cameraPos.y;
+			center.z = cameraPos.z + lookDirection.z;
+		}
 
 		gc->setArrowRight(false);
 		gc->setArrowLeft(false);
@@ -242,6 +264,9 @@ int main(int argc, char* argv[]) {
 						break;
 					case SDLK_d:
 						gc->setShowFps(!gc->isShowFps());
+						break;
+					case SDLK_v:
+						firstPerson = !firstPerson;
 						break;
 				}
 				break;

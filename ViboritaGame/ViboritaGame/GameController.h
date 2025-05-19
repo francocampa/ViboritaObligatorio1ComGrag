@@ -42,10 +42,7 @@ private:
 	LevelCreator* levelCreator;
 	IGameState* state;
 
-	Cloud* cloud1;
-	Cloud* cloud2;
-	Cloud* cloud3;
-	Cloud* cloud4;
+	Cloud* clouds[4];
 
 	bool paused = false;
 
