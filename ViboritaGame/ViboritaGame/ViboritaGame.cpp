@@ -106,7 +106,20 @@ void setupSounds() {
 	else {
 		sounds[1] = movingSound;
 	}
-
+	Mix_Chunk* crunch1 = Mix_LoadWAV("sounds/appleCrunch1.wav");
+	if (!crunch1) {
+		SDL_Log("Failed to load sound: %s", Mix_GetError());
+	}
+	else {
+		sounds[2] = crunch1;
+	}
+	Mix_Chunk* crunch2 = Mix_LoadWAV("sounds/appleCrunch2.wav");
+	if (!crunch2) {
+		SDL_Log("Failed to load sound: %s", Mix_GetError());
+	}
+	else {
+		sounds[3] = crunch2;
+	}
 
 }
 int WINDOW_WIDTH = 640;
@@ -268,7 +281,7 @@ int main(int argc, char* argv[]) {
 					case SDLK_SPACE:
 						alreadyMoved = false;
 						break;
-					case SDLK_d:
+					case SDLK_TAB:
 						gc->setShowFps(!gc->isShowFps());
 						break;
 					case SDLK_v:

@@ -69,7 +69,6 @@ void GameController::processFrame(float deltaTime) {
 		ParticleSystem* ps = (*it);
 		paused ? ps->draw() : ps->process(deltaTime);
 		if (ps->shouldDissapear()) {
-			printf("deleted\n\n");
 			delete ps;
 			it = particles.erase(it);
 		}else

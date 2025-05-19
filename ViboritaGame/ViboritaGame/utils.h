@@ -153,7 +153,8 @@ void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffs
 
 enum SOUND_ENUM {
 	HOVER,
-	MOVING
+	MOVING,
+	CRUNCH
 };
 
 extern Mix_Chunk* sounds[10];
@@ -161,3 +162,5 @@ extern Mix_Chunk* sounds[10];
 void playSound(SOUND_ENUM sound);
 
 float getRandomFloat(float min, float max);
+
+int getRandomInt(int min, int max);

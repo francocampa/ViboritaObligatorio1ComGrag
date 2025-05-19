@@ -38,6 +38,7 @@ void Apple::draw() {
 
 void Apple::eatApple()
 {
+	playSound(CRUNCH);
 	float TILESIZE = GameController::getInstance()->TILE_SIZE;
 	ParticleSystem* ps = new ParticleSystem(0.001f, 0.3f, 50);
 	ps->setLifeSpan(0.2f,0.2f);

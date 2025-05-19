@@ -22,7 +22,7 @@ void Cloud::draw() {
 	applyMaterial(cloudMaterial);
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
-	glColor3f(0.255, 0.255, 0.255);
+	glColor3f(0.655, 0.655, 0.655);
 	switch (this->type) {
 	case 1:
 		drawModel(CLOUD1_MODEL, false);
@@ -35,6 +35,7 @@ void Cloud::draw() {
 		break;
 	}
 	applyMaterial(defaultMaterial);
+	glColor3f(0, 0, 0);
 	glPopMatrix();
 };
 

@@ -595,6 +595,26 @@ void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffs
 
 Mix_Chunk* sounds[10] = {NULL,NULL,NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL};
 
+float getRandomFloat(float min, float max)
+{
+	if (min >= max) {
+		std::swap(min, max); // ← This avoids the crash
+	}
+	static std::random_device rd;  // Non-deterministic random device
+	static std::mt19937 gen(rd()); // Mersenne Twister engine
+	std::uniform_real_distribution<float> dist(min, max);
+	return dist(gen);
+}
+
+int getRandomInt(int min, int max) {
+	if (min >= max) {
+		std::swap(min, max); // ← This avoids the crash
+	}
+	static std::random_device rd;  // Seed
+	static std::mt19937 gen(rd()); // Random number generator
+	std::uniform_int_distribution<> dis(min, max);
+	return dis(gen);
+}
 
 void playSound(SOUND_ENUM sound)
 {
@@ -606,18 +626,11 @@ void playSound(SOUND_ENUM sound)
 	case MOVING:
 		i = 1;
 		break;
+	case CRUNCH:
+		i = getRandomInt(2, 3);
+		break;
 	}
 	if (i != -1 && sounds[i] != NULL)
 		Mix_PlayChannel(-1, sounds[i], 0);
 }
 
-float getRandomFloat(float min, float max)
-{
-	if (min >= max) {
-		std::swap(min, max); // ← This avoids the crash
-	}
-	static std::random_device rd;  // Non-deterministic random device
-	static std::mt19937 gen(rd()); // Mersenne Twister engine
-	std::uniform_real_distribution<float> dist(min, max);
-	return dist(gen);
-}
