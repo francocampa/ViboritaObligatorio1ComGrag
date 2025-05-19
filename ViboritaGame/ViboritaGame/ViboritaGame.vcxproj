@@ -151,12 +151,9 @@
     <ClCompile Include="LevelButton.cpp" />
     <ClCompile Include="LevelCreator.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="PeaksApple.cpp" />
-=======
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
->>>>>>> 9712a79f2c130141b0141a0b768b42b32af0d886
+    <ClCompile Include="PeaksApple.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
@@ -183,12 +180,9 @@
     <ClInclude Include="LevelButton.h" />
     <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
-<<<<<<< HEAD
     <ClInclude Include="PeaksApple.h" />
-=======
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
->>>>>>> 9712a79f2c130141b0141a0b768b42b32af0d886
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="Slider.h" />
