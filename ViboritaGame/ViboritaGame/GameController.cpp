@@ -41,11 +41,11 @@ void GameController::processFrame(float deltaTime) {
 		timeCounter -= 1.0;
 		fpsBtn->updateText(std::to_string(fps).c_str());
 		fps = 1;
-		if(game != NULL)
+		if (game != NULL)
 			game->addSecond();
 	}
-	
-	if(settings->isWireframe())
+
+	if (settings->isWireframe())
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	if (game != NULL) {
@@ -58,6 +58,19 @@ void GameController::processFrame(float deltaTime) {
 	}
 
 	state->process(deltaTime);
+
+	std::list<ParticleSystem*>::iterator it;
+	it = particles.begin();
+	while (!particles.empty() && it != particles.end()) {
+		ParticleSystem* ps = (*it);
+		paused ? ps->draw() : ps->process(deltaTime);
+		if (ps->shouldDissapear()) {
+			printf("deleted\n\n");
+			delete ps;
+			it = particles.erase(it);
+		}else
+			it++;
+	}
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	HudController::getInstance()->process(deltaTime);
@@ -296,6 +309,26 @@ void GameController::close()
 bool GameController::shouldClose()
 {
 	return closeFlag;
+}
+
+void GameController::addParticles(ParticleSystem* ps)
+{
+	if (particles.size() < 20)
+		particles.push_back(ps);
+	else
+		delete ps;
+}
+
+void GameController::removeParticles(ParticleSystem* ps)
+{
+	std::list<ParticleSystem*>::iterator it;
+	it = particles.begin();
+	while (!particles.empty() && it != particles.end()) {
+		ParticleSystem* ps = (*it);
+		delete ps;
+		particles.erase(it);
+		break;
+	}
 }
 
 

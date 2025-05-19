@@ -23,6 +23,7 @@
 #include "MainMenu.h"
 #include "LoadLevel.h"
 #include "SettingsMenu.h"
+#include "ParticleSystem.h"
 #include "random"
 #include <ctime>
 
@@ -46,6 +47,8 @@ private:
 	Cloud* cloud2;
 	Cloud* cloud3;
 	Cloud* cloud4;
+
+	std::list<ParticleSystem*> particles;
 
 	bool paused = false;
 
@@ -134,5 +137,8 @@ public:
 
 	void close();
 	bool shouldClose();
+
+	void addParticles(ParticleSystem* ps);
+	void removeParticles(ParticleSystem* ps);
 };
 

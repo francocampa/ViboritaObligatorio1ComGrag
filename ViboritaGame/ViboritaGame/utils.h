@@ -18,6 +18,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <SDL_mixer.h>
+#include <random>
 
 struct Vec3 {  
    float x, y, z;  
@@ -151,9 +152,12 @@ bool equalsV3(Vec3 v, Vec3 u);
 void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffset, float yOffset, Vec3& arrowKeyPos);
 
 enum SOUND_ENUM {
-	HOVER
+	HOVER,
+	MOVING
 };
 
 extern Mix_Chunk* sounds[10];
 
 void playSound(SOUND_ENUM sound);
+
+float getRandomFloat(float min, float max);

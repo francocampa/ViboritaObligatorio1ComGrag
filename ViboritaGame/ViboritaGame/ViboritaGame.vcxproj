@@ -151,6 +151,8 @@
     <ClCompile Include="LevelButton.cpp" />
     <ClCompile Include="LevelCreator.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
@@ -177,6 +179,8 @@
     <ClInclude Include="LevelButton.h" />
     <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SettingsMenu.h" />
     <ClInclude Include="Slider.h" />

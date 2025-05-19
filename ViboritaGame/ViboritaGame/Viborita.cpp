@@ -242,7 +242,7 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 		gameContext->beatLevel();
 		return false;
 	}
-
+	playSound(MOVING);
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
 	Vec3 dirCopy = {movementDir->x,movementDir->y,movementDir->z};
 	Vec3 verticalHeadDir = { this->body.head->dirToFront.x, 0, this->body.head->dirToFront.z };

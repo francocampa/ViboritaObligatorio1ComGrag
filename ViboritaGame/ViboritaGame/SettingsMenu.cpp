@@ -70,9 +70,13 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 
 	graphicsText = new Button("Graficos", 20, 80 + 120);
 	wireFrameText = new Button("Wireframe", 30, 120 + 80 + 50,setWireframeCallback,"", true, settings->isWireframe());
+	wireFrameText->center(30,230);
 	texturesText = new Button("Textures", 30, 170 + 80 + 50,setTexturesCallback,"",true, settings->hasTextures());
+	texturesText->center(30, 230);
 	interpoladoText = new Button("Interpolado", 30, 220 + 80 + 50, setInterpoladoCallback,"",true,settings->hasFacetado());
+	interpoladoText->center(30, 230);
 	facetadoText = new Button("Facetado", 30, 270 + 80 + 50,  setFacetadoCallback,"",true,settings->hasInterpolado());
+	facetadoText->center(30, 230);
 
 
 	lightText = new Button("Luz",440, 20);
