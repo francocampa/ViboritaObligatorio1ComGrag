@@ -418,7 +418,10 @@ void Viborita::process(float deltaTime) {
 
 	if (moved) {
 		if (gameContext->tileHasApple(body.head->gridIndex))
+		{
+			gameContext->eatAppleAt(body.head->gridIndex);
 			this->handleEatApple(oldTailPos, oldTailGrid);
+		}
 
 		gameContext->addViborita(this->body.head->gridIndex);
 	}

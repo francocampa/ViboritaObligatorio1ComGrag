@@ -11,7 +11,6 @@ void ParticleSystem::process(float deltaTime)
 {
 	age += deltaTime;
 	timeSinceLastSpawn += deltaTime;
-	printf("%f %i\n", age, particles.size());
 	if (age < lifeSpan &&
 		maxParticles > particles.size() && 
 		timeSinceLastSpawn > genSpeed)

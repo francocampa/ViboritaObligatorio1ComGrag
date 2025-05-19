@@ -14,6 +14,7 @@ public:
     Apple(Vec3 gridIndexes, Vec3 position);
     void process(float deltaTime);
     void draw();
+    void eatApple();
     GAME_ENTITY_TYPE getType();
 };
 

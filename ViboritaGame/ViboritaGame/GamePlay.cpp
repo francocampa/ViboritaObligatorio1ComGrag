@@ -37,6 +37,17 @@ void GamePlay::beatLevel()
 	GameController::getInstance()->setGamePlay(NULL);
 	GameController::getInstance()->setState(mm);
 
+	for (int x = 0; x < 8;x++) 
+		for (int y = 0; y < 8;y++) 
+			for (int z = 0; z < 8;z++) {
+				if(this->grid[x][y][z] != NULL && this->grid[x][y][z] != this->viborita)
+				{
+					IGameEntity* ge = this->grid[x][y][z];
+					delete ge;
+					this->grid[x][y][z] = NULL;
+				}
+			}
+
 	if (nextLevelName != "") {
 		mm->startLevel(nextLevelName);
 	}
@@ -184,6 +195,18 @@ void GamePlay::addViborita(Vec3 indices)
 	int y = indices.y;
 	int z = indices.z;
 	grid[x][y][z] = this->viborita;
+}
+
+void GamePlay::eatAppleAt(Vec3 indices)
+{
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	IGameEntity* ge = grid[x][y][z];
+	if (ge == NULL || ge->getType() != APPLE)
+		return;
+
+	((Apple*)ge)->eatApple();
 }
 
 void GamePlay::ateApple()
