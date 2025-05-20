@@ -74,6 +74,8 @@ private:
 	float sensitivity = 0.5f;
 
 	bool closeFlag = false;
+	bool soundEnabled = false;
+	bool firstPerson = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -137,5 +139,11 @@ public:
 
 	void addParticles(ParticleSystem* ps);
 	void removeParticles(ParticleSystem* ps);
+
+	void setSoundEnabled(bool);
+	bool getSoundEnabled();
+
+	bool getFirstPerson();
+	void setFirstPerson(bool fp);
 };
 

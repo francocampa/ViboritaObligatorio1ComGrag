@@ -87,10 +87,14 @@ void setupLighting() {
 void setupSounds() {
 	if (SDL_Init(SDL_INIT_AUDIO) < 0) {
 		SDL_Log("Failed to init SDL: %s", SDL_GetError());
+		return;
 	}
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
 		SDL_Log("Failed to init SDL_mixer: %s", Mix_GetError());
+		return;
 	}
+
+	GameController::getInstance()->setSoundEnabled(true);
 
 	Mix_Chunk* hoverSound = Mix_LoadWAV("sounds/hover.wav");
 	if (!hoverSound) {
@@ -169,7 +173,6 @@ int main(int argc, char* argv[]) {
 	
 	bool moveCamera = false;
 	bool alreadyMoved = false;
-	bool firstPerson = false;
 	SDL_Event event;
 	Vec3 cameraPos = { 0,0,0 };
 	Vec3 center = { 0,0,0 };
@@ -207,7 +210,7 @@ int main(int argc, char* argv[]) {
 
 		//TODO: definir bien los centros 
 		//TODO: definir bien el vector arriba cuando se cambia la vista
-		if (gc->getGamePlay() != NULL && !firstPerson) {
+		if (gc->getGamePlay() != NULL && !gc->getFirstPerson()) {
 			gc->setMoveCamera(true);
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
@@ -215,9 +218,12 @@ int main(int argc, char* argv[]) {
 			center.x = 0;
 			center.y = 0;
 			center.z = 0;
+			Vec3 v = { 0,0,0 };
+			Vec3 u = { 0,0,0 };
+			gc->getGamePlay()->getViborita()->getFPCamera(v, u); // to debug
 		}
-		else if ((firstPerson && gc->getGamePlay() == NULL)) {
-			firstPerson = false;
+		else if ((gc->getFirstPerson() && gc->getGamePlay() == NULL)) {
+			gc->setFirstPerson(false);
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
@@ -225,16 +231,8 @@ int main(int argc, char* argv[]) {
 			center.y = 0;
 			center.z = 0;
 		}
-		else if(firstPerson){
-			gc->setMoveCamera(false);
-			cameraPos.x = gc->getGamePlay()->getViborita()->getHead()->position.x + 0.4f;
-			cameraPos.y = gc->getGamePlay()->getViborita()->getHead()->position.y + 1;
-			cameraPos.z = gc->getGamePlay()->getViborita()->getHead()->position.z - 1;
-			lookDirection.x = cos(gc->getGamePlay()->getViborita()->getHeadRotationY());
-			lookDirection.z = sin(gc->getGamePlay()->getViborita()->getHeadRotationY());
-			center.x = cameraPos.x + lookDirection.x;
-			center.y = cameraPos.y;
-			center.z = cameraPos.z + lookDirection.z;
+		else if(gc->getFirstPerson()){
+			gc->getGamePlay()->getViborita()->getFPCamera(cameraPos, center);
 		}
 
 		gc->setArrowRight(false);
@@ -299,7 +297,7 @@ int main(int argc, char* argv[]) {
 						gc->setShowFps(!gc->isShowFps());
 						break;
 					case SDLK_v:
-						firstPerson = !firstPerson;
+						gc->setFirstPerson(!gc->getFirstPerson());
 						break;
 				}
 				break;

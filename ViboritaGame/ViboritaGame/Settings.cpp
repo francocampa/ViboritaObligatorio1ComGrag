@@ -1,4 +1,5 @@
 #include "Settings.h"
+#include "GameController.h"
 
 Settings::Settings()
 {
@@ -109,8 +110,10 @@ void Settings::setSelectedLight(GLenum light)
 void Settings::setVolume(int volume)
 {
     this->volume = volume;
-    Mix_Volume(-1,volume);
-    Mix_VolumeMusic(volume);
+    if (GameController::getInstance()->getSoundEnabled()) {
+        Mix_Volume(-1, volume);
+        Mix_VolumeMusic(volume);
+    }
 }
 
 int Settings::getVolume() {

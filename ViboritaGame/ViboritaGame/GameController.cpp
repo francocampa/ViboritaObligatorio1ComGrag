@@ -339,6 +339,27 @@ void GameController::removeParticles(ParticleSystem* ps)
 	}
 }
 
+void GameController::setSoundEnabled(bool e)
+{
+	this->soundEnabled = e;
+}
+
+bool GameController::getSoundEnabled()
+{
+	return soundEnabled;
+}
+
+bool GameController::getFirstPerson()
+{
+	return firstPerson;
+}
+
+void GameController::setFirstPerson(bool fp)
+{
+	this->firstPerson = fp;
+}
+
+
 
 
 
