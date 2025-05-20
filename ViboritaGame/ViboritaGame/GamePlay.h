@@ -40,6 +40,8 @@ public:
 	void eatAppleAt(Vec3 indices);
 	void ateApple();
 
+	std::vector<IHudElement*> getLevelTutorials();
+
 	~GamePlay();
 };
 

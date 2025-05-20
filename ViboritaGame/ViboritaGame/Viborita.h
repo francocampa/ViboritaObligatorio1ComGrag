@@ -22,6 +22,8 @@ private:
 	float falling;
 	bool fallen;
 	float movingProgress;
+
+	bool reachedPortal = false;
 public:
 	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24]);
 	void setGameContext(GamePlay* context);

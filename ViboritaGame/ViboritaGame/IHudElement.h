@@ -12,9 +12,9 @@ public:
 	virtual void process(float deltaTime);
 	virtual BUTTON_TYPE getType();
 	virtual SDL_Rect* getRect();
+	virtual ~IHudElement() {}
 	static void setFont(TTF_Font* font);
 	static void goBackTo3d();
 	static void goBackTo2d();
-	virtual ~IHudElement(){}
 };
 

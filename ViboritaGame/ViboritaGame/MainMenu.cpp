@@ -177,11 +177,14 @@ void MainMenu::loadLevels()
 	}
 
 	pugi::xml_document levelXMLReader;
+	int i = 1;
 	for (std::string levelFile:levelFiles) {
 		std::string fullPath = "levels/" + levelFile;
 		pugi::xml_parse_result result = levelXMLReader.load_file(fullPath.c_str());
 		Level * l = loadFromXML(levelXMLReader.child("Level"));
+		l->setNo(i);
 		levels.push_back(l);
+		i++;
 	}
 	for (std::string levelFile : customLevelsFiles) {
 		std::string fullPath = "customLevels/" + levelFile;

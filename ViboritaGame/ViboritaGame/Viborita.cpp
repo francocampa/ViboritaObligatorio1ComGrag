@@ -229,7 +229,7 @@ Vec3* Viborita::getMovementDirection()
 	}
 
 	if(GameController::getInstance()->getFirstPerson())
-		if (headDirection.x == 1) {
+		if (headDirection.x == 1 || this->body.head->orientationToFront.x == 1) {
 			GameController::getInstance()->setNormalControl(false);
 			if (GameController::getInstance()->isArrowUp())
 			{
@@ -253,7 +253,7 @@ Vec3* Viborita::getMovementDirection()
 			}
 
 		}
-		else if (headDirection.z == -1) {
+		else if (headDirection.z == -1 || this->body.head->orientationToFront.z == -1) {
 			GameController::getInstance()->setNormalControl(false);
 			if (GameController::getInstance()->isArrowUp())
 			{
@@ -276,7 +276,7 @@ Vec3* Viborita::getMovementDirection()
 			}
 
 		}
-		else if (headDirection.x == -1) {
+		else if (headDirection.x == -1 || this->body.head->orientationToFront.x == -1) {
 			GameController::getInstance()->setNormalControl(false);
 			if (GameController::getInstance()->isArrowUp())
 			{
@@ -300,50 +300,9 @@ Vec3* Viborita::getMovementDirection()
 			}
 
 		}
-		else if (headDirection.y == 1) {
-			if (GameController::getInstance()->isArrowUp())
-			{
-				movementDir->x = 1;
-			}
-			else if (GameController::getInstance()->isArrowLeft())
-			{
-				movementDir->z = -1;
-			}
-			else if (GameController::getInstance()->isArrowRight())
-			{
-				movementDir->z = 1;
-				GameController::getInstance()->setNormalControl(true);
-			}
-			else if (GameController::getInstance()->isZKey()) {
-				movementDir->y = 1;
-			}
-			else if (GameController::getInstance()->isXKey()) {
-				movementDir->y = -1;
+		else if (headDirection.z == 1 || this->body.head->orientationToFront.z == 1)
+			GameController::getInstance()->setNormalControl(true);
 
-			}
-		}
-		else if (headDirection.y == -1) {
-			if (GameController::getInstance()->isArrowUp())
-			{
-				movementDir->x = 1;
-			}
-			else if (GameController::getInstance()->isArrowLeft())
-			{
-				movementDir->z = -1;
-			}
-			else if (GameController::getInstance()->isArrowRight())
-			{
-				movementDir->z = 1;
-				GameController::getInstance()->setNormalControl(true);
-			}
-			else if (GameController::getInstance()->isZKey()) {
-				movementDir->y = 1;
-			}
-			else if (GameController::getInstance()->isXKey()) {
-				movementDir->y = -1;
-
-			}
-		}
 	return movementDir;
 }
 
@@ -358,8 +317,7 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 		return false;
 	}
 	if (gameContext->hasGoal(nextGridIndex)) {
-		gameContext->beatLevel();
-		return false;
+		reachedPortal = true;
 	}
 	playSound(MOVING);
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
@@ -531,6 +489,11 @@ void Viborita::getFPCamera(Vec3& pos, Vec3& center)
 }
 
 void Viborita::process(float deltaTime) {
+	if (reachedPortal && movingProgress == 1) {
+		this->gameContext->beatLevel();
+		return;
+	}
+
 	if (movingProgress != 1)
 	{
 		this->movingProgress += 10.0f * deltaTime;
@@ -577,8 +540,8 @@ void Viborita::process(float deltaTime) {
 			gameContext->eatAppleAt(body.head->gridIndex);
 			this->handleEatApple(oldTailPos, oldTailGrid);
 		}
-
-		gameContext->addViborita(this->body.head->gridIndex);
+		if(!reachedPortal)
+			gameContext->addViborita(this->body.head->gridIndex);
 	}
 }
 

@@ -123,6 +123,9 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Classes\game_objects</Filter>
     </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -199,6 +202,9 @@
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>Header Files\hud_element</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -220,6 +220,20 @@ void GamePlay::ateApple()
 	scoreText->updateText(newText.c_str());
 }
 
+std::vector<IHudElement*> GamePlay::getLevelTutorials()
+{
+	std::vector<IHudElement*> messages;
+	if(level->getNo() == -1)
+		return messages;
+
+	switch (level->getNo())
+	{
+	default:
+		break;
+	}
+	return messages;
+}
+
 GamePlay::~GamePlay()
 {
 	for (int x = 0; x < 8;x++)

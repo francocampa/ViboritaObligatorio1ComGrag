@@ -54,3 +54,13 @@ void Level::drawPreview(int gridSize)
 	glDisable(GL_LIGHTING);
 }
 
+void Level::setNo(int no)
+{
+	this->no = no;
+}
+
+int Level::getNo()
+{
+	return no;
+}
+

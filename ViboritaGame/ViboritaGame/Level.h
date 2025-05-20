@@ -5,6 +5,8 @@
 class Level
 {
 private:
+	int no = 0;
+
 	std::string name;
 	std::string nextLevelName;
 	IGameEntity* initialGrid[8][8][8];
@@ -19,5 +21,8 @@ public:
 	std::string getName();
 	std::string getNextLevelName();
 	void drawPreview(int gridSize);
+
+	void setNo(int no);
+	int getNo();
 };
 

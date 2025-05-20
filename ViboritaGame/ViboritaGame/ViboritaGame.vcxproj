@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -151,6 +151,7 @@
     <ClCompile Include="LevelButton.cpp" />
     <ClCompile Include="LevelCreator.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PeaksApple.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="LevelButton.h" />
     <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="PeaksApple.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />

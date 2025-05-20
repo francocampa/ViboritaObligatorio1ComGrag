@@ -19,6 +19,7 @@
 #include <assimp/postprocess.h>
 #include <SDL_mixer.h>
 #include <random>
+#include <map>
 
 struct Vec3 {  
    float x, y, z;  
@@ -71,7 +72,7 @@ struct modelInfo {
 	GLuint textureId;
 };
 
-enum BUTTON_TYPE { BUTTON, SLIDER, CHECKBOX, TEXTFIELD, LEVELBUTTON};
+enum BUTTON_TYPE { BUTTON, SLIDER, CHECKBOX, TEXTFIELD, LEVELBUTTON, MESSAGE};
 enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL,CLOUD,PEAKS_APPLE};
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};
 enum MODEL_TYPE {APPLE_MODEL, WORM_HEAD_MODEL, WORM_BODY_MODEL, WORM_TAIL_MODEL, GOAL_MODEL, CLOUD1_MODEL, CLOUD2_MODEL, CLOUD3_MODEL, PEAKS_APPLE_MODEL};
@@ -165,3 +166,16 @@ void playSound(SOUND_ENUM sound);
 float getRandomFloat(float min, float max);
 
 int getRandomInt(int min, int max);
+
+
+enum MESSAGES_ENUM {
+	level1MovementTutorial,
+	level2MovementTutorial,
+	level3MovementTutorial,
+};
+
+extern std::map<MESSAGES_ENUM, GLuint> messagesTextures;
+
+void loadMessageTexture(std::string path, MESSAGES_ENUM enumVal);
+
+GLuint getMessageTexture(MESSAGES_ENUM enumVal);

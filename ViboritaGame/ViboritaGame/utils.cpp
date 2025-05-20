@@ -622,6 +622,20 @@ int getRandomInt(int min, int max) {
 	return dis(gen);
 }
 
+std::map<MESSAGES_ENUM, GLuint> messagesTextures;
+
+void loadMessageTexture(std::string path, MESSAGES_ENUM enumVal)
+{
+	GLuint textureId = 0;
+	loadTexture(textureId, path.c_str());
+	messagesTextures.insert({ enumVal, textureId });
+}
+
+GLuint getMessageTexture(MESSAGES_ENUM enumVal)
+{
+	return messagesTextures.at(enumVal);
+}
+
 void playSound(SOUND_ENUM sound)
 {
 	int i = -1;
