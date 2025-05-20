@@ -138,7 +138,7 @@ void MainMenu::closeGame()
 
 void MainMenu::moveCarouselRight()
 {
-	if (levelCarousel.size() < (carouselIndex+1) * 3)
+	if (levelCarousel.size() <= (carouselIndex+1) * 3)
 		return;
 
 	carouselIndex++;
@@ -201,7 +201,7 @@ Level* MainMenu::loadFromXML(pugi::xml_node levelNode)
 	int maxScore = std::stoi(levelNode.attribute("maxScore").value());
 	std::string nextLevel = "";
 	if (levelNode.attribute("nextLevel"))
-		std::string nextLevel = levelNode.attribute("nextLevel").value();
+		nextLevel = levelNode.attribute("nextLevel").value();
 
 	pugi::xml_node viboritaNode = levelNode.child("Viborita");
 	pugi::xml_node gridNode = levelNode.child("Grid");
