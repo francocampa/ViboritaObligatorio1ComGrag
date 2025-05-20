@@ -117,6 +117,12 @@
     <ClCompile Include="Cloud.cpp">
       <Filter>Classes\game_entities</Filter>
     </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Classes\game_objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Classes\game_objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -187,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="PeaksApple.h">
       <Filter>Header Files\game_entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

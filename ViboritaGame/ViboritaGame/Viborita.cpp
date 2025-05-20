@@ -225,6 +225,14 @@ Vec3* Viborita::getMovementDirection()
 	{
 		movementDir->y = -1;
 	}
+
+	if(GameController::getInstance()->getFirstPerson())
+		if (headDirection.x == 1) {}
+		else if (headDirection.x == -1) {}
+		else if (headDirection.y == 1) {}  //Pa mi si mira para arriba que la c[amara siga en el plano x/z y que el movimiento sea de acuerdo al head->orientationToFront
+		else if (headDirection.y == -1) {} //Pa mi si mira para arriba que la c[amara siga en el plano x/z y que el movimiento sea de acuerdo al head->orientationToFront
+		else if (headDirection.z == 1) {}
+		else if (headDirection.z == -1) {}
 	return movementDir;
 }
 
@@ -250,7 +258,7 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 	playSound(MOVING);
 	headDirection = { movementDir->x,movementDir->y,movementDir->z };
 	Vec3 dirCopy = {movementDir->x,movementDir->y,movementDir->z};
-	Vec3 verticalHeadDir = { this->body.head->dirToFront.x, 0, this->body.head->dirToFront.z };
+	Vec3 verticalHeadDir = { this->body.head->orientationToFront.x, 0, this->body.head->orientationToFront.z };
 	this->body.head->dirToFront = { movementDir->x,movementDir->y,movementDir->z };
 	this->body.head->lastMovementDir = headDirection;
 	this->body.head->orientationToFront = dirCopy.y != 0 ? verticalHeadDir : dirCopy;
@@ -280,7 +288,7 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 
 		Vec3 newDirToFront = subtractV3({ prev->gridIndex.x,prev->gridIndex.y,prev->gridIndex.z }, aux->gridIndex);
 		Vec3 nDirCopy = { newDirToFront.x,newDirToFront.y,newDirToFront.z };
-		Vec3 newOrientation = { aux->dirToFront.x, 0, aux->dirToFront.z };
+		Vec3 newOrientation = { aux->orientationToFront.x, 0, aux->orientationToFront.z };
 		aux->dirToFront = newDirToFront;
 		aux->orientationToFront = newDirToFront.y != 0 ? newOrientation : nDirCopy;
 
@@ -380,6 +388,40 @@ GAME_ENTITY_TYPE Viborita::getType()
 	return VIBORITA;
 }
 
+void Viborita::getFPCamera(Vec3& pos, Vec3& center)
+{
+	float TILESIZE = GameController::getInstance()->TILE_SIZE;
+	pos.x = this->body.head->position.x - headDirection.x * TILESIZE +  TILESIZE / 2;
+	pos.y = this->body.head->position.y - headDirection.y * TILESIZE +  TILESIZE / 2;
+	pos.z = this->body.head->position.z - headDirection.z * TILESIZE +  TILESIZE / 2;
+
+	
+	float hasXOffset = this->body.head->orientationToFront.x != 0 ? this->body.head->orientationToFront.x : this->body.head->dirToFront.x;
+	float hasZOffset = this->body.head->orientationToFront.z != 0 ? this->body.head->orientationToFront.z : this->body.head->dirToFront.z;
+	pos.x += - hasXOffset * TILESIZE * 4;
+	pos.y += TILESIZE * (1 - abs(headDirection.y));
+	pos.z += - hasZOffset * TILESIZE * 4;
+
+	center.x = pos.x + this->body.head->orientationToFront.x * TILESIZE;
+	center.y = pos.y; // -TILESIZE * (1 - abs(headDirection.y)) / 4; // Si queremos que apunte un poco para abajo o tenga un [angulo
+	center.z = pos.z + this->body.head->orientationToFront.z * TILESIZE;
+
+	//Para visualizar
+	if (GameController::getInstance()->isShowFps()) {
+		glPointSize(8);
+		glBegin(GL_POINTS);
+		glColor4f(0, 0, 0, 1);
+		glVertex3f(pos.x, pos.y, pos.z);
+		glEnd();
+		glBegin(GL_POINTS);
+		glColor4f(0, 1, 0, 1);
+		glVertex3f(center.x, center.y, center.z);
+		glEnd();
+		glColor3f(1, 1, 1);
+	}
+	
+}
+
 void Viborita::process(float deltaTime) {
 	if (movingProgress != 1)
 	{
@@ -469,6 +511,7 @@ void Viborita::addTail(Vec3 gridIndex)
 	newTail->position = { GameController::getInstance()->getGridPosition(gridIndex.x),GameController::getInstance()->getGridPosition(gridIndex.y) ,GameController::getInstance()->getGridPosition(gridIndex.z) };
 	newTail->dirToFront = dir;
 	if (this->body.head == this->body.tail) {
+		this->headDirection = { newTail->dirToFront.x ,newTail->dirToFront.y ,newTail->dirToFront.z };
 		this->body.head->dirToFront = { newTail->dirToFront.x ,newTail->dirToFront.y ,newTail->dirToFront.z };
 		this->body.head->orientationToFront = { newTail->dirToFront.x ,newTail->dirToFront.y ,newTail->dirToFront.z };
 	}

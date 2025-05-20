@@ -42,5 +42,7 @@ public:
 	void removeBodyFromGridIndex(int x,int y, int z);
 	Viborita* deepCopy();
 	GAME_ENTITY_TYPE getType();
+
+	void getFPCamera(Vec3& pos, Vec3& center);
 };
 
