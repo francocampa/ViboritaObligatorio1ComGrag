@@ -8,35 +8,41 @@ float distance(const Vec3& a, const Vec3& b) {
 }
 
 GLfloat cubeTextureCoords[] = {
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
+	// FRONT face (column=1, row=1)
+	texW * 1, texH * 2,   // Bottom-left
+	texW * 2, texH * 2,   // Bottom-right
+	texW * 2, texH * 1,   // Top-right
+	texW * 1, texH * 1,   // Top-left
 
-	1.0f, 0.0f,
-	0.0f, 0.0f,
-	0.0f, 1.0f,
-	1.0f, 1.0f,
+	// BACK face (column=3, row=1)
+	texW * 3, texH * 2,
+	texW * 4, texH * 2,
+	texW * 4, texH * 1,
+	texW * 3, texH * 1,
 
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
+	// LEFT face (column=0, row=1)
+	texW * 0, texH * 2,
+	texW * 1, texH * 2,
+	texW * 1, texH * 1,
+	texW * 0, texH * 1,
 
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
+	// RIGHT face (column=2, row=1)
+	texW * 2, texH * 2,
+	texW * 3, texH * 2,
+	texW * 3, texH * 1,
+	texW * 2, texH * 1,
 
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f,
+	// TOP face (column=1, row=0)
+	texW * 1, texH * 1,
+	texW * 2, texH * 1,
+	texW * 2, texH * 0,
+	texW * 1, texH * 0,
 
-	0.0f, 0.0f,
-	1.0f, 0.0f,
-	1.0f, 1.0f,
-	0.0f, 1.0f
+	// BOTTOM face (column=1, row=2)
+	texW * 1, texH * 3,
+	texW * 2, texH * 3,
+	texW * 2, texH * 2,
+	texW * 1, texH * 2,
 };
 
 void drawCube(GLfloat vertices[24], GLfloat colors[24], GLubyte indices[24]) {

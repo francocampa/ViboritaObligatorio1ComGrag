@@ -60,7 +60,7 @@ void loadModelsAndTextures() {
 	filePath = "models/peaks_apple.obj";
 	cargarModelo(filePath, name, 8);
 	loadTexture(textureId, "textures/apple_texture.jpg");
-	loadTexture(cubeTextureId, "textures/grass_texture.jpg");
+	loadTexture(cubeTextureId, "textures/cube_texture.jpg");
 	loadTexture(portalTexId, "textures/portal_texture.jpg");
 	modelsInfo[0].textureId = textureId;
 	modelsInfo[4].textureId = portalTexId;
@@ -211,7 +211,7 @@ int main(int argc, char* argv[]) {
 		//TODO: definir bien los centros 
 		//TODO: definir bien el vector arriba cuando se cambia la vista
 		if (gc->getGamePlay() != NULL && !gc->getFirstPerson()) {
-			gc->setMoveCamera(true);
+			//gc->setMoveCamera(true); //Esto es para cuando se est[a apretando cosas de la ui, no deber[ia usarse en otros contextos
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
