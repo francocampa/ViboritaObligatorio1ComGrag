@@ -457,20 +457,26 @@ GAME_ENTITY_TYPE Viborita::getType()
 void Viborita::getFPCamera(Vec3& pos, Vec3& center)
 {
 	float TILESIZE = GameController::getInstance()->TILE_SIZE;
-	pos.x = this->body.head->position.x - headDirection.x * TILESIZE +  TILESIZE / 2;
-	pos.y = this->body.head->position.y - headDirection.y * TILESIZE +  TILESIZE / 2;
-	pos.z = this->body.head->position.z - headDirection.z * TILESIZE +  TILESIZE / 2;
+	Vec3 posOffset = { 0,0,0 };
+	ViboritaPart* head = this->body.head;
+	if (movingProgress != 1) {
+		float cmovingProgress = 1 - movingProgress;
+		posOffset = { head->lastMovementDir.x * cmovingProgress * TILESIZE, head->lastMovementDir.y * cmovingProgress * TILESIZE, head->lastMovementDir.z * cmovingProgress * TILESIZE };
+	}
+	pos.x = head->position.x - posOffset.x - headDirection.x * TILESIZE +  TILESIZE / 2;
+	pos.y = head->position.y - posOffset.y - headDirection.y * TILESIZE +  TILESIZE / 2;
+	pos.z = head->position.z - posOffset.z - headDirection.z * TILESIZE +  TILESIZE / 2;
 
 	
-	float hasXOffset = this->body.head->orientationToFront.x != 0 ? this->body.head->orientationToFront.x : this->body.head->dirToFront.x;
-	float hasZOffset = this->body.head->orientationToFront.z != 0 ? this->body.head->orientationToFront.z : this->body.head->dirToFront.z;
+	float hasXOffset = head->orientationToFront.x != 0 ? head->orientationToFront.x : head->dirToFront.x;
+	float hasZOffset = head->orientationToFront.z != 0 ? head->orientationToFront.z : head->dirToFront.z;
 	pos.x += - hasXOffset * TILESIZE * 4;
 	pos.y += TILESIZE * (1 - abs(headDirection.y));
 	pos.z += - hasZOffset * TILESIZE * 4;
 
-	center.x = pos.x + this->body.head->orientationToFront.x * TILESIZE;
+	center.x = pos.x + head->orientationToFront.x * TILESIZE;
 	center.y = pos.y; // -TILESIZE * (1 - abs(headDirection.y)) / 4; // Si queremos que apunte un poco para abajo o tenga un [angulo
-	center.z = pos.z + this->body.head->orientationToFront.z * TILESIZE;
+	center.z = pos.z + head->orientationToFront.z * TILESIZE;
 
 	//Para visualizar
 	if (GameController::getInstance()->isShowFps()) {
