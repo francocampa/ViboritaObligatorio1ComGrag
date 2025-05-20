@@ -76,6 +76,9 @@ private:
 	bool closeFlag = false;
 	bool soundEnabled = false;
 	bool firstPerson = false;
+	bool normalControl = true;
+	bool izqControl = false;
+	bool derControl = false;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -124,6 +127,12 @@ public:
 
 	Vec3 getCameraProps();
 	float getSensitivity();
+	bool getNormalControl();
+	void setNormalControl(bool normalControl);
+	bool getIzqControl();
+	void setIzqControl(bool izqControl);
+	bool getDerControl();
+	void setDerControl(bool derControl);
 	bool isPaused();
 
 	void setPaused(bool paused);

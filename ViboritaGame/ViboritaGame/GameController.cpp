@@ -266,6 +266,36 @@ float GameController::getSensitivity()
 	return sensitivity;
 }
 
+bool GameController::getNormalControl()
+{
+	return this->normalControl;
+}
+
+bool GameController::getIzqControl()
+{
+	return this->izqControl;
+}
+
+bool GameController::getDerControl()
+{
+	return this->derControl;
+}
+
+void GameController::setNormalControl(bool normalControl)
+{
+	this->normalControl = normalControl;
+}
+
+void GameController::setIzqControl(bool izqControl)
+{
+	this->izqControl = izqControl;
+}
+
+void GameController::setDerControl(bool derControl)
+{
+	this->derControl = derControl;
+}
+
 bool GameController::isPaused()
 {
 	return paused;

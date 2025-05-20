@@ -208,10 +208,9 @@ int main(int argc, char* argv[]) {
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
 		gc->processFrame(deltaTime);
 
-		//TODO: definir bien los centros 
 		//TODO: definir bien el vector arriba cuando se cambia la vista
 		if (gc->getGamePlay() != NULL && !gc->getFirstPerson()) {
-			//gc->setMoveCamera(true); //Esto es para cuando se est[a apretando cosas de la ui, no deber[ia usarse en otros contextos
+			gc->setNormalControl(true);
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
@@ -224,6 +223,7 @@ int main(int argc, char* argv[]) {
 		}
 		else if ((gc->getFirstPerson() && gc->getGamePlay() == NULL)) {
 			gc->setFirstPerson(false);
+			gc->setNormalControl(true);
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
