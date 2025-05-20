@@ -453,31 +453,56 @@ GAME_ENTITY_TYPE Viborita::getType()
 	return VIBORITA;
 }
 
+float getCameraAngle(Vec3 dir) {
+	if (dir.x == -1)
+		return 0;
+	else if (dir.x == 1)
+		return M_PI;
+	else if (dir.z == -1)
+		return M_PI/2;
+	else if(dir.z == 1)
+		return -M_PI / 2;
+}
+
 //TODO: agregar animaciones para la camara
+float prevCameraAngle = 0;
+const float ANGLEEPSILON = 0.0001f;
 void Viborita::getFPCamera(Vec3& pos, Vec3& center)
 {
 	float TILESIZE = GameController::getInstance()->TILE_SIZE;
 	Vec3 posOffset = { 0,0,0 };
 	ViboritaPart* head = this->body.head;
+	float cameraAngle = getCameraAngle(head->orientationToFront);
 	if (movingProgress != 1) {
 		float cmovingProgress = 1 - movingProgress;
-		posOffset = { head->lastMovementDir.x * cmovingProgress * TILESIZE, head->lastMovementDir.y * cmovingProgress * TILESIZE, head->lastMovementDir.z * cmovingProgress * TILESIZE };
+		posOffset = { 
+			head->lastMovementDir.x * cmovingProgress * TILESIZE, 
+			head->lastMovementDir.y * cmovingProgress * TILESIZE, 
+			head->lastMovementDir.z * cmovingProgress * TILESIZE 
+		};
+
+		if (fabs(cameraAngle - M_PI) < ANGLEEPSILON && fabs(prevCameraAngle + M_PI / 2) < ANGLEEPSILON)
+			cameraAngle *= -1;
+		else if (fabs(prevCameraAngle - M_PI) < ANGLEEPSILON && fabs(cameraAngle + M_PI / 2) < ANGLEEPSILON) 
+			prevCameraAngle *= -1;
+		
+
+		cameraAngle += (prevCameraAngle - cameraAngle) * cmovingProgress;
 	}
-	pos.x = head->position.x - posOffset.x - headDirection.x * TILESIZE +  TILESIZE / 2;
-	pos.y = head->position.y - posOffset.y - headDirection.y * TILESIZE +  TILESIZE / 2;
-	pos.z = head->position.z - posOffset.z - headDirection.z * TILESIZE +  TILESIZE / 2;
+	else {
+		prevCameraAngle = cameraAngle;
+	}
 
+	center.x = head->position.x - posOffset.x - headDirection.x * TILESIZE +  TILESIZE / 2;
+	center.y = head->position.y - posOffset.y - headDirection.y * TILESIZE +  TILESIZE / 2;
+	center.z = head->position.z - posOffset.z - headDirection.z * TILESIZE +  TILESIZE / 2;
+
+	float radius = TILESIZE * 4;
 	
-	float hasXOffset = head->orientationToFront.x != 0 ? head->orientationToFront.x : head->dirToFront.x;
-	float hasZOffset = head->orientationToFront.z != 0 ? head->orientationToFront.z : head->dirToFront.z;
-	pos.x += - hasXOffset * TILESIZE * 4;
-	pos.y += TILESIZE * (1 - abs(headDirection.y));
-	pos.z += - hasZOffset * TILESIZE * 4;
-
-	center.x = pos.x + head->orientationToFront.x * TILESIZE;
-	center.y = pos.y; // -TILESIZE * (1 - abs(headDirection.y)) / 4; // Si queremos que apunte un poco para abajo o tenga un [angulo
-	center.z = pos.z + head->orientationToFront.z * TILESIZE;
-
+	pos.x = center.x + cos(cameraAngle) * radius;
+	pos.y = center.y + TILESIZE;
+	pos.z = center.z + sin(cameraAngle) * radius;
+	
 	//Para visualizar
 	if (GameController::getInstance()->isShowFps()) {
 		glPointSize(8);
