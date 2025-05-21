@@ -73,9 +73,9 @@ SettingsMenu::SettingsMenu(Settings* settings) {
 	wireFrameText->center(30,230);
 	texturesText = new Button("Textures", 30, 170 + 80 + 50,setTexturesCallback,"",true, settings->hasTextures());
 	texturesText->center(30, 230);
-	interpoladoText = new Button("Interpolado", 30, 220 + 80 + 50, setInterpoladoCallback,"",true,settings->hasFacetado());
+	interpoladoText = new Button("Interpolado", 30, 220 + 80 + 50, setInterpoladoCallback,"",true,settings->hasInterpolado());
 	interpoladoText->center(30, 230);
-	facetadoText = new Button("Facetado", 30, 270 + 80 + 50,  setFacetadoCallback,"",true,settings->hasInterpolado());
+	facetadoText = new Button("Facetado", 30, 270 + 80 + 50,  setFacetadoCallback,"",true,!settings->hasInterpolado());
 	facetadoText->center(30, 230);
 
 
@@ -121,12 +121,16 @@ void SettingsMenu::setTextures(bool texture)
 
 void SettingsMenu::setFacetado(bool val)
 {
-	settings->setFacetado(val);
+	settings->setInterpolado(false);
+	facetadoText->setSelected(true);
+	interpoladoText->setSelected(false);
 }
 
 void SettingsMenu::setInterpolado(bool val)
 {
-	settings->setInterpolado(val);
+	settings->setInterpolado(true);
+	facetadoText->setSelected(false);
+	interpoladoText->setSelected(true);
 }
 
 void SettingsMenu::setTexSettings(TEX_SETTINGS texSettings)
