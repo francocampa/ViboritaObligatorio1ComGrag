@@ -127,11 +127,6 @@ void setupSounds() {
 
 }
 
-void setupMessagesTextures() {
-	GLuint textureId = 0;
-	loadMessageTexture("Level1MovementTutorial", level1MovementTutorial);
-}
-
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
 
@@ -307,6 +302,10 @@ int main(int argc, char* argv[]) {
 						break;
 					case SDLK_v:
 						gc->setFirstPerson(!gc->getFirstPerson());
+						break;
+					case SDLK_r:
+						if (gc->getGamePlay() == gc->getState())
+							gc->getGamePlay()->resetLevel();
 						break;
 				}
 				break;

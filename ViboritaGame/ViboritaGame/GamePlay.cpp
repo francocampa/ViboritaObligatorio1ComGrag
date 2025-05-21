@@ -177,7 +177,7 @@ bool GamePlay::tileHasApple(Vec3 indices)
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == APPLE;
+	return validTile(indices) && this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == APPLE;
 }
 
 bool GamePlay::hasGoal(Vec3 indices)
@@ -185,11 +185,13 @@ bool GamePlay::hasGoal(Vec3 indices)
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	return this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == GOAL;
+	return validTile(indices) && this->grid[x][y][z] != NULL && this->grid[x][y][z]->getType() == GOAL;
 }
 
 void GamePlay::clearTile(Vec3 indices)
 {
+	if (!validTile(indices))
+		return;
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
@@ -204,12 +206,15 @@ bool GamePlay::validTile(Vec3 indices)
 	return !(xOutside || yOutside || zOutside);
 }
 
+bool inRange(int i) {
+	return i >= 0 && i <= 8;
+}
 bool GamePlay::hasSolidBlock(Vec3 indices)
 {
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	return grid[x][y][z] != NULL && grid[x][y][z]->getType() == BLOCK;
+	return validTile(indices) && grid[x][y][z] != NULL && grid[x][y][z]->getType() == BLOCK;
 }
 
 bool GamePlay::hasViborita(Vec3 indices)
@@ -217,24 +222,24 @@ bool GamePlay::hasViborita(Vec3 indices)
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	return grid[x][y][z] != NULL && grid[x][y][z]->getType() == VIBORITA;
+	return validTile(indices) && grid[x][y][z] != NULL && grid[x][y][z]->getType() == VIBORITA;
 }
 
 bool GamePlay::hasSpikedApple(Vec3 indices) {
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	return grid[x][y][z] != NULL && grid[x][y][z]->getType() == SPIKED_APPLE;
+	return validTile(indices) && grid[x][y][z] != NULL && grid[x][y][z]->getType() == SPIKED_APPLE;
 }
 
 void GamePlay::addViborita(Vec3 indices)
 {
-	if (this->viborita == NULL)
+	if (this->viborita == NULL || !validTile(indices))
 		return;
 	int x = indices.x;
 	int y = indices.y;
 	int z = indices.z;
-	grid[x][y][z] = this->viborita;
+		grid[x][y][z] = this->viborita;
 }
 
 void GamePlay::eatAppleAt(Vec3 indices)

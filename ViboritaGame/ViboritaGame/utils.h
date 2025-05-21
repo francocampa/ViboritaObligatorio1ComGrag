@@ -83,6 +83,7 @@ extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información d
 
 extern GLuint cubeTexture;//ID de la textura del cubo
 
+extern std::map<std::string, GLuint> textures;
 void loadTexture(GLuint& textureId, const char* path, float& w, float& h);
 void loadTexture(GLuint& textureId, const char* path);
 void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font, int& width, int& height);
@@ -175,8 +176,3 @@ enum MESSAGES_ENUM {
 	level3MovementTutorial,
 };
 
-extern std::map<MESSAGES_ENUM, GLuint> messagesTextures;
-
-void loadMessageTexture(std::string path, MESSAGES_ENUM enumVal);
-
-GLuint getMessageTexture(MESSAGES_ENUM enumVal);
