@@ -226,6 +226,7 @@ int main(int argc, char* argv[]) {
 			Vec3 v = { 0,0,0 };
 			Vec3 u = { 0,0,0 };
 			gc->getGamePlay()->getViborita()->getFPCamera(v, u); // to debug
+			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
 		}
 		else if ((gc->getFirstPerson() && gc->getGamePlay() == NULL)) {
 			gc->setFirstPerson(false);
@@ -236,9 +237,11 @@ int main(int argc, char* argv[]) {
 			center.x = 0;
 			center.y = 0;
 			center.z = 0;
+			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
 		}
 		else if(gc->getFirstPerson()){
 			gc->getGamePlay()->getViborita()->getFPCamera(cameraPos, center);
+			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
 		}
 
 		gc->setArrowRight(false);

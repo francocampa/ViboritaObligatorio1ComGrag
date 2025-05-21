@@ -26,12 +26,25 @@ GamePlay::GamePlay(Level* level)
 	timerText = new Button("00:00", 280, 10);
 
 	int btnSize = 20;
-	cameraIcon = new Button("images/camera.png", 10, 480 - 20 - btnSize, btnSize, btnSize, NULL);
+	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40 , 480 - 60 - btnSize, btnSize, btnSize, NULL);
 	btnSize = 30;
 	firstPersonPerspective = new Button("images/snake.png", 10, 480 - 10 - btnSize*1.5f, btnSize, btnSize, firstPersonCallback);
 	levelPerspective = new Button("images/global.png", 20 + btnSize, 480 - 10 - btnSize*1.5f, btnSize, btnSize, levelPerspectiveCallback);
 
-	
+	for (int i = 0; i < 10;i++)
+		tutorials[i] = NULL;
+
+	tutorials[1] = new Button("images/Level1Tutorial.png", 10, 60, "");
+	tutorials[1]->center(0, 640);
+	tutorials[2] = new Button("images/Level2Tutorial.png", 10, 60, "");
+	tutorials[2]->center(0, 640);
+	tutorials[3] = new Button("images/Level3Tutorial.png",10,60,"");
+	tutorials[3]->center(0, 640);
+	tutorials[4] = new Button("images/Level4Tutorial.png", 10, 60, "");
+	tutorials[4]->center(0, 640);
+	tutorials[8] = new Button("images/Level8Tutorial.png", 10, 60, "");
+	tutorials[8]->center(0, 640);
+
 	startLevel();
 }
 
@@ -149,6 +162,8 @@ std::vector<IHudElement*> GamePlay::getHudElements()
 	buttons.push_back(cameraIcon);
 	buttons.push_back(firstPersonPerspective);
 	buttons.push_back(levelPerspective);
+	if (level->getNo() != NULL && level->getNo() < 10 && tutorials[level->getNo()] != NULL)
+		buttons.push_back(tutorials[level->getNo()]);
 	return buttons;
 }
 

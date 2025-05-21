@@ -21,6 +21,8 @@ private:
 	Button* cameraIcon;
 	Button* firstPersonPerspective;
 	Button* levelPerspective;
+
+	Button* tutorials[20];
 public:
 	GamePlay(Level* level);
 	void process(float deltaTime);

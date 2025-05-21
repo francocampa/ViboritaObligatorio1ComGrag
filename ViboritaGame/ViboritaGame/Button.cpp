@@ -117,6 +117,28 @@ Button::Button(int x, int y, int width, int height, void(*callback)(std::string 
 	this->arg = arg;
 }
 
+Button::Button(const char* texturePath, int x, int y, std::string kiki)
+{
+	hover = false;
+	selected = false;
+	float width = 0;
+	float height = 0;
+	
+	loadTexture(this->textureId, texturePath,width,height);
+
+	this->hoverTextureId = NULL;
+	this->selectedTextureId = NULL;
+
+	this->rectangle = new SDL_Rect();
+	this->rectangle->x = x;
+	this->rectangle->y = y;
+	this->rectangle->w = width;
+	this->rectangle->h = height;
+
+	this->callback = callback;
+	this->strcallback = NULL;
+}
+
 Button::Button(const char* text, int x, int y)
 {//Renderizador de texto xdxd
 	hover = false;

@@ -65,8 +65,10 @@ Vec3* getVec3FromVec3(Vec3 vecPrev) {
 	return vec;
 }
 
-void loadTexture(GLuint& textureId, const char* path) {
+void loadTexture(GLuint& textureId, const char* path, float &w,float &h) {
 	SDL_Surface* surface = IMG_Load(path);
+	w = surface->w;
+	h = surface->h;
 	SDL_Surface* converted = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0);
 	SDL_FreeSurface(surface);
 
@@ -82,6 +84,12 @@ void loadTexture(GLuint& textureId, const char* path) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	SDL_FreeSurface(converted);
+}
+
+void loadTexture(GLuint& textureId, const char* path) {
+	float w = 0;
+	float h = 0;
+	loadTexture(textureId, path, w, h);
 }
 
 void loadTextTexture(GLuint& textureId, const char* text,TTF_Font* font, int &width, int &height) {
