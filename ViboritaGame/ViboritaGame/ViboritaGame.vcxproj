@@ -154,7 +154,7 @@
     <ClCompile Include="Message.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
-    <ClCompile Include="PeaksApple.cpp" />
+    <ClCompile Include="SpikedApple.cpp" />
     <ClCompile Include="pugixml.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SettingsMenu.cpp" />
@@ -182,7 +182,7 @@
     <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Message.h" />
-    <ClInclude Include="PeaksApple.h" />
+    <ClInclude Include="SpikedApple.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Settings.h" />

@@ -165,8 +165,8 @@ void Button::draw()
 		glEnable(GL_TEXTURE_2D);
 	}
 	else
-		return;
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
+	//return;
 
 	
 	float alpha = selectable && !selected ? 0.3f : 1;

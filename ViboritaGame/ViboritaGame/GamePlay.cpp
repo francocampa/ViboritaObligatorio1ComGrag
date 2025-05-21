@@ -187,6 +187,13 @@ bool GamePlay::hasViborita(Vec3 indices)
 	return grid[x][y][z] != NULL && grid[x][y][z]->getType() == VIBORITA;
 }
 
+bool GamePlay::hasSpikedApple(Vec3 indices) {
+	int x = indices.x;
+	int y = indices.y;
+	int z = indices.z;
+	return grid[x][y][z] != NULL && grid[x][y][z]->getType() == SPIKED_APPLE;
+}
+
 void GamePlay::addViborita(Vec3 indices)
 {
 	if (this->viborita == NULL)

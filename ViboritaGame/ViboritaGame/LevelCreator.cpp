@@ -16,6 +16,9 @@ void selectEntityCallback(std::string entity) {
 	else if (entity == "viborita") {
 		lc->setEntityTipe(VIBORITA);
 	}
+	else if (entity == "spiked_apple") {
+		lc->setEntityTipe(SPIKED_APPLE);
+	}
 	
 }
 void selectEraseCallback(std::string z) {
@@ -69,7 +72,10 @@ void LevelCreator::createButtons()
 	selectBarBoxes[2] = new Button(leftOffset + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "goal");
 	selectBar[3] = new Viborita({ 0,0,0 }, { 0,0,0 }, baseViboritaColors);
 	selectBarBoxes[3] = new Button(leftOffset + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "viborita");
-	selectBarBoxes[4] = new Button(leftOffset + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEraseCallback, "");
+	selectBar[4] = new SpikedApple({ 0,0,0 }, { 0,0,0 });
+	selectBarBoxes[4] = new Button(leftOffset + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "spiked_apple");
+
+	selectBarBoxes[5] = new Button(leftOffset + 60 + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEraseCallback, "");
 }
 void LevelCreator::process(float deltaTime)
 {
@@ -166,6 +172,9 @@ void LevelCreator::setEntityTipe(GAME_ENTITY_TYPE type)
 	case GOAL:
 		selectedIndex = 2;
 		break;
+	case SPIKED_APPLE:
+		selectedIndex = 4;
+		break;
 	default:
 		selectedIndex = 0;
 		break;
@@ -190,6 +199,8 @@ std::string entityTypeString(GAME_ENTITY_TYPE type) {
 		return "apple";
 	case GOAL:
 		return "goal";
+	case SPIKED_APPLE:
+		return "spiked_apple";
 	default:
 		return "";
 	}
@@ -325,6 +336,9 @@ void LevelCreator::handlePlaceEntity()
 		break;
 	case GOAL:
 		grid[x][y][z] = new Goal(gridIndex, position);
+		break;
+	case SPIKED_APPLE:
+		grid[x][y][z] = new SpikedApple(gridIndex, position);
 		break;
 	default:
 		break;

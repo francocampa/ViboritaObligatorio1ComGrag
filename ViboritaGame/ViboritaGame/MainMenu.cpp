@@ -240,6 +240,9 @@ Level* MainMenu::loadFromXML(pugi::xml_node levelNode)
 		else if (type == "goal") {
 			gi = new Goal(gridIndex, position);
 		}
+		else if (type == "spiked_apple") {
+			gi = new SpikedApple(gridIndex, position);
+		}
 		grid[(int)gridIndex.x][(int)gridIndex.y][(int)gridIndex.z] = gi;
 	}
 

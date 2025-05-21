@@ -126,6 +126,12 @@ void setupSounds() {
 	}
 
 }
+
+void setupMessagesTextures() {
+	GLuint textureId = 0;
+	loadMessageTexture("Level1MovementTutorial", level1MovementTutorial);
+}
+
 int WINDOW_WIDTH = 640;
 int WINDOW_HEIGHT = 480;
 

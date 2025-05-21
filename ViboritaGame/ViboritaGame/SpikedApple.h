@@ -3,14 +3,13 @@
 #include "GameController.h"
 #include "utils.h"
 
-class PeaksApple :
+class SpikedApple :
     public IGameEntity
 {
 private:
-	Vec3 position;
-	Vec3 gridIndex;
+	float angle = 0;
 public:
-	PeaksApple(Vec3 girdIndex, Vec3 position);
+	SpikedApple(Vec3 girdIndex, Vec3 position);
 	GAME_ENTITY_TYPE getType();
 	void process(float deltaTime);
 	void draw();

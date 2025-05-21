@@ -35,6 +35,7 @@ public:
 	bool validTile(Vec3 indices);
 	bool hasSolidBlock(Vec3 indices);
 	bool hasViborita(Vec3 indices);
+	bool hasSpikedApple(Vec3 indices);
 	bool hasGoal(Vec3 indices);
 	void addViborita(Vec3 indices);
 	void eatAppleAt(Vec3 indices);

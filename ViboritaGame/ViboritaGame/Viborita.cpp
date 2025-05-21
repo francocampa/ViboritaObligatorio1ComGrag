@@ -138,7 +138,7 @@ void Viborita::draw() {
 			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation,{(int)xRotation,(int)yRotation}),sumV3(bodyPart->lastOffset, offsetDiff));
 			//translateAndRotateBodyPart(currentRotation, currentOffset);
 
-			drawModel(WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
+			drawModel(this->reachedPortal ? this->body.size == 1 ? WORM_TAIL_MODEL : WORM_BODY_MODEL : WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
 		}
 		else if (bodyPart == this->body.tail) {
 			calculatePartRotation(this->body.tail->dirToFront, this->body.tail->dirToFront, bodyPart->orientationToFront, true, currentRotation, currentOffset);
@@ -312,7 +312,9 @@ bool Viborita::handleMovement(Vec3* movementDir) {
 	if (!gameContext->validTile(nextGridIndex)
 		|| gameContext->hasSolidBlock(nextGridIndex)) //Se choca con un bloque
 		return false;
-	if (gameContext->hasViborita(nextGridIndex) && !equalsV3(this->body.tail->gridIndex,nextGridIndex)) {
+	bool ateItself = gameContext->hasViborita(nextGridIndex) && !equalsV3(this->body.tail->gridIndex, nextGridIndex);
+	bool ateSpikedApple = gameContext->hasSpikedApple(nextGridIndex);
+	if (ateItself || ateSpikedApple) {
 		handleDeath();
 		return false;
 	}
@@ -403,13 +405,17 @@ void Viborita::handleFall()
 		gameContext->clearTile(aux->gridIndex);
 		Vec3 positionUnderPart = { aux->position.x,aux->position.y - GameController::getInstance()->TILE_SIZE,aux->position.z};
 		Vec3 indexUnderPart = { aux->gridIndex.x,aux->gridIndex.y - 1,aux->gridIndex.z };
+		if (gameContext->hasSpikedApple(indexUnderPart)) { //Se cae en los pinchos :c
+			handleDeath();
+			return; 
+		}
 		aux->position = positionUnderPart;
 		aux->gridIndex = indexUnderPart;
 		if (indexUnderPart.y < minY)
 			minY = indexUnderPart.y;
 
 		if (gameContext->hasGoal(aux->gridIndex)) { //Si te caes arriba de la meta xd
-			gameContext->beatLevel();
+			this->reachedPortal = true;
 			return;
 		}
 
@@ -464,7 +470,6 @@ float getCameraAngle(Vec3 dir) {
 		return -M_PI / 2;
 }
 
-//TODO: agregar animaciones para la camara
 float prevCameraAngle = 0;
 const float ANGLEEPSILON = 0.0001f;
 void Viborita::getFPCamera(Vec3& pos, Vec3& center)
@@ -520,11 +525,6 @@ void Viborita::getFPCamera(Vec3& pos, Vec3& center)
 }
 
 void Viborita::process(float deltaTime) {
-	if (reachedPortal && movingProgress == 1) {
-		this->gameContext->beatLevel();
-		return;
-	}
-
 	if (movingProgress != 1)
 	{
 		this->movingProgress += 10.0f * deltaTime;
@@ -532,6 +532,23 @@ void Viborita::process(float deltaTime) {
 			movingProgress = 1.0f;
 		return;
 	}
+	if (reachedPortal) {
+		if (this->body.size == 1) {
+			this->gameContext->beatLevel();
+			return;
+		}
+		else {
+			this->body.head = this->body.head->next;
+			this->body.size--;
+			Vec3* dir = new Vec3;
+			dir->x = headDirection.x;
+			dir->y = headDirection.y;
+			dir->z = headDirection.z;
+			handleMovement(dir);
+			return;
+		}
+	}
+	
 	if (!this->fallen && !hasFloor()) {
 		this->falling = 0.00000001f;
 		this->fallen = true;
