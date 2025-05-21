@@ -18,6 +18,9 @@ private:
 	Viborita* viborita;
 	GameStats* stats;
 
+	Button* cameraIcon;
+	Button* firstPersonPerspective;
+	Button* levelPerspective;
 public:
 	GamePlay(Level* level);
 	void process(float deltaTime);
@@ -40,6 +43,9 @@ public:
 	void addViborita(Vec3 indices);
 	void eatAppleAt(Vec3 indices);
 	void ateApple();
+
+	void setFirstPerson();
+	void setLevelPerspective();
 
 	std::vector<IHudElement*> getLevelTutorials();
 

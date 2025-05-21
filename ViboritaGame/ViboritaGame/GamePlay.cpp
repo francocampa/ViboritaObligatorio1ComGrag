@@ -8,6 +8,14 @@ void resetLevelCallback() {
 	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();
 	gp->resetLevel();
 }
+void firstPersonCallback() {
+	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();
+	gp->setFirstPerson();
+}
+void levelPerspectiveCallback() {
+	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();
+	gp->setLevelPerspective();
+}
 GamePlay::GamePlay(Level* level)
 {
 	this->level = level;
@@ -16,6 +24,13 @@ GamePlay::GamePlay(Level* level)
 	std::string sText = "0/" + std::to_string(level->getMaxScore());
 	scoreText = new Button(sText.c_str(), 10, 10);
 	timerText = new Button("00:00", 280, 10);
+
+	int btnSize = 20;
+	cameraIcon = new Button("images/camera.png", 10, 480 - 20 - btnSize, btnSize, btnSize, NULL);
+	btnSize = 30;
+	firstPersonPerspective = new Button("images/snake.png", 10, 480 - 10 - btnSize*1.5f, btnSize, btnSize, firstPersonCallback);
+	levelPerspective = new Button("images/global.png", 20 + btnSize, 480 - 10 - btnSize*1.5f, btnSize, btnSize, levelPerspectiveCallback);
+
 	
 	startLevel();
 }
@@ -131,6 +146,9 @@ std::vector<IHudElement*> GamePlay::getHudElements()
 	buttons.push_back(reset);
 	buttons.push_back(scoreText);
 	buttons.push_back(timerText);
+	buttons.push_back(cameraIcon);
+	buttons.push_back(firstPersonPerspective);
+	buttons.push_back(levelPerspective);
 	return buttons;
 }
 
@@ -225,6 +243,18 @@ void GamePlay::ateApple()
 	std::string newText = std::to_string(newScore) + " / " + std::to_string(maxScore);
 
 	scoreText->updateText(newText.c_str());
+}
+
+void GamePlay::setFirstPerson()
+{
+	GameController::getInstance()->setFirstPerson(true);
+	cameraIcon->getRect()->x = 10;
+}
+
+void GamePlay::setLevelPerspective()
+{
+	GameController::getInstance()->setFirstPerson(false);
+	cameraIcon->getRect()->x = 40;
 }
 
 std::vector<IHudElement*> GamePlay::getLevelTutorials()
