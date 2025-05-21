@@ -306,20 +306,20 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 			}
 
 			// Coordenadas de Textura (UVs) - Tomamos el primer conjunto si existe
-			if (mesh->HasTextureCoords(0)) {
-				vertex.texCoord.x = mesh->mTextureCoords[0][j].x;
-				vertex.texCoord.y = mesh->mTextureCoords[0][j].y;
+			if (mesh->HasTextureCoords(i)) {
+				vertex.texCoord.x = mesh->mTextureCoords[i][j].x;
+				vertex.texCoord.y = mesh->mTextureCoords[i][j].y;
 			}
 			else {
 				vertex.texCoord = glm::vec2(0.0f, 0.0f);
 			}
 
 			// Colores de Vértice - Tomamos el primer conjunto si existe
-			if (mesh->HasVertexColors(0)) {
-				vertex.color.r = mesh->mColors[0][j].r;
-				vertex.color.g = mesh->mColors[0][j].g;
-				vertex.color.b = mesh->mColors[0][j].b;
-				vertex.color.a = mesh->mColors[0][j].a;
+			if (mesh->HasVertexColors(i)) {
+				vertex.color.r = mesh->mColors[i][j].r;
+				vertex.color.g = mesh->mColors[i][j].g;
+				vertex.color.b = mesh->mColors[i][j].b;
+				vertex.color.a = mesh->mColors[i][j].a;
 			}
 			else {
 				vertex.color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f); // Color blanco por defecto
