@@ -15,9 +15,9 @@ void Cloud::process(float deltaTime) {
 
 void Cloud::draw() {
 	glPushMatrix();
-	position.x = 12 * cos(this->angle);
+	position.x = radio * cos(this->angle);
 	position.y = 0; 
-	position.z = 12 * sin(this->angle);
+	position.z = radio * sin(this->angle);
 	Material cloudMaterial = { {0.8f, 0.8f, 0.8f, 1.0f} , {0.1f, 0.1f, 0.1f, 1.0f} ,  {0.4f, 0.4f, 0.4f, 1.0f}, {100.0f} };
 	applyMaterial(cloudMaterial);
 	glTranslatef(position.x, position.y, position.z);

@@ -64,7 +64,8 @@ Vec3* getVec3FromVec3(Vec3 vecPrev) {
 	vec->z = vecPrev.z;
 	return vec;
 }
-
+GLuint grassTexture = 0;
+GLuint dirtTexture = 0;
 std::map<std::string, GLuint> textures;
 
 void loadTexture(GLuint& textureId, const char* path, float &w,float &h) {
@@ -208,7 +209,7 @@ void drawArrowKeys(Vec3 position) {
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
 	glTranslatef(1.2f,0,0);
-	drawCubeWithNormals(color, false); // ^
+	drawCubeWithNormals(color, false, -1); // ^
 	
 	glPopMatrix();
 
@@ -216,13 +217,13 @@ void drawArrowKeys(Vec3 position) {
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
 	glTranslatef(0, 0, -1.2f);
-	drawCubeWithNormals(color, false); // <
+	drawCubeWithNormals(color, false, -1); // <
 	
 	glTranslatef(1.2f, 0, 0);
-	drawCubeWithNormals(color, false); // \/
+	drawCubeWithNormals(color, false, -1); // \/
 
 	glTranslatef(1.2f, 0, 0);
-	drawCubeWithNormals(color, false); // >
+	drawCubeWithNormals(color, false, -1); // >
 	glPopMatrix();
 
 }
@@ -338,6 +339,15 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 			for (unsigned int k = 0; k < face.mNumIndices; ++k) {
 				subMeshes[i].indices.push_back(face.mIndices[k]);
 			}
+			const aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+			aiColor4D diffuse;
+			if (AI_SUCCESS == aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &diffuse)) {
+				subMeshes[i].materialDiffuseColor = glm::vec4(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+			}
+			else {
+				subMeshes[i].materialDiffuseColor = glm::vec4(1.0f); // Default white
+			}
 		}
 
 	}
@@ -354,7 +364,7 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 void drawModel(MODEL_TYPE modelType, bool textures) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	int indexModel;
 	switch (modelType)
 	{
@@ -391,12 +401,18 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 	default:
 		break;
 	}
-	if (textures) {
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
-	}
+	//if (textures) {
+	//	glEnable(GL_TEXTURE_2D);
+	//	glBindTexture(GL_TEXTURE_2D, modelsInfo[indexModel].textureId);
+	//}
 	
 	for (const subMesh& mesh : modelsInfo[indexModel].subMeshes) {
+		glColor4f(
+			mesh.materialDiffuseColor.r,
+			mesh.materialDiffuseColor.g,
+			mesh.materialDiffuseColor.b,
+			mesh.materialDiffuseColor.a
+		);
 		const VertexData* vertexDataPtr = mesh.vertices.data();
 		const GLuint* indexData = mesh.indices.data();
 		const GLfloat* normalsData = mesh.normals.data();
@@ -407,10 +423,11 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 
 		glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, indexData);
 	}
+	glColor4f(0,0,0,1);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	if (textures) {
-		glDisable(GL_TEXTURE_2D);
-	}
+	//if (textures) {
+	//	glDisable(GL_TEXTURE_2D);
+	//}
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 }
@@ -535,13 +552,13 @@ GLuint cubeNormalsIndices[] = {
 };
 
 
-void drawCubeWithNormals(Vec3 color, bool textures) {
+void drawCubeWithNormals(Vec3 color, bool textures, GLuint textureId) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
-	if (textures) {
+	if (textures && textureId != -1) {
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, cubeTexture);
+		glBindTexture(GL_TEXTURE_2D, textureId);
 		glTexCoordPointer(2, GL_FLOAT, 0, cubeTextureCoords);
 	}
 	glColor3f(color.x,color.y,color.z);

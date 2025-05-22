@@ -95,6 +95,8 @@ void GamePlay::startLevel()
 		for (int y = 0; y < 8;y++) {
 			for (int z = 0; z < 8;z++) {
 				this->grid[x][y][z] = level->getInitialGridPosition(x, y, z);
+				if (grid[x][y][z] != NULL && grid[x][y][z]->getType() == BLOCK)
+					((Block*)grid[x][y][z])->setContext(this);
 			}
 		}
 	}

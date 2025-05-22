@@ -40,7 +40,8 @@ void loadModelsAndTextures() {
 	std::string filePath = "models/apple.obj";
 	std::string name = "";
 	GLuint textureId;
-	GLuint cubeTextureId;
+	GLuint grassTextureId;
+	GLuint dirtTextureId;
 	GLuint portalTexId;
 	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
 	filePath = "models/worm_head.obj";
@@ -62,11 +63,13 @@ void loadModelsAndTextures() {
 	filePath = "models/title.obj";
 	cargarModelo(filePath, name, 9);
 	loadTexture(textureId, "textures/apple_texture.jpg");
-	loadTexture(cubeTextureId, "textures/cube_texture.jpg");
+	loadTexture(grassTextureId, "textures/grass.png");
+	loadTexture(dirtTextureId, "textures/dirt.png");
 	loadTexture(portalTexId, "textures/portal_texture.jpg");
 	modelsInfo[0].textureId = textureId;
 	modelsInfo[4].textureId = portalTexId;
-	cubeTexture = cubeTextureId;
+	grassTexture = grassTextureId;
+	dirtTexture = dirtTextureId;
 }
 
 void setupLighting() {

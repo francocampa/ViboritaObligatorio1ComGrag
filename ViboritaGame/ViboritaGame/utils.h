@@ -64,6 +64,7 @@ struct subMesh {
 	std::vector<VertexData> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<float> normals;
+	glm::vec4 materialDiffuseColor;
 };
 
 struct modelInfo {
@@ -81,7 +82,8 @@ Vec3* getVec3FromVec3(Vec3 vecPrev);
 
 extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información de cada modelo
 
-extern GLuint cubeTexture;//ID de la textura del cubo
+extern GLuint grassTexture;
+extern GLuint dirtTexture;
 
 extern std::map<std::string, GLuint> textures;
 void loadTexture(GLuint& textureId, const char* path, float& w, float& h);
@@ -127,7 +129,7 @@ void drawModel(MODEL_TYPE,bool textures);
 extern GLfloat cubeNormals[];
 extern GLfloat cubeNormalsColors[];
 extern GLuint cubeNormalsIndices[];
-void drawCubeWithNormals(Vec3 color, bool textures);
+void drawCubeWithNormals(Vec3 color, bool textures, GLuint textureId);
 
 struct Light {
 	GLfloat position[4];

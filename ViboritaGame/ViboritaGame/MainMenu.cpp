@@ -321,10 +321,7 @@ void MainMenu::process(float deltaTime)
 	calc3dCoordsForHud(GameController::getInstance()->getCameraPos(), { 0,0,0 }, 50, 0, 13, pos);
 	glEnable(GL_LIGHTING);
 	glPushMatrix();
-	//glRotatef(angle, 0,1,0);
-	//angle += 5 * deltaTime;
-	glColor3f(0.0f, 0.50f, 0.0f);
-	glTranslatef(pos.x, pos.y, pos.z);
+	glTranslatef(pos.x,pos.y,pos.z);
 	drawModel(TITLE_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 	glPopMatrix();
 	glColor3f(0.0f, 0, 0.0f);
@@ -610,21 +607,18 @@ void MainMenu::draw()
 	if (this->animationProgress == 0) {
 		glPushMatrix();
 		glRotatef(this->cameraY, 0, 2, 0);
-		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[0]->draw();
 		glPopMatrix();
 	}
 	else if (this->animationProgress == 1) {
 		glPushMatrix();
 		glRotatef(this->cameraY, 0, 1, 0);
-		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[1]->draw();
 		glPopMatrix();
 	}
 	else if (this->animationProgress == 2) {
 		glPushMatrix();
 		glRotatef(this->cameraY, 0, 1, 0);
-		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[2]->draw();
 		glPopMatrix();
 	}

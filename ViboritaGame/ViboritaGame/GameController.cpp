@@ -4,7 +4,7 @@ GameController* GameController::instance = NULL;
 
 std::mt19937 generador(std::time(nullptr));
 std::uniform_int_distribution<> angles(1, 100);
-std::uniform_int_distribution<> radios(3, 11);
+std::uniform_int_distribution<> radios(15, 20);
 std::uniform_int_distribution<> cloudModel(1, 3);
 
 GameController::GameController() {
