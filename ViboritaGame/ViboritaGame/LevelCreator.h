@@ -38,6 +38,8 @@ private:
     void createButtons();
     void handleSelectedIndexMovement();
     void handlePlaceEntity();
+
+    void resize();
 public:
     LevelCreator();
     void process(float deltaTime);

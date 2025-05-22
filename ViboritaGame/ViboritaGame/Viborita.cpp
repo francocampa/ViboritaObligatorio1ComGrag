@@ -179,7 +179,7 @@ void Viborita::draw() {
 				GameController::getInstance()->getGridPosition(bodyPart->gridIndex.y),
 				GameController::getInstance()->getGridPosition(bodyPart->gridIndex.z));
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			drawCubeWithNormals(this->body.head == bodyPart ? headColor : viboritaColor, GameController::getInstance()->getSettings()->hasTextures());
+			drawCubeWithNormals(this->body.head == bodyPart ? headColor : viboritaColor,false);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			
 		}
@@ -309,8 +309,7 @@ Vec3* Viborita::getMovementDirection()
 bool Viborita::handleMovement(Vec3* movementDir) {
 	Vec3 nextGridIndex = { this->body.head->gridIndex.x + movementDir->x,this->body.head->gridIndex.y + movementDir->y,this->body.head->gridIndex.z + movementDir->z };
 
-	if (!gameContext->validTile(nextGridIndex)
-		|| gameContext->hasSolidBlock(nextGridIndex)) //Se choca con un bloque
+	if (gameContext->hasSolidBlock(nextGridIndex)) //Se choca con un bloque
 		return false;
 	bool ateItself = gameContext->hasViborita(nextGridIndex) && !equalsV3(this->body.tail->gridIndex, nextGridIndex);
 	bool ateSpikedApple = gameContext->hasSpikedApple(nextGridIndex);
@@ -414,7 +413,7 @@ void Viborita::handleFall()
 		if (indexUnderPart.y < minY)
 			minY = indexUnderPart.y;
 
-		if (gameContext->hasGoal(aux->gridIndex)) { //Si te caes arriba de la meta xd
+		if (gameContext->hasGoal(aux->gridIndex) && aux == this->body.head) { //Si te caes arriba de la meta xd
 			this->reachedPortal = true;
 			return;
 		}

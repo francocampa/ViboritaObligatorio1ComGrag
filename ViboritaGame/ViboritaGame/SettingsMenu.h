@@ -44,10 +44,12 @@ private:
 	Slider* lightBSlider;
 	Button* lightAlphaText;
 	Slider* lightAlphaSlider;
+
 public:
 	SettingsMenu(Settings* settings);
 	void process(float deltaTime);
 	void draw();
+	void resize();
 	void changeGameSpeed(float gameSpeed);
 	void changeVolume(int volume);
 	void setWireframe(bool wireframe);

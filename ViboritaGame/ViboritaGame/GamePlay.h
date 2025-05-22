@@ -50,7 +50,9 @@ public:
 	void setLevelPerspective();
 
 	std::vector<IHudElement*> getLevelTutorials();
-
+	
+	void resize();
+	
 	~GamePlay();
 };
 

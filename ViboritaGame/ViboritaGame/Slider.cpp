@@ -99,3 +99,14 @@ BUTTON_TYPE Slider::getType()
 {
 	return SLIDER;
 }
+
+void Slider::setLength(int length)
+{
+	//Does not work jeje
+	//this->length = length;
+	//sliderLine->w = length;
+	//float xProgress = (value - min) / (max - min);
+	//int xProgresPixels = (length - girth) * xProgress;
+	//progressLine->w = xProgresPixels;
+	//selector->x = sliderLine->x + xProgresPixels;
+}

@@ -395,6 +395,28 @@ void GameController::setFirstPerson(bool fp)
 	this->firstPerson = fp;
 }
 
+void GameController::setWindowSize(Vec2 size)
+{
+	this->windowSize = { size.x,size.y };
+	this->widthScale = (float)size.x / 640.0f;
+	this->heightScale = (float)size.y / 480.0f;
+}
+
+Vec2 GameController::getWindowSize()
+{
+	return this->windowSize;
+}
+
+float GameController::getWidthScale()
+{
+	return widthScale;
+}
+
+float GameController::getHeightScale()
+{
+	return heightScale;
+}
+
 
 
 

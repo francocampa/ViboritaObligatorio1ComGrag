@@ -8,6 +8,7 @@ class IGameState {
 public:
 	virtual void process(float deltaTime);
 	virtual void draw();
+	virtual void resize();
 	virtual std::vector<IHudElement*> getHudElements();
 	virtual ~IGameState(){}
 };

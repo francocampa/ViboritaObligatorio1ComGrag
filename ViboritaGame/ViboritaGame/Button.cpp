@@ -143,6 +143,7 @@ Button::Button(const char* text, int x, int y)
 {//Renderizador de texto xdxd
 	hover = false;
 	selected = false;
+	textBtn = true;
 	int width = 0;
 	int height = 0;
 	loadTextTexture(this->textureId, text, font,width,height);
@@ -187,8 +188,8 @@ void Button::draw()
 		glEnable(GL_TEXTURE_2D);
 	}
 	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
-	//return;
+		return;
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
 
 	
 	float alpha = selectable && !selected ? 0.3f : 1;
@@ -282,11 +283,8 @@ void Button::center(int begin, int end)
 
 Button::~Button()
 {
-	glDeleteTextures(1, &textureId);
-	if(hoverTextureId != NULL)
-		glDeleteTextures(1, &hoverTextureId);
-	if(selectedTextureId != NULL)
-		glDeleteTextures(1, &selectedTextureId);
+	if(textBtn && textureId != NULL)
+		glDeleteTextures(1, &textureId);
 }
 
 BUTTON_TYPE Button::getType()

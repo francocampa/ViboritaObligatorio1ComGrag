@@ -44,6 +44,7 @@ private:
 	void loadLevels();
 	Level* loadFromXML(pugi::xml_node root);
 
+	void resize();
 public:
 	MainMenu();
 	void process(float deltaTime);

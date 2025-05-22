@@ -59,6 +59,8 @@ void loadModelsAndTextures() {
 	cargarModelo(filePath, name, 7);
 	filePath = "models/peaks_apple.obj";
 	cargarModelo(filePath, name, 8);
+	filePath = "models/title.obj";
+	cargarModelo(filePath, name, 9);
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(cubeTextureId, "textures/cube_texture.jpg");
 	loadTexture(portalTexId, "textures/portal_texture.jpg");
@@ -127,29 +129,31 @@ void setupSounds() {
 
 }
 
-void setupMessagesTextures() {
-	GLuint textureId = 0;
-	loadMessageTexture("Level1MovementTutorial", level1MovementTutorial);
-}
+void updatePerspective(Vec2 windowSize) {
+	glMatrixMode(GL_PROJECTION);
 
-int WINDOW_WIDTH = 640;
-int WINDOW_HEIGHT = 480;
+	gluPerspective(45, windowSize.x / (float)windowSize.y, 0.1, 100);
+
+	glMatrixMode(GL_MODELVIEW);
+}
 
 using namespace std;
 int main(int argc, char* argv[]) {
-	//void main() {
 
 	//	Init sld
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		exit(1);
 	}
 
+	Vec2 windowSize = { 640,480 };
+
 	SDL_Window* win = SDL_CreateWindow("Viborita",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH, WINDOW_HEIGHT,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+		windowSize.x, windowSize.y,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	SDL_GLContext context = SDL_GL_CreateContext(win);
+
 	IMG_Init(IMG_INIT_PNG);
 
 	loadFonts();
@@ -162,15 +166,18 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
+	GameController* gc = GameController::getInstance();
+
+	gc->setWindowSize(windowSize);
+
 	//Camera setup
 	glMatrixMode(GL_PROJECTION);
 
 	glClearColor(0.529f, 0.808f, 0.922f, 1.0f);
-	gluPerspective(45, WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1, 100);
+	gluPerspective(45, windowSize.x / (float)windowSize.y, 0.1, 100);
 	glEnable(GL_DEPTH_TEST);
 
 	glMatrixMode(GL_MODELVIEW);
-	GameController* gc = GameController::getInstance();
 
 	gc->setState(new MainMenu());
 	gc->setSettings(new Settings());
@@ -322,6 +329,10 @@ int main(int argc, char* argv[]) {
 					case SDLK_v:
 						gc->setFirstPerson(!gc->getFirstPerson());
 						break;
+					case SDLK_r:
+						if (gc->getGamePlay() == gc->getState())
+							gc->getGamePlay()->resetLevel();
+						break;
 				}
 				break;
 			
@@ -399,6 +410,20 @@ int main(int argc, char* argv[]) {
 					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
 
+				break;
+			case SDL_WINDOWEVENT:
+				if (event.window.event != SDL_WINDOWEVENT_RESIZED)
+					break;
+				printf("resized");
+				SDL_GetWindowSize(win, &windowSize.x, &windowSize.y);
+				gc->setWindowSize(windowSize);
+
+				glViewport(0, 0, windowSize.x, windowSize.y);
+				glMatrixMode(GL_PROJECTION);
+				glLoadIdentity();
+				gluPerspective(45.0, windowSize.x / (float)windowSize.y, 0.1, 100.0);
+				glMatrixMode(GL_MODELVIEW);
+				gc->getState()->resize();
 				break;
 			case SDL_MOUSEWHEEL:
 				int scrollY = event.wheel.y;

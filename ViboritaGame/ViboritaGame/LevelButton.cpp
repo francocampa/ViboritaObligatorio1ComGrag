@@ -23,23 +23,7 @@ LevelButton::LevelButton(int x, Level* level,void(*callback)(std::string))
 	this->level = level;
 	this->rect = new SDL_Rect();
 	this->x = x;
-	switch (x)
-	{
-	case 0:
-		rect->x = 50;
-		break;
-	case 1:
-		rect->x = 640/2 - 75;
-		break;
-	case 2:
-		rect->x = 640 - 150 - 50;
-		break;
-	default:
-		break;
-	}
-	rect->y = 480/2 - 75;
-	rect->h = 150;
-	rect->w = 150;
+	resize();
 	this->callback = callback;
 	loadTextTexture(levelTextId,level->getName().c_str(),IHudElement::font,textSize.x,textSize.y);
 }
@@ -71,9 +55,10 @@ void LevelButton::draw()
 		glEnd();
 	glDisable(GL_TEXTURE_2D);
 
+	GameController* gc = GameController::getInstance();
 	IHudElement::goBackTo3d();
 		Vec3 offset;
-		int xOffset = x == 0 ? -16 : x == 1 ? 0 : 16;
+		int xOffset = x == 0 ? -16 - gc->getWidthScale() * 2 : x == 1 ? 0 : 16 + gc->getWidthScale() * 2;
 		float scale = 1 + aProgress;
 		calculatePreviewPos(GameController::getInstance()->getCameraPos(),{0,0,0},xOffset,tileScale, offset);
 		glPushMatrix();
@@ -124,4 +109,26 @@ bool LevelButton::isHovering()
 void LevelButton::click()
 {
 	callback(level->getName());
+}
+
+void LevelButton::resize()
+{
+	GameController* gc = GameController::getInstance();
+	switch (x)
+	{
+	case 0:
+		rect->x = 50 * gc->getWidthScale();
+		break;
+	case 1:
+		rect->x = gc->getWindowSize().x / 2 - 75 * gc->getWidthScale();
+		break;
+	case 2:
+		rect->x = gc->getWindowSize().x - 200 * gc->getWidthScale();
+		break;
+	default:
+		break;
+	}
+	rect->y = gc->getWindowSize().y / 2 - 75 * gc->getHeightScale();
+	rect->h = 150 * gc->getHeightScale();
+	rect->w = 150 * gc->getWidthScale();
 }

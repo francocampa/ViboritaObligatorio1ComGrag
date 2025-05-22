@@ -29,7 +29,7 @@ void HudController::process(float deltaTime)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();                    
     glLoadIdentity();
-    glOrtho(0, 640, 480, 0, -1, 1);     
+    glOrtho(0, gc->getWindowSize().x, gc->getWindowSize().y, 0, -1, 1);
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();                     
     glLoadIdentity();

@@ -38,5 +38,6 @@ public:
 	virtual SDL_Rect* getRect();
 	virtual SDL_Rect* getSelectorRect();
 	BUTTON_TYPE getType();
+	void setLength(int length);
 };
 

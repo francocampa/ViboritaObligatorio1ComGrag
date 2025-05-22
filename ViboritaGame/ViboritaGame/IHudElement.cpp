@@ -1,4 +1,5 @@
 #include "IHudElement.h"
+#include "GameController.h"
 
 TTF_Font* IHudElement::font = nullptr;
 
@@ -39,10 +40,11 @@ void IHudElement::goBackTo3d()
 
 void IHudElement::goBackTo2d()
 {
+	GameController* gc = GameController::getInstance();
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-	glOrtho(0, 640, 480, 0, -1, 1);
+	glOrtho(0, gc->getWindowSize().x, gc->getWindowSize().y, 0, -1, 1);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();

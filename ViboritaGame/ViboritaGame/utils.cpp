@@ -65,7 +65,18 @@ Vec3* getVec3FromVec3(Vec3 vecPrev) {
 	return vec;
 }
 
+std::map<std::string, GLuint> textures;
+
 void loadTexture(GLuint& textureId, const char* path, float &w,float &h) {
+	if (textures.count(path) > 0) {
+		textureId = textures.at(path);
+		SDL_Surface* surface = IMG_Load(path);
+		w = surface->w;
+		h = surface->h;
+		SDL_FreeSurface(surface);
+		return;
+	}
+
 	SDL_Surface* surface = IMG_Load(path);
 	w = surface->w;
 	h = surface->h;
@@ -84,6 +95,7 @@ void loadTexture(GLuint& textureId, const char* path, float &w,float &h) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	SDL_FreeSurface(converted);
+	textures.insert({path,textureId});
 }
 
 void loadTexture(GLuint& textureId, const char* path) {
@@ -298,20 +310,20 @@ void cargarModelo(std::string& filePath, std::string name,int pos) {
 			}
 
 			// Coordenadas de Textura (UVs) - Tomamos el primer conjunto si existe
-			if (mesh->HasTextureCoords(0)) {
-				vertex.texCoord.x = mesh->mTextureCoords[0][j].x;
-				vertex.texCoord.y = mesh->mTextureCoords[0][j].y;
+			if (mesh->HasTextureCoords(i)) {
+				vertex.texCoord.x = mesh->mTextureCoords[i][j].x;
+				vertex.texCoord.y = mesh->mTextureCoords[i][j].y;
 			}
 			else {
 				vertex.texCoord = glm::vec2(0.0f, 0.0f);
 			}
 
 			// Colores de Vértice - Tomamos el primer conjunto si existe
-			if (mesh->HasVertexColors(0)) {
-				vertex.color.r = mesh->mColors[0][j].r;
-				vertex.color.g = mesh->mColors[0][j].g;
-				vertex.color.b = mesh->mColors[0][j].b;
-				vertex.color.a = mesh->mColors[0][j].a;
+			if (mesh->HasVertexColors(i)) {
+				vertex.color.r = mesh->mColors[i][j].r;
+				vertex.color.g = mesh->mColors[i][j].g;
+				vertex.color.b = mesh->mColors[i][j].b;
+				vertex.color.a = mesh->mColors[i][j].a;
 			}
 			else {
 				vertex.color = glm::vec4(0.5f, 0.5f, 0.5f, 0.5f); // Color blanco por defecto
@@ -372,6 +384,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 		break;
 	case SPIKED_APPLE_MODEL:
 		indexModel = 8;
+		break;
+	case TITLE_MODEL:
+		indexModel = 9;
 		break;
 	default:
 		break;
@@ -628,20 +643,6 @@ int getRandomInt(int min, int max) {
 	static std::mt19937 gen(rd()); // Random number generator
 	std::uniform_int_distribution<> dis(min, max);
 	return dis(gen);
-}
-
-std::map<MESSAGES_ENUM, GLuint> messagesTextures;
-
-void loadMessageTexture(std::string path, MESSAGES_ENUM enumVal)
-{
-	GLuint textureId = 0;
-	loadTexture(textureId, path.c_str());
-	messagesTextures.insert({ enumVal, textureId });
-}
-
-GLuint getMessageTexture(MESSAGES_ENUM enumVal)
-{
-	return messagesTextures.at(enumVal);
 }
 
 void playSound(SOUND_ENUM sound)

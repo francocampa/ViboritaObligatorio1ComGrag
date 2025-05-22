@@ -75,7 +75,7 @@ struct modelInfo {
 enum BUTTON_TYPE { BUTTON, SLIDER, CHECKBOX, TEXTFIELD, LEVELBUTTON, MESSAGE};
 enum GAME_ENTITY_TYPE {BLOCK,VIBORITA,APPLE,GOAL,CLOUD, SPIKED_APPLE};
 enum TEX_SETTINGS {FACETADO, INTERPOLADO};
-enum MODEL_TYPE {APPLE_MODEL, WORM_HEAD_MODEL, WORM_BODY_MODEL, WORM_TAIL_MODEL, GOAL_MODEL, CLOUD1_MODEL, CLOUD2_MODEL, CLOUD3_MODEL, SPIKED_APPLE_MODEL};
+enum MODEL_TYPE {APPLE_MODEL, WORM_HEAD_MODEL, WORM_BODY_MODEL, WORM_TAIL_MODEL, GOAL_MODEL, CLOUD1_MODEL, CLOUD2_MODEL, CLOUD3_MODEL, SPIKED_APPLE_MODEL, TITLE_MODEL};
 
 Vec3* getVec3FromVec3(Vec3 vecPrev);
 
@@ -83,6 +83,7 @@ extern std::vector<modelInfo> modelsInfo;//Arreglo que contiene la información d
 
 extern GLuint cubeTexture;//ID de la textura del cubo
 
+extern std::map<std::string, GLuint> textures;
 void loadTexture(GLuint& textureId, const char* path, float& w, float& h);
 void loadTexture(GLuint& textureId, const char* path);
 void loadTextTexture(GLuint& textureId, const char* text, TTF_Font* font, int& width, int& height);
@@ -175,8 +176,3 @@ enum MESSAGES_ENUM {
 	level3MovementTutorial,
 };
 
-extern std::map<MESSAGES_ENUM, GLuint> messagesTextures;
-
-void loadMessageTexture(std::string path, MESSAGES_ENUM enumVal);
-
-GLuint getMessageTexture(MESSAGES_ENUM enumVal);
