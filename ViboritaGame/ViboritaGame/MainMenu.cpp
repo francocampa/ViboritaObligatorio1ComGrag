@@ -95,8 +95,8 @@ MainMenu::MainMenu() {
 	this->levelCarousel = btnsForCustom;
 	this->carouselIndex = 0;
 	this->cameraPosTime = 0;
-	this->cameraTheta = 0;
-	this->cameraPhi = 0;
+	this->cameraY = 0;
+	this->cameraX = 0;
 	this->animationProgress = 0;
 	this->animationLevel.resize(3);
 	this->animationLevel[0] = new GamePlay(this->customLevels[0]);
@@ -335,77 +335,264 @@ void MainMenu::process(float deltaTime)
 
 	this->cameraPosTime +=deltaTime;
 	if (this->cameraPosTime >= 0 && this->cameraPosTime < 5.0f) {
-		cameraPhi += 0.1f * deltaTime;
-		cameraTheta += 0.1f * deltaTime;
-		if (this->cameraPosTime > 1.0f && this->cameraPosTime < 2.0f) {
+		cameraX += 10 * deltaTime;
+		cameraY += 10 * deltaTime;
+		if (this->cameraPosTime >= 1 && this->cameraPosTime < 1.2f) {
 			this->move[0] = { 0,1,0 };
 			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
 
 		}
-		else if (this->cameraPosTime >= 2.0f && this->cameraPosTime < 3.0f) {
+		else if (this->cameraPosTime >= 1.2f && this->cameraPosTime < 1.4f) {
 			this->move[0] = { 1,0,0 };
 			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 3.0f && this->cameraPosTime < 4.0f) {
+		else if (this->cameraPosTime >= 1.4f && this->cameraPosTime < 1.8f) {
 			this->move[0] = { 1,0,0 };
 			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 4.0f && this->cameraPosTime < 5.0f) {
+		else if (this->cameraPosTime >= 1.8 && this->cameraPosTime < 2.0) {
 			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 2.0f && this->cameraPosTime < 2.2f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 2.2f && this->cameraPosTime < 2.4f) {
+			this->move[0] = { 0,0,1 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 2.4f && this->cameraPosTime < 2.6f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 2.6f && this->cameraPosTime < 2.8f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 2.8f && this->cameraPosTime < 3.0f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 3.0f && this->cameraPosTime < 3.2f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 3.2f && this->cameraPosTime < 3.4f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 3.4f && this->cameraPosTime < 3.6f) {
+			this->move[0] = { 0,1,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 3.6f && this->cameraPosTime < 3.8f) {
+			this->move[0] = { 0,1,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 3.8f && this->cameraPosTime < 4.0f) {
+			this->move[0] = { 0,1,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 4.0f && this->cameraPosTime < 4.2f) {
+			this->move[0] = { 0,1,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 4.2f && this->cameraPosTime < 4.4f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 4.4f && this->cameraPosTime < 4.6f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 4.6f && this->cameraPosTime < 4.8f) {
+			this->move[0] = { 0,0,1 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 4.8f && this->cameraPosTime < 5.0f) {
+			this->move[0] = { 0,0,1 };
 			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
 		}
 	}
-	else if (this->cameraPosTime >= 5.0f && this->cameraPosTime < 10.f) {
+	else if (this->cameraPosTime >= 5.0f && this->cameraPosTime < 9.0f) {
 		this->animationProgress = 1;
-		cameraPhi += 0.1f * deltaTime;
-		cameraTheta += 0.1f * deltaTime;
-		if (this->cameraPosTime >= 5.0f && this->cameraPosTime < 6.0f) {
+		cameraX += 10 * deltaTime;
+		cameraY += 10 * deltaTime;
+		if (this->cameraPosTime > 5.0f && this->cameraPosTime < 5.2f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 5.2f && this->cameraPosTime < 5.4f) {
 			this->move[0] = { 0,0,-1 };
 			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 6.0f  && this->cameraPosTime < 7.0f) {
+		else if (this->cameraPosTime >= 5.4f && this->cameraPosTime < 5.6f) {
 			this->move[0] = { 0,0,-1 };
 			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 7.0f && this->cameraPosTime < 8.0f ) {
+		else if (this->cameraPosTime >= 5.6f && this->cameraPosTime < 5.8f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 5.8f && this->cameraPosTime < 6.0f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 6.0f && this->cameraPosTime < 6.2f) {
 			this->move[0] = { -1,0,0 };
 			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 9.0f && this->cameraPosTime < 10.0f) {
+		else if (this->cameraPosTime >= 6.2f && this->cameraPosTime < 6.4f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 6.4f && this->cameraPosTime < 6.6f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 6.6f && this->cameraPosTime < 6.8f) {
 			this->move[0] = { 0,0,-1 };
 			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
 		}
+		else if (this->cameraPosTime >= 6.8f && this->cameraPosTime < 7.0f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 7.0f && this->cameraPosTime < 7.2f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 7.2f && this->cameraPosTime < 7.4f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 7.4f && this->cameraPosTime < 7.6f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 7.6f && this->cameraPosTime < 7.8f) {
+
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 7.8f && this->cameraPosTime < 8.0f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 8.0f && this->cameraPosTime < 8.2f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 8.2f && this->cameraPosTime < 8.4f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 8.4f && this->cameraPosTime < 8.6f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 8.6f && this->cameraPosTime < 8.8f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 8.8f && this->cameraPosTime <= 9.0f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
 	}
-	else if (this->cameraPosTime >= 10.0f && this->cameraPosTime < 15.0f) {
+	else if (this->cameraPosTime > 9.0f && this->cameraPosTime < 13.0f) {
 		this->animationProgress = 2;
-		cameraPhi += 0.1f * deltaTime;
-		cameraTheta += 0.1f * deltaTime;
-		if (this->cameraPosTime > 10.0f && this->cameraPosTime < 11.0f) {
-			this->move[0] = { 0,1,0 };
+		cameraX += 10 * deltaTime;
+		cameraY += 10 * deltaTime;
+		if (this->cameraPosTime >= 9.2f && this->cameraPosTime < 9.4f) {
+			this->move[0] = { 0,0,1 };
 			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
 
 		}
-		else if (this->cameraPosTime >= 11.0f && this->cameraPosTime < 12.0f) {
+		else if (this->cameraPosTime >= 9.4f && this->cameraPosTime < 9.6f) {
 			this->move[0] = { 1,0,0 };
 			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 12.0f && this->cameraPosTime < 13.0f) {
+		else if (this->cameraPosTime >= 9.6f && this->cameraPosTime < 9.8f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 9.8f && this->cameraPosTime < 10.0f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 10.0f && this->cameraPosTime < 10.2f) {
+			this->move[0] = { 0,-1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 10.2f && this->cameraPosTime < 10.4f) {
+			this->move[0] = { 0,-1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 10.4f && this->cameraPosTime < 10.6f) {
+			this->move[0] = { 0,-1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 10.6f && this->cameraPosTime < 10.8f) {
 			this->move[0] = { 0,0,1 };
 			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 13.0f && this->cameraPosTime < 14.0f) {
+		else if (this->cameraPosTime >= 10.8f && this->cameraPosTime < 11.0f) {
 			this->move[0] = { -1,0,0 };
 			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
 		}
-		else if (this->cameraPosTime >= 14.0f && this->cameraPosTime <= 15.0f) {
+		else if (this->cameraPosTime >= 11.0f && this->cameraPosTime < 11.2f) {
+			this->move[0] = { 0,0,1 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 11.2f && this->cameraPosTime < 11.4f) {
 			this->move[0] = { -1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 11.4f && this->cameraPosTime < 11.6f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 11.6f && this->cameraPosTime < 11.8f) {
+			this->move[0] = { 0,-1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 11.8f && this->cameraPosTime < 12.0f) {
+			this->move[0] = { 0,-1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 12.0f && this->cameraPosTime < 12.2f) {
+			this->move[0] = { 0,-1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 12.2f && this->cameraPosTime < 12.4f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 12.4f && this->cameraPosTime < 12.6f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 12.6f && this->cameraPosTime < 12.8f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 12.8f && this->cameraPosTime <= 13.0f) {
+			this->move[0] = { 1,0,0 };
 			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
 		}
 	}
-	else if (this->cameraPosTime >= 15.0f) {
+	else if (this->cameraPosTime > 13.0f) {
 		this->cameraPosTime = 0;
-		this->cameraTheta = 0;
-		this->cameraPhi = 0;
+		this->cameraY = 0;
+		this->cameraX = 0;
 		this->animationProgress = 0;
 		animationLevel[0]->getViborita()->handleDeath();
 		animationLevel[0]->getViborita()->loadInGrid();
@@ -422,20 +609,21 @@ void MainMenu::draw()
 {
 	if (this->animationProgress == 0) {
 		glPushMatrix();
-		glRotatef(angleY, 0, 1, 0);
-		glRotatef(angleX,1, 0, 0);
+		glRotatef(this->cameraY, 0, 2, 0);
 		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[0]->draw();
 		glPopMatrix();
 	}
 	else if (this->animationProgress == 1) {
 		glPushMatrix();
+		glRotatef(this->cameraY, 0, 1, 0);
 		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[1]->draw();
 		glPopMatrix();
 	}
 	else if (this->animationProgress == 2) {
 		glPushMatrix();
+		glRotatef(this->cameraY, 0, 1, 0);
 		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[2]->draw();
 		glPopMatrix();

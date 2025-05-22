@@ -619,7 +619,7 @@ void Viborita::setHead() {
 void Viborita::processAnimation(Vec3* movementDir, float deltaTime) {
 	if (movingProgress != 1)
 	{
-		this->movingProgress += 1.0f*deltaTime;
+		this->movingProgress += 4*deltaTime;
 		if (movingProgress > 1.0f)
 			movingProgress = 1.0f;
 		return;

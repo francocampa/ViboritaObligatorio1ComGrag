@@ -29,8 +29,8 @@ private:
 	Button* leftArrowCarousel;
 	Button* rightArrowCarousel;
 	Button* closeCarouselBtn;
-	float cameraTheta;
-	float cameraPhi;
+	float cameraY;
+	float cameraX;
 	float cameraPosTime;
 	int animationProgress;
 	Vec3* move;
