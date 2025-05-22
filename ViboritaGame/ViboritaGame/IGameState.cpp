@@ -8,6 +8,10 @@ void IGameState::draw()
 {
 }
 
+void IGameState::resize()
+{
+}
+
 std::vector<IHudElement*> IGameState::getHudElements()
 {
 	std::vector<IHudElement*> buttons;

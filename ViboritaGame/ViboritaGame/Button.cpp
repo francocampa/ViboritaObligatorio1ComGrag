@@ -188,8 +188,8 @@ void Button::draw()
 		glEnable(GL_TEXTURE_2D);
 	}
 	else
-		return;
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //debug rectangle
+		//return;
 
 	
 	float alpha = selectable && !selected ? 0.3f : 1;
@@ -209,8 +209,8 @@ void Button::draw()
 
 	if (textureId != NULL) 
 		glDisable(GL_TEXTURE_2D);
-	//else
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void Button::process(float deltaTime)

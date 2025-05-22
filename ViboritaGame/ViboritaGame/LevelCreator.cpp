@@ -52,9 +52,10 @@ LevelCreator::LevelCreator()
 }
 void LevelCreator::createButtons()
 {	
-	nameField = new TextField("Nombre", 640 / 2 - 200 / 2, 10, 200, changeNameCallback, "");
+	GameController* gc = GameController::getInstance();
+	nameField = new TextField("Nombre", gc->getWindowSize().x / 2 - 200 / 2, 10, 200, changeNameCallback, "");
 	saveButton = new Button("Guardar", 10, 10, saveLevelCallback, "",false,false);
-	mainMenuButton = new Button("Menu", 540, 10, goToMainMenuFromLevelCreatorCallback, "",false,false);
+	mainMenuButton = new Button("Menu", gc->getWindowSize().x - 100, 10, goToMainMenuFromLevelCreatorCallback, "", false, false);
 	
 	for (int i = 0;i < 8;i++) {
 		selectBar[i] = NULL;
@@ -64,18 +65,18 @@ void LevelCreator::createButtons()
 
 	int leftOffset = 175;
 	int bottomOffset = 20;
+	int buttonSize = 50 * gc->getWidthScale();
 	selectBar[0] = new Block({0,0,0},{0,0,0});
-	selectBarBoxes[0] = new Button(leftOffset, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "block");
+	selectBarBoxes[0] = new Button(leftOffset * gc->getWidthScale(), gc->getWindowSize().y - bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "block");
 	selectBar[1] = new Apple({ 0,0,0 }, { 0,0,0 });
-	selectBarBoxes[1] = new Button(leftOffset + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "apple");
+	selectBarBoxes[1] = new Button((leftOffset + 60) * gc->getWidthScale(), gc->getWindowSize().y- bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "apple");
 	selectBar[2] = new Goal({ 0,0,0 }, { 0,0,0 });
-	selectBarBoxes[2] = new Button(leftOffset + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "goal");
+	selectBarBoxes[2] = new Button((leftOffset + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y- bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "goal");
 	selectBar[3] = new Viborita({ 0,0,0 }, { 0,0,0 }, baseViboritaColors);
-	selectBarBoxes[3] = new Button(leftOffset + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "viborita");
+	selectBarBoxes[3] = new Button((leftOffset + 60 + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y - bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "viborita");
 	selectBar[4] = new SpikedApple({ 0,0,0 }, { 0,0,0 });
-	selectBarBoxes[4] = new Button(leftOffset + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEntityCallback, "spiked_apple");
-
-	selectBarBoxes[5] = new Button(leftOffset + 60 + 60 + 60 + 60 + 60, 480 - bottomOffset - 50, 50, 50, selectEraseCallback, "");
+	selectBarBoxes[4] = new Button((leftOffset + 60 + 60 + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y - bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "spiked_apple");
+	selectBarBoxes[5] = new Button((leftOffset + 60 + 60 + 60 + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y- bottomOffset - buttonSize, buttonSize, buttonSize, selectEraseCallback, "");
 }
 void LevelCreator::process(float deltaTime)
 {
@@ -115,7 +116,7 @@ void LevelCreator::process(float deltaTime)
 
 void LevelCreator::draw()
 {
-
+	GameController* gc = GameController::getInstance();
 	for (int i = 0;i < 8;i++)
 		if (selectBar[i] != NULL)
 		{
@@ -123,7 +124,10 @@ void LevelCreator::draw()
 			Button* hitBox = selectBarBoxes[i];
 			Vec3 pos;
 			float TILE_SIZE = GameController::getInstance()->TILE_SIZE;
-			calc3dCoordsForHud(GameController::getInstance()->getCameraPos(),{0,0,0},25,(i-2)*2.5,-8.5 + 2*hitBox->getHoverProgress(), pos);
+			float windowFactor = gc->getWidthScale() > 1.5 ? gc->getWidthScale() / 2 : gc->getWidthScale();
+			float xOffset = i - 2 == 0 ? 0 : (i - 2) * 2.5f * windowFactor;
+
+			calc3dCoordsForHud(GameController::getInstance()->getCameraPos(),{0,0,0},25,xOffset,-8.5 + 2*hitBox->getHoverProgress(), pos);
 			glTranslatef(pos.x,pos.y,pos.z);
 			glRotatef(selectAngles[i],0,1,0);
 			glTranslatef(-TILE_SIZE / 2, -TILE_SIZE / 2, -TILE_SIZE / 2);
@@ -342,5 +346,20 @@ void LevelCreator::handlePlaceEntity()
 		break;
 	default:
 		break;
+	}
+}
+
+void LevelCreator::resize()
+{
+	GameController* gc = GameController::getInstance();
+
+	int leftOffset = 175;
+	int bottomOffset = 20;
+	int buttonSize = 50 * gc->getWidthScale();
+	for (int i = 0; i < 6; i++) {
+		selectBarBoxes[i]->getRect()->x = (leftOffset + 60*i) * gc->getWidthScale();
+		selectBarBoxes[i]->getRect()->y = gc->getWindowSize().y - bottomOffset - buttonSize;
+		selectBarBoxes[i]->getRect()->h = buttonSize;
+		selectBarBoxes[i]->getRect()->w = buttonSize;
 	}
 }

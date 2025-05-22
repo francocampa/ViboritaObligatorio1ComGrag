@@ -79,6 +79,10 @@ private:
 	bool normalControl = true;
 	bool izqControl = false;
 	bool derControl = false;
+
+	Vec2 windowSize;
+	float widthScale;
+	float heightScale;
 public:
 	int GRID_SIZE;
 	int TILE_SIZE;
@@ -154,5 +158,11 @@ public:
 
 	bool getFirstPerson();
 	void setFirstPerson(bool fp);
+
+	void setWindowSize(Vec2 size);
+	Vec2 getWindowSize();
+
+	float getWidthScale();
+	float getHeightScale();
 };
 

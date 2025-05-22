@@ -49,26 +49,27 @@ void loadLevel(std::string levelName) {
 }
 
 MainMenu::MainMenu() {
+	GameController* gc = GameController::getInstance();
+
+	showLevelCarousel = new Button("Niveles", 0, 150 * gc->getHeightScale(), callbackShowLevelCarousel, "", false, false);
+	showLevelCarousel->center(0, gc->getWindowSize().x);
 	
-	showLevelCarousel = new Button("Niveles", 0, 150, callbackShowLevelCarousel, "", false,false);
-	showLevelCarousel->center(0, 640);
+	showCustomLevelCarousel = new Button("Niveles personalizados", 0, 200 * gc->getHeightScale(), callbackShowCustomLevelCarousel, "", false,false);
+	showCustomLevelCarousel->center(0, gc->getWindowSize().x);
 	
-	showCustomLevelCarousel = new Button("Niveles personalizados", 0, 200, callbackShowCustomLevelCarousel, "", false,false);
-	showCustomLevelCarousel->center(0, 640);
-	
-	levelCreatorButton = new Button("Creador de niveles", 0, 250, goToLevelCreatorFromMainMenuCallback, "", false, false);
-	levelCreatorButton->center(0, 640);
+	levelCreatorButton = new Button("Creador de niveles", 0, 250 * gc->getHeightScale(), goToLevelCreatorFromMainMenuCallback, "", false, false);
+	levelCreatorButton->center(0, gc->getWindowSize().x);
 
-	settingsButton = new Button("Opciones", 0, 300, goToSettingsFromMainMenuCallback, "", false, false);
-	settingsButton->center(0, 640);
+	settingsButton = new Button("Opciones", 0, 300 * gc->getHeightScale(), goToSettingsFromMainMenuCallback, "", false, false);
+	settingsButton->center(0, gc->getWindowSize().x);
 
-	closeButton = new Button("Salir", 0, 400, closeFromMenuCallback, "", false, false);
-	closeButton->center(0, 640);
+	closeButton = new Button("Salir", 0, 400 * gc->getHeightScale(), closeFromMenuCallback, "", false, false);
+	closeButton->center(0, gc->getWindowSize().x);
 
 
-	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10,480/2 - 30/2, 30,30,callbackCarouselLeft);
-	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", 640 - 10 - 30 / 2, 480 / 2 - 30 / 2, 30, 30, callbackCarouselRight);
-	closeCarouselBtn = new Button("X", 640 - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
+	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10, gc->getWindowSize().y /2 - 30/2, 30 * gc->getWidthScale(),30 * gc->getHeightScale(),callbackCarouselLeft);
+	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", gc->getWindowSize().x - 10 - 30 / 2, gc->getWindowSize().y / 2 - 30 / 2, 30 * gc->getWidthScale(), 30 * gc->getHeightScale(), callbackCarouselRight);
+	closeCarouselBtn = new Button("X", gc->getWindowSize().x - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
 
 	loadLevels();
 
@@ -264,8 +265,58 @@ Level* MainMenu::loadFromXML(pugi::xml_node levelNode)
 	return level;
 }
 
+void MainMenu::resize()
+{
+	GameController* gc = GameController::getInstance();
+	showLevelCarousel->getRect()->y = 150 * gc->getHeightScale();
+	showLevelCarousel->center(0, gc->getWindowSize().x);
+
+	showCustomLevelCarousel->getRect()->y = 200 * gc->getHeightScale();
+	showCustomLevelCarousel->center(0, gc->getWindowSize().x);
+
+	levelCreatorButton->getRect()->y = 250 * gc->getHeightScale();
+	levelCreatorButton->center(0, gc->getWindowSize().x);
+
+	settingsButton->getRect()->y = 300 * gc->getHeightScale();
+	settingsButton->center(0, gc->getWindowSize().x);
+
+	closeButton->getRect()->y = 400 * gc->getHeightScale();
+	closeButton->center(0, gc->getWindowSize().x);
+
+
+	leftArrowCarousel->getRect()->x = 10;
+	leftArrowCarousel->getRect()->y = gc->getWindowSize().y / 2 - gc->getHeightScale()*30 / 2;
+	leftArrowCarousel->getRect()->w = 30 * gc->getWidthScale();
+	leftArrowCarousel->getRect()->h = 30 * gc->getHeightScale();
+
+	rightArrowCarousel->getRect()->x = gc->getWindowSize().x - 10 - gc->getWidthScale() * 30 / 2;
+	rightArrowCarousel->getRect()->y = gc->getWindowSize().y / 2 - gc->getHeightScale() * 30 / 2;
+	rightArrowCarousel->getRect()->w = 30 * gc->getWidthScale();
+	rightArrowCarousel->getRect()->h = 30 * gc->getHeightScale();
+
+	closeCarouselBtn->getRect()->x = gc->getWindowSize().x - 10 - gc->getWidthScale() * 30 / 2;
+	closeCarouselBtn->getRect()->y = 10;
+	for (LevelButton* level : levelButtons)
+		level->resize();
+	for (LevelButton* level : customLevelsButtons) 
+		level->resize();
+}
+
+float angle = M_PI;
 void MainMenu::process(float deltaTime)
 {
+	Vec3 pos = { 0,0,0 };
+	calc3dCoordsForHud(GameController::getInstance()->getCameraPos(), { 0,0,0 }, 50, 0, 13, pos);
+	glEnable(GL_LIGHTING);
+	glPushMatrix();
+	//glRotatef(angle, 0,1,0);
+	//angle += 5 * deltaTime;
+	glColor3f(0.0f, 0.50f, 0.0f);
+	glTranslatef(pos.x,pos.y,pos.z);
+	drawModel(TITLE_MODEL, GameController::getInstance()->getSettings()->hasTextures());
+	glPopMatrix();
+	glColor3f(0.0f, 0, 0.0f);
+	glDisable(GL_LIGHTING);
 }
 
 void MainMenu::draw()

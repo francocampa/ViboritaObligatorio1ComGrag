@@ -70,6 +70,10 @@ std::map<std::string, GLuint> textures;
 void loadTexture(GLuint& textureId, const char* path, float &w,float &h) {
 	if (textures.count(path) > 0) {
 		textureId = textures.at(path);
+		SDL_Surface* surface = IMG_Load(path);
+		w = surface->w;
+		h = surface->h;
+		SDL_FreeSurface(surface);
 		return;
 	}
 
@@ -380,6 +384,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 		break;
 	case SPIKED_APPLE_MODEL:
 		indexModel = 8;
+		break;
+	case TITLE_MODEL:
+		indexModel = 9;
 		break;
 	default:
 		break;

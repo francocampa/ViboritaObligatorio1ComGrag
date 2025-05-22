@@ -27,5 +27,7 @@ public:
 	void handleHover();
 	bool isHovering();
 	void click();
+
+	void resize();
 };
 

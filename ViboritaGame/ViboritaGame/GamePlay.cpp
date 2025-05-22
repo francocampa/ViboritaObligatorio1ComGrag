@@ -18,32 +18,34 @@ void levelPerspectiveCallback() {
 }
 GamePlay::GamePlay(Level* level)
 {
+	GameController* gc = GameController::getInstance();
 	this->level = level;
-	settings = new Button("images/settings.png", "images/settingsHover.png", 580, 10, 50, 50, openSettings);
-	reset = new Button("images/restart.png", "images/restartHover.png", 520, 10, 50, 50, resetLevelCallback);
+	settings = new Button("images/settings.png", "images/settingsHover.png", gc->getWindowSize().x - 60, 10, 50, 50, openSettings);
+	reset = new Button("images/restart.png", "images/restartHover.png", gc->getWindowSize().x - 120, 10, 50, 50, resetLevelCallback);
 	std::string sText = "0/" + std::to_string(level->getMaxScore());
 	scoreText = new Button(sText.c_str(), 10, 10);
-	timerText = new Button("00:00", 280, 10);
+	timerText = new Button("00:00", 0, 10);
+	timerText->center(0, gc->getWindowSize().x);
 
 	int btnSize = 20;
-	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40 , 480 - 60 - btnSize, btnSize, btnSize, NULL);
+	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40 , gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
 	btnSize = 30;
-	firstPersonPerspective = new Button("images/snake.png", 10, 480 - 10 - btnSize*1.5f, btnSize, btnSize, firstPersonCallback);
-	levelPerspective = new Button("images/global.png", 20 + btnSize, 480 - 10 - btnSize*1.5f, btnSize, btnSize, levelPerspectiveCallback);
+	firstPersonPerspective = new Button("images/snake.png", 10, gc->getWindowSize().y - 10 - btnSize*1.5f, btnSize, btnSize, firstPersonCallback);
+	levelPerspective = new Button("images/global.png", 20 + btnSize, gc->getWindowSize().y - 10 - btnSize*1.5f, btnSize, btnSize, levelPerspectiveCallback);
 
 	for (int i = 0; i < 10;i++)
 		tutorials[i] = NULL;
 
 	tutorials[1] = new Button("images/Level1Tutorial.png", 10, 60, "");
-	tutorials[1]->center(0, 640);
+	tutorials[1]->center(0, gc->getWindowSize().x);
 	tutorials[2] = new Button("images/Level2Tutorial.png", 10, 60, "");
-	tutorials[2]->center(0, 640);
+	tutorials[2]->center(0, gc->getWindowSize().x);
 	tutorials[3] = new Button("images/Level3Tutorial.png",10,60,"");
-	tutorials[3]->center(0, 640);
+	tutorials[3]->center(0, gc->getWindowSize().x);
 	tutorials[4] = new Button("images/Level4Tutorial.png", 10, 60, "");
-	tutorials[4]->center(0, 640);
+	tutorials[4]->center(0, gc->getWindowSize().x);
 	tutorials[8] = new Button("images/Level8Tutorial.png", 10, 60, "");
-	tutorials[8]->center(0, 640);
+	tutorials[8]->center(0, gc->getWindowSize().x);
 
 	startLevel();
 }
@@ -289,6 +291,34 @@ std::vector<IHudElement*> GamePlay::getLevelTutorials()
 		break;
 	}
 	return messages;
+}
+
+void GamePlay::resize()
+{
+	GameController* gc = GameController::getInstance();
+	settings->getRect()->x = gc->getWindowSize().x - 60;
+	settings->getRect()->y = 10;
+
+	reset->getRect()->x = gc->getWindowSize().x - 120;
+	reset->getRect()->y = 10;
+
+	timerText->center(0, gc->getWindowSize().x);
+
+	int btnSize = 20;
+	cameraIcon->getRect()->x = gc->getFirstPerson() ? 10 : 40;
+	cameraIcon->getRect()->y = gc->getWindowSize().y - 60 - btnSize;
+	btnSize = 30;
+	firstPersonPerspective->getRect()->x = 10;
+	firstPersonPerspective->getRect()->y = gc->getWindowSize().y - 10 - btnSize * 1.5f;
+
+	levelPerspective->getRect()->x = 20 + btnSize;
+	levelPerspective->getRect()->y = gc->getWindowSize().y - 10 - btnSize * 1.5f;
+
+	tutorials[1]->center(0, gc->getWindowSize().x);
+	tutorials[2]->center(0, gc->getWindowSize().x);
+	tutorials[3]->center(0, gc->getWindowSize().x);
+	tutorials[4]->center(0, gc->getWindowSize().x);
+	tutorials[8]->center(0, gc->getWindowSize().x);
 }
 
 GamePlay::~GamePlay()
