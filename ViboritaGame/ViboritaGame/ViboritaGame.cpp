@@ -219,6 +219,7 @@ int main(int argc, char* argv[]) {
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
+
 		gc->processFrame(deltaTime);
 
 		if (gc->getGamePlay() != NULL && !gc->getFirstPerson()) {
@@ -258,11 +259,6 @@ int main(int argc, char* argv[]) {
 			center.x = 0;
 			center.y = 0;
 			center.z = 0;
-		}
-
-		if (gc->getGamePlay() == NULL && gc->getMainMenu() != NULL && !gc->getMainMenu()->getCarouselState()) {
-			gc->getMainMenu()->process(deltaTime);
-			gc->getMainMenu()->draw();
 		}
 
 		gc->setArrowRight(false);

@@ -330,9 +330,11 @@ void MainMenu::process(float deltaTime)
 	glColor3f(0.0f, 0, 0.0f);
 	glDisable(GL_LIGHTING);
 
+	if (showCarousel)
+		return;
+
 	this->cameraPosTime +=deltaTime;
 	if (this->cameraPosTime >= 0 && this->cameraPosTime < 5.0f) {
-		GameController::getInstance()->setCameraCoordinates(cameraTheta, cameraPhi);
 		cameraPhi += 0.1f * deltaTime;
 		cameraTheta += 0.1f * deltaTime;
 		if (this->cameraPosTime > 1.0f && this->cameraPosTime < 2.0f) {
@@ -354,7 +356,6 @@ void MainMenu::process(float deltaTime)
 		}
 	}
 	else if (this->cameraPosTime >= 5.0f && this->cameraPosTime < 10.f) {
-		GameController::getInstance()->setCameraCoordinates(cameraTheta, cameraPhi);
 		this->animationProgress = 1;
 		cameraPhi += 0.1f * deltaTime;
 		cameraTheta += 0.1f * deltaTime;
@@ -376,7 +377,6 @@ void MainMenu::process(float deltaTime)
 		}
 	}
 	else if (this->cameraPosTime >= 10.0f && this->cameraPosTime < 15.0f) {
-		GameController::getInstance()->setCameraCoordinates(cameraTheta, cameraPhi);
 		this->animationProgress = 2;
 		cameraPhi += 0.1f * deltaTime;
 		cameraTheta += 0.1f * deltaTime;
@@ -415,12 +415,15 @@ void MainMenu::process(float deltaTime)
 		animationLevel[2]->getViborita()->loadInGrid();
 	}
 
+	draw();
 }
 
 void MainMenu::draw()
 {
 	if (this->animationProgress == 0) {
 		glPushMatrix();
+		glRotatef(angleY, 0, 1, 0);
+		glRotatef(angleX,1, 0, 0);
 		glScalef(1.4f, 1.4f, 1.4f);
 		this->animationLevel[0]->draw();
 		glPopMatrix();
