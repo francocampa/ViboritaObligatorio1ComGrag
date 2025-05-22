@@ -31,6 +31,10 @@ private:
 	Button* closeCarouselBtn;
 	float cameraTheta;
 	float cameraPhi;
+	float cameraPosTime;
+	int animationProgress;
+	Vec3* move;
+	std::vector<GamePlay*> animationLevel;
 
 	std::vector<LevelButton*> levelButtons;
 	std::vector<LevelButton*> customLevelsButtons;
@@ -50,6 +54,7 @@ public:
 	void closeGame();
 	void moveCarouselRight();
 	void moveCarouselLeft();
+	bool getCarouselState();
 	virtual std::vector<IHudElement*> getHudElements();
 	void setLevelCarousel();
 	void setCustomLevelCarousel();

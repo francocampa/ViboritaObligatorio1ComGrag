@@ -41,6 +41,7 @@ public:
 	void handleFall();
 	void handleDeath();
 	void removeBodyFromGridIndex(int x,int y, int z);
+	void processAnimation(Vec3* movementDir, float deltaTime);
 	Viborita* deepCopy();
 	GAME_ENTITY_TYPE getType();
 

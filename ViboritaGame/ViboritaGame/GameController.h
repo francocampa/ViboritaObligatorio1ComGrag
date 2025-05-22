@@ -121,6 +121,7 @@ public:
 	bool isMouseUp();
 	bool isShowFps();
 	std::string getKeyPressed();
+	MainMenu* getMainMenu();
 
 	void setMoveCamera(bool move);
 	bool getMoveCamera();

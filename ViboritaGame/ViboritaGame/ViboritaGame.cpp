@@ -214,7 +214,6 @@ int main(int argc, char* argv[]) {
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
 		gc->processFrame(deltaTime);
 
-		//TODO: definir bien el vector arriba cuando se cambia la vista
 		if (gc->getGamePlay() != NULL && !gc->getFirstPerson()) {
 			gc->setNormalControl(true);
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
@@ -242,6 +241,21 @@ int main(int argc, char* argv[]) {
 		else if(gc->getFirstPerson()){
 			gc->getGamePlay()->getViborita()->getFPCamera(cameraPos, center);
 			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
+		}
+		else if (gc->getGamePlay() == NULL && gc->getMainMenu() != NULL) {
+			gc->setFirstPerson(false);
+			gc->setNormalControl(true);
+			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
+			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
+			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
+			center.x = 0;
+			center.y = 0;
+			center.z = 0;
+		}
+
+		if (gc->getGamePlay() == NULL && gc->getMainMenu() != NULL && !gc->getMainMenu()->getCarouselState()) {
+			gc->getMainMenu()->process(deltaTime);
+			gc->getMainMenu()->draw();
 		}
 
 		gc->setArrowRight(false);

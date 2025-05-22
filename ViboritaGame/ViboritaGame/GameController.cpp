@@ -60,7 +60,7 @@ void GameController::processFrame(float deltaTime) {
 			glDisable(GL_LIGHTING);
 		}
 	}
-
+	
 	state->process(deltaTime);
 
 	std::list<ParticleSystem*>::iterator it;
@@ -77,6 +77,7 @@ void GameController::processFrame(float deltaTime) {
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	HudController::getInstance()->process(deltaTime);
+
 }
 
 float GameController::getGridPosition(float a) {
@@ -209,6 +210,11 @@ bool GameController::isArrowRight()
 bool GameController::isZKey()
 {
 	return z;
+}
+
+MainMenu* GameController::getMainMenu()
+{
+	return (MainMenu*)state;
 }
 
 bool GameController::isXKey()

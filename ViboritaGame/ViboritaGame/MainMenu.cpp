@@ -93,8 +93,20 @@ MainMenu::MainMenu() {
 	this->showCarousel = false;
 	this->levelCarousel = btnsForCustom;
 	this->carouselIndex = 0;
+	this->cameraPosTime = 0;
+	this->cameraTheta = 0;
+	this->cameraPhi = 0;
+	this->animationProgress = 0;
+	this->animationLevel.resize(3);
+	this->animationLevel[0] = new GamePlay(this->customLevels[0]);
+	this->animationLevel[1] = new GamePlay(this->customLevels[1]);
+	this->animationLevel[2] = new GamePlay(this->levels[6]);
+	this->move = new Vec3[3];
 }
 
+bool MainMenu::getCarouselState() {
+	return this->showCarousel;
+}
 
 void MainMenu::startLevel(std::string levelName)
 {
@@ -266,10 +278,113 @@ Level* MainMenu::loadFromXML(pugi::xml_node levelNode)
 
 void MainMenu::process(float deltaTime)
 {
+	this->cameraPosTime +=deltaTime;
+	if (this->cameraPosTime >= 0 && this->cameraPosTime < 5.0f) {
+		GameController::getInstance()->setCameraCoordinates(cameraTheta, cameraPhi);
+		cameraPhi += 0.1f * deltaTime;
+		cameraTheta += 0.1f * deltaTime;
+		if (this->cameraPosTime > 1.0f && this->cameraPosTime < 2.0f) {
+			this->move[0] = { 0,1,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 2.0f && this->cameraPosTime < 3.0f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 3.0f && this->cameraPosTime < 4.0f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 4.0f && this->cameraPosTime < 5.0f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[0]->getViborita()->processAnimation(move, deltaTime);
+		}
+	}
+	else if (this->cameraPosTime >= 5.0f && this->cameraPosTime < 10.f) {
+		GameController::getInstance()->setCameraCoordinates(cameraTheta, cameraPhi);
+		this->animationProgress = 1;
+		cameraPhi += 0.1f * deltaTime;
+		cameraTheta += 0.1f * deltaTime;
+		if (this->cameraPosTime >= 5.0f && this->cameraPosTime < 6.0f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 6.0f  && this->cameraPosTime < 7.0f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 7.0f && this->cameraPosTime < 8.0f ) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 9.0f && this->cameraPosTime < 10.0f) {
+			this->move[0] = { 0,0,-1 };
+			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
+		}
+	}
+	else if (this->cameraPosTime >= 10.0f && this->cameraPosTime < 15.0f) {
+		GameController::getInstance()->setCameraCoordinates(cameraTheta, cameraPhi);
+		this->animationProgress = 2;
+		cameraPhi += 0.1f * deltaTime;
+		cameraTheta += 0.1f * deltaTime;
+		if (this->cameraPosTime > 10.0f && this->cameraPosTime < 11.0f) {
+			this->move[0] = { 0,1,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+
+		}
+		else if (this->cameraPosTime >= 11.0f && this->cameraPosTime < 12.0f) {
+			this->move[0] = { 1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 12.0f && this->cameraPosTime < 13.0f) {
+			this->move[0] = { 0,0,1 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 13.0f && this->cameraPosTime < 14.0f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+		else if (this->cameraPosTime >= 14.0f && this->cameraPosTime <= 15.0f) {
+			this->move[0] = { -1,0,0 };
+			this->animationLevel[2]->getViborita()->processAnimation(move, deltaTime);
+		}
+	}
+	else if (this->cameraPosTime >= 15.0f) {
+		this->cameraPosTime = 0;
+		this->cameraTheta = 0;
+		this->cameraPhi = 0;
+		this->animationProgress = 0;
+		animationLevel[0]->getViborita()->handleDeath();
+		animationLevel[0]->getViborita()->loadInGrid();
+		animationLevel[1]->getViborita()->handleDeath();
+		animationLevel[1]->getViborita()->loadInGrid();
+		animationLevel[2]->getViborita()->handleDeath();
+		animationLevel[2]->getViborita()->loadInGrid();
+	}
 }
 
 void MainMenu::draw()
 {
+	if (this->animationProgress == 0) {
+		glPushMatrix();
+		glScalef(1.4f, 1.4f, 1.4f);
+		this->animationLevel[0]->draw();
+		glPopMatrix();
+	}
+	else if (this->animationProgress == 1) {
+		glPushMatrix();
+		glScalef(1.4f, 1.4f, 1.4f);
+		this->animationLevel[1]->draw();
+		glPopMatrix();
+	}
+	else if (this->animationProgress == 2) {
+		glPushMatrix();
+		glScalef(1.4f, 1.4f, 1.4f);
+		this->animationLevel[2]->draw();
+		glPopMatrix();
+	}
 }
 
 std::vector<IHudElement*> MainMenu::getHudElements()

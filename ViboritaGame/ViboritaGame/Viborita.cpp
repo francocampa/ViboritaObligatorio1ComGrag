@@ -617,6 +617,73 @@ void Viborita::setHead() {
 	}
 }
 
+void Viborita::processAnimation(Vec3* movementDir, float deltaTime) {
+	if (movingProgress != 1)
+	{
+		this->movingProgress += 1.0f*deltaTime;
+		if (movingProgress > 1.0f)
+			movingProgress = 1.0f;
+		return;
+	}
+	if (reachedPortal) {
+		if (this->body.size == 1) {
+			this->gameContext->beatLevel();
+			return;
+		}
+		else {
+			this->body.head = this->body.head->next;
+			this->body.size--;
+			Vec3* dir = new Vec3;
+			dir->x = headDirection.x;
+			dir->y = headDirection.y;
+			dir->z = headDirection.z;
+			handleMovement(dir);
+			return;
+		}
+	}
+
+	if (!this->fallen && !hasFloor()) {
+		this->falling = 0.00000001f;
+		this->fallen = true;
+		return;
+	}
+
+	if (this->fallen && falling != 0) {
+		this->falling += 10.0f;
+		if (falling > 1.0f)
+			falling = 1.0f;
+		return;
+	}
+	else {
+		this->fallen = false;
+	}
+
+	if (!hasFloor()) {
+		handleFall();
+		return;
+	}
+
+	if (movementDir->x == 0 && movementDir->y == 0 && movementDir->z == 0)  //The user didn't press a movement key
+		return;
+	if (movementDir->x + headDirection.x == 0 && movementDir->y + headDirection.y == 0 && movementDir->z + headDirection.z == 0) //The user tried to move in the opossite direction
+		return;
+
+	Vec3* oldTailPos = getVec3FromVec3(this->body.tail->position);
+	Vec3* oldTailGrid = getVec3FromVec3(this->body.tail->gridIndex);
+
+	bool moved = this->handleMovement(movementDir);
+
+	if (moved) {
+		if (gameContext->tileHasApple(body.head->gridIndex))
+		{
+			gameContext->eatAppleAt(body.head->gridIndex);
+			this->handleEatApple(oldTailPos, oldTailGrid);
+		}
+		if (!reachedPortal)
+			gameContext->addViborita(this->body.head->gridIndex);
+	}
+}
+
 void Viborita::addTail(Vec3 gridIndex)
 {
 	Vec3 dir = subtractV3(this->body.tail->gridIndex, gridIndex);
