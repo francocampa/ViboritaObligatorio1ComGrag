@@ -68,7 +68,7 @@ MainMenu::MainMenu() {
 
 
 	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10, gc->getWindowSize().y /2 - 30/2, 30 * gc->getWidthScale(),30 * gc->getHeightScale(),callbackCarouselLeft);
-	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", gc->getWindowSize().x - 10 - 30 / 2, gc->getWindowSize().y / 2 - 30 / 2, 30 * gc->getWidthScale(), 30 * gc->getHeightScale(), callbackCarouselRight);
+	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", gc->getWindowSize().x - 10 - 30 / 2, gc->getWindowSize().y / 2 - gc->getWidthScale()* 30 / 2, 30 * gc->getWidthScale(), 30 * gc->getHeightScale(), callbackCarouselRight);
 	closeCarouselBtn = new Button("X", gc->getWindowSize().x - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
 
 	loadLevels();
@@ -289,7 +289,7 @@ void MainMenu::resize()
 	leftArrowCarousel->getRect()->w = 30 * gc->getWidthScale();
 	leftArrowCarousel->getRect()->h = 30 * gc->getHeightScale();
 
-	rightArrowCarousel->getRect()->x = gc->getWindowSize().x - 10 - gc->getWidthScale() * 30 / 2;
+	rightArrowCarousel->getRect()->x = gc->getWindowSize().x - 10 - gc->getWidthScale() * 30;
 	rightArrowCarousel->getRect()->y = gc->getWindowSize().y / 2 - gc->getHeightScale() * 30 / 2;
 	rightArrowCarousel->getRect()->w = 30 * gc->getWidthScale();
 	rightArrowCarousel->getRect()->h = 30 * gc->getHeightScale();
