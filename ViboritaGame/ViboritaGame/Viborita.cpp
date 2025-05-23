@@ -306,14 +306,14 @@ Vec3* Viborita::getMovementDirection()
 	return movementDir;
 }
 
-bool Viborita::handleMovement(Vec3* movementDir) {
+bool Viborita::handleMovement(Vec3* movementDir, bool die) {
 	Vec3 nextGridIndex = { this->body.head->gridIndex.x + movementDir->x,this->body.head->gridIndex.y + movementDir->y,this->body.head->gridIndex.z + movementDir->z };
 
 	if (gameContext->hasSolidBlock(nextGridIndex)) //Se choca con un bloque
 		return false;
 	bool ateItself = gameContext->hasViborita(nextGridIndex) && !equalsV3(this->body.tail->gridIndex, nextGridIndex);
 	bool ateSpikedApple = gameContext->hasSpikedApple(nextGridIndex);
-	if (ateItself || ateSpikedApple) {
+	if (die && (ateItself || ateSpikedApple)) {
 		handleDeath();
 		return false;
 	}
@@ -398,7 +398,6 @@ bool Viborita::hasFloor()
 void Viborita::handleFall()
 {
 	ViboritaPart* aux = this->body.head;
-	int minY = GameController::getInstance()->GRID_SIZE + 1;
 	while (aux != NULL)
 	{
 		gameContext->clearTile(aux->gridIndex);
@@ -410,18 +409,16 @@ void Viborita::handleFall()
 		}
 		aux->position = positionUnderPart;
 		aux->gridIndex = indexUnderPart;
-		if (indexUnderPart.y < minY)
-			minY = indexUnderPart.y;
 
-		if (gameContext->hasGoal(aux->gridIndex) && aux == this->body.head) { //Si te caes arriba de la meta xd
-			this->reachedPortal = true;
-			return;
-		}
+		if (gameContext->hasGoal(aux->gridIndex)) { //Si te caes arriba de la meta xd
+			if(aux == this->body.head)
+				this->reachedPortal = true;
+		}else
+			gameContext->addViborita(aux->gridIndex);
 
-		gameContext->addViborita(aux->gridIndex);
 		aux = aux->next;
 	}
-	if (minY <= 0)
+	if (this->body.head->gridIndex.y <= 0)
 		handleDeath();
 }
 
@@ -543,7 +540,7 @@ void Viborita::process(float deltaTime) {
 			dir->x = headDirection.x;
 			dir->y = headDirection.y;
 			dir->z = headDirection.z;
-			handleMovement(dir);
+			handleMovement(dir,false);
 			return;
 		}
 	}
@@ -579,7 +576,7 @@ void Viborita::process(float deltaTime) {
 	Vec3* oldTailPos = getVec3FromVec3(this->body.tail->position);
 	Vec3* oldTailGrid = getVec3FromVec3(this->body.tail->gridIndex);
 
-	bool moved = this->handleMovement(movementDir);
+	bool moved = this->handleMovement(movementDir, true);
 
 	if (moved) {
 		if (gameContext->tileHasApple(body.head->gridIndex))
@@ -636,7 +633,7 @@ void Viborita::processAnimation(Vec3* movementDir, float deltaTime) {
 			dir->x = headDirection.x;
 			dir->y = headDirection.y;
 			dir->z = headDirection.z;
-			handleMovement(dir);
+			handleMovement(dir, false);
 			return;
 		}
 	}
@@ -670,7 +667,7 @@ void Viborita::processAnimation(Vec3* movementDir, float deltaTime) {
 	Vec3* oldTailPos = getVec3FromVec3(this->body.tail->position);
 	Vec3* oldTailGrid = getVec3FromVec3(this->body.tail->gridIndex);
 
-	bool moved = this->handleMovement(movementDir);
+	bool moved = this->handleMovement(movementDir,true);
 
 	if (moved) {
 		if (gameContext->tileHasApple(body.head->gridIndex))

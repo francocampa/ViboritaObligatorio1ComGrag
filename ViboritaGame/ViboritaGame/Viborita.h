@@ -35,7 +35,7 @@ public:
 	void addTail(Vec3 gridPosition);
 	void loadInGrid();
 	Vec3* getMovementDirection();
-	bool handleMovement(Vec3* movementDir);
+	bool handleMovement(Vec3* movementDir, bool die);
 	void handleEatApple(Vec3* lastTailPos,Vec3* lastTailGrid);
 	bool hasFloor();
 	void handleFall();

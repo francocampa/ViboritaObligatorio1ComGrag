@@ -6,6 +6,7 @@
 #include <filesystem>
 #include "pugixml.hpp"
 #include "SpikedApple.h"
+#include "Erasor.h"
 //#include "TextField.h"
 //class TextField;
 class LevelCreator :

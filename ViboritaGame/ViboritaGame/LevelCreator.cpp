@@ -76,6 +76,7 @@ void LevelCreator::createButtons()
 	selectBarBoxes[3] = new Button((leftOffset + 60 + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y - bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "viborita");
 	selectBar[4] = new SpikedApple({ 0,0,0 }, { 0,0,0 });
 	selectBarBoxes[4] = new Button((leftOffset + 60 + 60 + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y - bottomOffset - buttonSize, buttonSize, buttonSize, selectEntityCallback, "spiked_apple");
+	selectBar[5] = new Erasor({ 0,0,0 }, { 0,0,0 });
 	selectBarBoxes[5] = new Button((leftOffset + 60 + 60 + 60 + 60 + 60) * gc->getWidthScale(), gc->getWindowSize().y- bottomOffset - buttonSize, buttonSize, buttonSize, selectEraseCallback, "");
 }
 void LevelCreator::process(float deltaTime)
@@ -190,7 +191,7 @@ void LevelCreator::setErase(bool erase)
 {
 	this->erase = erase;
 	if(erase)
-		selectedIndex = 4;
+		selectedIndex = 5;
 }
 
 std::string entityTypeString(GAME_ENTITY_TYPE type) {

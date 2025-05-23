@@ -139,6 +139,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Cloud.cpp" />
+    <ClCompile Include="Erasor.cpp" />
     <ClCompile Include="GameController.cpp" />
     <ClCompile Include="GamePlay.cpp" />
     <ClCompile Include="GameStats.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Cloud.h" />
+    <ClInclude Include="Erasor.h" />
     <ClInclude Include="GameController.h" />
     <ClInclude Include="GamePlay.h" />
     <ClInclude Include="GameStats.h" />

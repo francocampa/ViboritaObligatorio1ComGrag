@@ -126,6 +126,9 @@
     <ClCompile Include="Message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Erasor.cpp">
+      <Filter>Classes\game_entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -205,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>Header Files\hud_element</Filter>
+    </ClInclude>
+    <ClInclude Include="Erasor.h">
+      <Filter>Header Files\game_entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -62,6 +62,8 @@ void loadModelsAndTextures() {
 	cargarModelo(filePath, name, 8);
 	filePath = "models/title.obj";
 	cargarModelo(filePath, name, 9);
+	filePath = "models/erasor.obj";
+	cargarModelo(filePath, name, 10);
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(grassTextureId, "textures/grass.png");
 	loadTexture(dirtTextureId, "textures/dirt.png");

@@ -398,6 +398,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 	case TITLE_MODEL:
 		indexModel = 9;
 		break;
+	case ERASOR_MODEL:
+		indexModel = 10;
+		break;
 	default:
 		break;
 	}
