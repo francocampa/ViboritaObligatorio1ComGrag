@@ -591,12 +591,9 @@ void MainMenu::process(float deltaTime)
 		this->cameraY = 0;
 		this->cameraX = 0;
 		this->animationProgress = 0;
-		animationLevel[0]->getViborita()->handleDeath();
-		animationLevel[0]->getViborita()->loadInGrid();
-		animationLevel[1]->getViborita()->handleDeath();
-		animationLevel[1]->getViborita()->loadInGrid();
-		animationLevel[2]->getViborita()->handleDeath();
-		animationLevel[2]->getViborita()->loadInGrid();
+		animationLevel[0]->resetLevel();
+		animationLevel[1]->resetLevel();
+		animationLevel[2]->resetLevel();
 	}
 
 	draw();
