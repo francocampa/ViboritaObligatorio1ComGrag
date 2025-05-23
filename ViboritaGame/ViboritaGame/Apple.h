@@ -7,9 +7,7 @@ class Apple :
     public IGameEntity
 {
 private:
-    bool movingUp;
     float angle;
-    GLfloat pyramid[12];
 public:
     Apple(Vec3 gridIndexes, Vec3 position);
     void process(float deltaTime);

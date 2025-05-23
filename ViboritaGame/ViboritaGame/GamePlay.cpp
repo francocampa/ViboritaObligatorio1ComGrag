@@ -1,4 +1,5 @@
 #include "GamePlay.h"
+#include "LevelCreator.h"
 
 void openSettings() {
 	GameController::getInstance()->setState(new SettingsMenu(GameController::getInstance()->getSettings()));
@@ -50,6 +51,31 @@ GamePlay::GamePlay(Level* level)
 	startLevel();
 }
 
+GamePlay::GamePlay(Level* level, LevelCreator* levelCreator)
+{
+	GameController* gc = GameController::getInstance();
+	this->level = level;
+	this->lc = levelCreator;
+
+	settings = new Button("images/settings.png", "images/settingsHover.png", gc->getWindowSize().x - 60, 10, 50, 50, openSettings);
+	reset = new Button("images/restart.png", "images/restartHover.png", gc->getWindowSize().x - 120, 10, 50, 50, resetLevelCallback);
+	std::string sText = "0/" + std::to_string(level->getMaxScore());
+	scoreText = new Button(sText.c_str(), 10, 10);
+	timerText = new Button("00:00", 0, 10);
+	timerText->center(0, gc->getWindowSize().x);
+
+	int btnSize = 20;
+	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40, gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
+	btnSize = 30;
+	firstPersonPerspective = new Button("images/snake.png", 10, gc->getWindowSize().y - 10 - btnSize * 1.5f, btnSize, btnSize, firstPersonCallback);
+	levelPerspective = new Button("images/global.png", 20 + btnSize, gc->getWindowSize().y - 10 - btnSize * 1.5f, btnSize, btnSize, levelPerspectiveCallback);
+
+	for (int i = 0; i < 10;i++)
+		tutorials[i] = NULL;
+
+	startLevel();
+}
+
 void GamePlay::changeTimer(int time)
 {
 	int minutes = time / 60;
@@ -62,6 +88,10 @@ void GamePlay::changeTimer(int time)
 
 void GamePlay::beatLevel()
 {
+	if (this->lc != NULL) {
+		this->lc->toggleTryLevel();
+		return;
+	}
 	std::string nextLevelName = level->getNextLevelName();
 	MainMenu* mm = new MainMenu();
 	GameController::getInstance()->setGamePlay(NULL);
@@ -159,7 +189,8 @@ void GamePlay::draw()
 std::vector<IHudElement*> GamePlay::getHudElements()
 {
 	std::vector<IHudElement*> buttons;
-	buttons.push_back(settings);
+	if(this->lc == NULL)
+		buttons.push_back(settings);
 	buttons.push_back(reset);
 	buttons.push_back(scoreText);
 	buttons.push_back(timerText);

@@ -5,6 +5,8 @@
 #include "GameStats.h"
 #include "GameController.h"
 
+class LevelCreator;
+
 class GamePlay :
     public IGameState
 {
@@ -23,8 +25,11 @@ private:
 	Button* levelPerspective;
 
 	Button* tutorials[20];
+
+	LevelCreator* lc = NULL;
 public:
 	GamePlay(Level* level);
+	GamePlay(Level* level, LevelCreator* levelCreator);
 	void process(float deltaTime);
 	void changeTimer(int time);
 	void beatLevel();

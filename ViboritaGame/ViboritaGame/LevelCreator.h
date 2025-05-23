@@ -24,6 +24,7 @@ private:
     Button* mainMenuButton;
     Button* saveButton;
     Button* clearButton;
+    Button* tryButton;
 
     int selectedIndex = 0;
     IGameEntity* selectBar[8];
@@ -35,6 +36,8 @@ private:
 
     bool fill;
     Vec3 fillOrigin;
+
+    GamePlay* testGameplay;
 
     void createButtons();
     void handleSelectedIndexMovement();
@@ -53,5 +56,6 @@ public:
     void clearGrid();
     void goBackToMainMenu();
     void setName(std::string name);
+    void toggleTryLevel();
 };
 

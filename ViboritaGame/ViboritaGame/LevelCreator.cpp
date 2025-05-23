@@ -37,6 +37,10 @@ void changeNameCallback(std::string name) {
 	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
 	lc->setName(name);
 }
+void tryLevelCallback(std::string name) {
+	LevelCreator* lc = (LevelCreator*)GameController::getInstance()->getState();
+	lc->toggleTryLevel();
+}
 LevelCreator::LevelCreator()
 {
 	noOfApples = 0;
@@ -44,6 +48,7 @@ LevelCreator::LevelCreator()
 	createButtons();
 	selectedGridIndex = { 0,0,0 };
 	selectedEntityType = BLOCK;
+	this->testGameplay = NULL;
 	this->viborita = NULL;
 	for (int x = 0; x < 8;x++)
 		for (int y = 0; y < 8;y++)
@@ -56,6 +61,7 @@ void LevelCreator::createButtons()
 	nameField = new TextField("Nombre", gc->getWindowSize().x / 2 - 200 / 2, 10, 200, changeNameCallback, "");
 	saveButton = new Button("Guardar", 10, 10, saveLevelCallback, "",false,false);
 	mainMenuButton = new Button("Menu", gc->getWindowSize().x - 100, 10, goToMainMenuFromLevelCreatorCallback, "", false, false);
+	tryButton = new Button("Probar nivel", 10, 50, tryLevelCallback, "", false, false);
 	
 	for (int i = 0;i < 8;i++) {
 		selectBar[i] = NULL;
@@ -81,6 +87,18 @@ void LevelCreator::createButtons()
 }
 void LevelCreator::process(float deltaTime)
 {
+	if (testGameplay != NULL) {
+		try {
+
+			testGameplay->process(deltaTime);
+		}
+		catch (const std::runtime_error& error) { //Had some weird crashes, so this is a safeguard so the game does not close
+			toggleTryLevel();
+			std::cerr << "Error: " << error.what() << std::endl;
+		}
+		return;
+	}
+
 	GameController* gc = GameController::getInstance();
 	handleSelectedIndexMovement();
 	handlePlaceEntity();
@@ -152,6 +170,7 @@ std::vector<IHudElement*> LevelCreator::getHudElements()
 	btns.push_back(saveButton);
 	btns.push_back(mainMenuButton);
 	btns.push_back(nameField);
+	btns.push_back(tryButton);
 
 	for (int i = 0;i < 8;i++) 
 		if (selectBarBoxes[i] != NULL)
@@ -267,6 +286,19 @@ void LevelCreator::goBackToMainMenu()
 void LevelCreator::setName(std::string name)
 {
 	this->name = name;
+}
+
+void LevelCreator::toggleTryLevel()
+{
+	if (testGameplay != NULL) {
+		testGameplay = NULL;
+		tryButton->updateText("Probar nivel");
+	}
+	else if(this->viborita != NULL){
+		Level* level = new Level(name, "", grid, noOfApples, this->viborita);
+		testGameplay = new GamePlay(level, this);
+		tryButton->updateText("Editar nivel");
+	}
 }
 
 void LevelCreator::handleSelectedIndexMovement()
