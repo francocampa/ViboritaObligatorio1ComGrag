@@ -66,6 +66,8 @@ void loadModelsAndTextures() {
 	cargarModelo(filePath, name, 10);
 	filePath = "models/world.obj";
 	cargarModelo(filePath, name, 11);
+	filePath = "models/worm_dead_head.obj";
+	cargarModelo(filePath, name, 12);
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(grassTextureId, "textures/grass.png");
 	loadTexture(dirtTextureId, "textures/dirt.png");

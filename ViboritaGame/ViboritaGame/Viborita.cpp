@@ -138,7 +138,7 @@ void Viborita::draw() {
 			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation,{(int)xRotation,(int)yRotation}),sumV3(bodyPart->lastOffset, offsetDiff));
 			//translateAndRotateBodyPart(currentRotation, currentOffset);
 
-			drawModel(this->reachedPortal ? this->body.size == 1 ? WORM_TAIL_MODEL : WORM_BODY_MODEL : WORM_HEAD_MODEL,GameController::getInstance()->getSettings()->hasTextures());
+			drawModel(this->reachedPortal ? this->body.size == 1 ? WORM_TAIL_MODEL : WORM_BODY_MODEL : this->dead ? WORM_DEAD_HEAD_MODEL : WORM_HEAD_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}
 		else if (bodyPart == this->body.tail) {
 			calculatePartRotation(this->body.tail->dirToFront, this->body.tail->dirToFront, bodyPart->orientationToFront, true, currentRotation, currentOffset);
@@ -151,7 +151,10 @@ void Viborita::draw() {
 
 			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation, { (int)xRotation,(int)yRotation }), sumV3(bodyPart->lastOffset, offsetDiff));
 			//translateAndRotateBodyPart(currentRotation, currentOffset);
-			drawModel(WORM_TAIL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
+			if (this->body.head->gridIndex == bodyPart->gridIndex) {
+
+			}else
+				drawModel(WORM_TAIL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}else {
 			Vec3 dirToBack = subtractV3(bodyPart->gridIndex, { bodyPart->next->gridIndex.x,bodyPart->next->gridIndex.y,bodyPart->next->gridIndex.z });
 			calculatePartRotation(bodyPart->dirToFront,dirToBack,bodyPart->orientationToFront,false, currentRotation, currentOffset);
@@ -164,8 +167,11 @@ void Viborita::draw() {
 
 			translateAndRotateBodyPart(sumV2(bodyPart->lastRotation, { (int)xRotation,(int)yRotation }), sumV3(bodyPart->lastOffset, offsetDiff));
 			//translateAndRotateBodyPart(currentRotation, currentOffset);
+			if (this->body.head->gridIndex == bodyPart->gridIndex) {
 
-			drawModel(WORM_BODY_MODEL, GameController::getInstance()->getSettings()->hasTextures());
+			}
+			else
+				drawModel(WORM_BODY_MODEL, GameController::getInstance()->getSettings()->hasTextures());
 		}
 		if (movingProgress == 1) {
 			bodyPart->lastOffset = currentOffset;
@@ -314,8 +320,7 @@ bool Viborita::handleMovement(Vec3* movementDir, bool die) {
 	bool ateItself = gameContext->hasViborita(nextGridIndex) && !equalsV3(this->body.tail->gridIndex, nextGridIndex);
 	bool ateSpikedApple = gameContext->hasSpikedApple(nextGridIndex);
 	if (die && (ateItself || ateSpikedApple)) {
-		handleDeath();
-		return false;
+		dying = true;
 	}
 	if (gameContext->hasGoal(nextGridIndex)) {
 		reachedPortal = true;
@@ -418,8 +423,10 @@ void Viborita::handleFall()
 
 		aux = aux->next;
 	}
-	if (this->body.head->gridIndex.y <= 0)
-		handleDeath();
+	if (this->body.head->gridIndex.y <= 0 && this->gameContext != NULL) {
+		GameController::getInstance()->setNormalControl(true);
+		this->gameContext->resetLevel();
+	}
 }
 
 void Viborita::handleDeath()
@@ -434,8 +441,20 @@ void Viborita::handleDeath()
 	}
 
 	delete this;*/
-	GameController::getInstance()->setNormalControl(true);
-	gameContext->resetLevel();
+	/*GameController::getInstance()->setNormalControl(true);
+	gameContext->resetLevel();*/
+	float TILESIZE = GameController::getInstance()->TILE_SIZE;
+	Vec3 position = this->body.head->position;
+	ParticleSystem* ps = new ParticleSystem(0.001f, 0.2f, 150);
+	ps->setLifeSpan(0.2f, 0.2f);
+	ps->setVelocityRange({ -3,1,-3 }, { 5,5,5 });
+	ps->setAccelerationRange({ 0,-0.2f,0 }, { 0,-0.2,0 });
+	ps->setPosRange({ position.x,position.y,position.z }, { position.x + TILESIZE, position.y + TILESIZE, position.z + TILESIZE });
+	ps->setAlphaRange(0.5f, 1);
+	ps->setColorRange({ 0,0.3f,0 }, { 0,0.8f,0 });
+	ps->setSizeRange(4, 8);
+	GameController::getInstance()->addParticles(ps);
+	this->dead = true;
 }
 
 Viborita* Viborita::deepCopy()
@@ -526,6 +545,13 @@ void Viborita::process(float deltaTime) {
 		this->movingProgress += 10.0f * deltaTime;
 		if (movingProgress > 1.0f)
 			movingProgress = 1.0f;
+		return;
+	}
+	if (dead) {
+		return;
+	}
+	if (dying) {
+		this->handleDeath();
 		return;
 	}
 	if (reachedPortal) {

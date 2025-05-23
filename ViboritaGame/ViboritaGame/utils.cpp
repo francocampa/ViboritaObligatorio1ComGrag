@@ -407,6 +407,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 	case WORLD_MODEL:
 		indexModel = 11;
 		break;
+	case WORM_DEAD_HEAD_MODEL:
+		indexModel = 12;
+		break;
 	default:
 		break;
 	}

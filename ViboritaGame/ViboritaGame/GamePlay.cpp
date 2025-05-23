@@ -147,6 +147,10 @@ void GamePlay::resetLevel()
 	startLevel();
 }
 
+void GamePlay::viboritaDied()
+{
+}
+
 void GamePlay::addSecond()
 {
 	stats->addSecond();

@@ -22,8 +22,12 @@ private:
 	float falling;
 	bool fallen;
 	float movingProgress;
+	bool dead = false;
+
+	Vec3 movingIntoWallDir;
 
 	bool reachedPortal = false;
+	bool dying = false;
 public:
 	Viborita(Vec3 gridPosition,Vec3 position, GLfloat colors[24]);
 	void setGameContext(GamePlay* context);

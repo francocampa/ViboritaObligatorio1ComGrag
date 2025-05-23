@@ -35,6 +35,7 @@ public:
 	void beatLevel();
 	void startLevel();
 	void resetLevel();
+	void viboritaDied();
 	void addSecond();
 	void draw();
 	std::vector<IHudElement*> getHudElements();
