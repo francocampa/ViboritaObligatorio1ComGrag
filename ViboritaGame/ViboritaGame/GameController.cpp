@@ -50,16 +50,16 @@ void GameController::processFrame(float deltaTime) {
 	if (settings->isWireframe())
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	if (game != NULL) {
-		for (int i = 0; i < 4; i++) {
-			glEnable(GL_LIGHTING);
-			if (!paused) {
-				clouds[i]->process(deltaTime);
-			}
-			clouds[i]->draw();
-			glDisable(GL_LIGHTING);
-		}
-	}
+	//if (game != NULL) {
+	//	for (int i = 0; i < 4; i++) {
+	//		glEnable(GL_LIGHTING);
+	//		if (!paused) {
+	//			clouds[i]->process(deltaTime);
+	//		}
+	//		clouds[i]->draw();
+	//		glDisable(GL_LIGHTING);
+	//	}
+	//}
 	
 	state->process(deltaTime);
 

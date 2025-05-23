@@ -203,13 +203,16 @@ GLuint basePyramydIndices[] = {
 	2, 0, 3   // Side triangle (CA + top)
 };
 
+GLuint arrowTextures[4];
+
 void drawArrowKeys(Vec3 position) {
+	glEnable(GL_LIGHTING);
 	Vec3 color = { 0.82f, 0.80f, 0.72f };
 	glPushMatrix();
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
 	glTranslatef(1.2f,0,0);
-	drawCubeWithNormals(color, false, -1); // ^
+	drawCubeWithNormals(color, true, arrowTextures[1]); // ^
 	
 	glPopMatrix();
 
@@ -217,15 +220,15 @@ void drawArrowKeys(Vec3 position) {
 	glTranslatef(position.x, position.y, position.z);
 	glScalef(1, 0.5, 1);
 	glTranslatef(0, 0, -1.2f);
-	drawCubeWithNormals(color, false, -1); // <
+	drawCubeWithNormals(color, true, arrowTextures[2]); // <
 	
 	glTranslatef(1.2f, 0, 0);
-	drawCubeWithNormals(color, false, -1); // \/
+	drawCubeWithNormals(color, true, arrowTextures[3]); // \/
 
 	glTranslatef(1.2f, 0, 0);
-	drawCubeWithNormals(color, false, -1); // >
+	drawCubeWithNormals(color, true, arrowTextures[0]); // >
 	glPopMatrix();
-
+	glDisable(GL_LIGHTING);
 }
 
 Vec3 crossProduct(Vec3 a, Vec3 b) {
@@ -400,6 +403,9 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 		break;
 	case ERASOR_MODEL:
 		indexModel = 10;
+		break;
+	case WORLD_MODEL:
+		indexModel = 11;
 		break;
 	default:
 		break;
@@ -683,3 +689,4 @@ void playSound(SOUND_ENUM sound)
 		Mix_PlayChannel(-1, sounds[i], 0);
 }
 
+GLuint skyboxTextures[6];

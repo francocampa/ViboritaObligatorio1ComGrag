@@ -1,4 +1,4 @@
-#include "utils.h"
+﻿#include "utils.h"
 #include <SDL.h>
 #include <SDL_opengl.h>
 #include <SDL_ttf.h>
@@ -43,7 +43,7 @@ void loadModelsAndTextures() {
 	GLuint grassTextureId;
 	GLuint dirtTextureId;
 	GLuint portalTexId;
-	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posici�n que ocupar� en el modelsInfo
+	cargarModelo(filePath, name, 0);// Se le pasa el filePath, el nombre del modelo y la posición que ocupará en el modelsInfo
 	filePath = "models/worm_head.obj";
 	cargarModelo(filePath, name, 1);
 	filePath = "models/worm_body.obj";
@@ -64,6 +64,8 @@ void loadModelsAndTextures() {
 	cargarModelo(filePath, name, 9);
 	filePath = "models/erasor.obj";
 	cargarModelo(filePath, name, 10);
+	filePath = "models/world.obj";
+	cargarModelo(filePath, name, 11);
 	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(grassTextureId, "textures/grass.png");
 	loadTexture(dirtTextureId, "textures/dirt.png");
@@ -72,6 +74,29 @@ void loadModelsAndTextures() {
 	modelsInfo[4].textureId = portalTexId;
 	grassTexture = grassTextureId;
 	dirtTexture = dirtTextureId;
+
+	GLuint tId = 0;
+	loadTexture(tId, "textures/skybox/right.png");
+	skyboxTextures[0] = tId;
+	loadTexture(tId, "textures/skybox/left.png");
+	skyboxTextures[1] = tId;
+	loadTexture(tId, "textures/skybox/top.png");
+	skyboxTextures[2] = tId;
+	loadTexture(tId, "textures/skybox/bottom.png");
+	skyboxTextures[3] = tId;
+	loadTexture(tId, "textures/skybox/front.png");
+	skyboxTextures[4] = tId;
+	loadTexture(tId, "textures/skybox/back.png");
+	skyboxTextures[5] = tId;
+
+	loadTexture(tId, "textures/arrows/right.png");
+	arrowTextures[0] = tId;
+	loadTexture(tId, "textures/arrows/down.png");
+	arrowTextures[1] = tId;
+	loadTexture(tId, "textures/arrows/left.png");
+	arrowTextures[2] = tId;
+	loadTexture(tId, "textures/arrows/up.png");
+	arrowTextures[3] = tId;
 }
 
 void setupLighting() {
@@ -142,6 +167,89 @@ void updatePerspective(Vec2 windowSize) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
+float skyAngle = 0;
+void drawSkybox(float size) {
+	glDepthMask(GL_FALSE);
+	glDisable(GL_DEPTH_TEST); // optional
+	glPushMatrix();
+
+	//glEnable(GL_LIGHTING);
+	glScalef(15, 15, 15);
+	glRotatef(skyAngle,0,1,0);
+	drawModel(WORLD_MODEL,false);
+	//glDisable(GL_LIGHTING);
+
+	//float camMatrix[16];
+	//glGetFloatv(GL_MODELVIEW_MATRIX, camMatrix);
+
+	//// Zero out translation part
+	//camMatrix[12] = camMatrix[13] = camMatrix[14] = 0.0f;
+	//glLoadMatrixf(camMatrix);
+
+	//glEnable(GL_TEXTURE_2D);
+	////glDisable(GL_LIGHTING);
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//// +X (right)
+	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[0]);
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(1, 1); glVertex3f(size, -size, -size);
+	//glTexCoord2f(0, 1); glVertex3f(size, -size, size);
+	//glTexCoord2f(0, 0); glVertex3f(size, size, size);
+	//glTexCoord2f(1, 0); glVertex3f(size, size, -size);
+	//glEnd();
+
+	//// -X (left)
+	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[1]);
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(0, 1); glVertex3f(-size, -size, -size);
+	//glTexCoord2f(1, 1); glVertex3f(-size, -size, size);
+	//glTexCoord2f(1, 0); glVertex3f(-size, size, size);
+	//glTexCoord2f(0, 0); glVertex3f(-size, size, -size);
+	//glEnd();
+
+	//// +Y (top)
+	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[2]);
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(1, 0); glVertex3f(-size, size, -size);  // bottom-left → bottom-right  
+	//glTexCoord2f(1, 1); glVertex3f(size, size, -size);   // bottom-right → top-right  
+	//glTexCoord2f(0, 1); glVertex3f(size, size, size);    // top-right → top-left  
+	//glTexCoord2f(0, 0); glVertex3f(-size, size, size);   // top-left → bottom-left
+
+	//glEnd();
+
+	//// -Y (bottom)
+	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[3]);
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(0, 0); glVertex3f(-size, -size, -size);
+	//glTexCoord2f(1, 0); glVertex3f(size, -size, -size);
+	//glTexCoord2f(1, 1); glVertex3f(size, -size, size);
+	//glTexCoord2f(0, 1); glVertex3f(-size, -size, size);
+	//glEnd();
+
+	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[4]); // Front
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(1, 1); glVertex3f(-size, -size, -size);
+	//glTexCoord2f(0, 1); glVertex3f(size, -size, -size);
+	//glTexCoord2f(0, 0); glVertex3f(size, size, -size);
+	//glTexCoord2f(1, 0); glVertex3f(-size, size, -size);
+	//glEnd();
+
+	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[5]); // Back
+	//glBegin(GL_QUADS);
+	//glTexCoord2f(0, 1); glVertex3f(-size, -size, size);
+	//glTexCoord2f(1, 1); glVertex3f(size, -size, size);
+	//glTexCoord2f(1, 0); glVertex3f(size, size, size);
+	//glTexCoord2f(0, 0); glVertex3f(-size, size, size);
+	//glEnd();
+
+	//glDisable(GL_TEXTURE_2D);
+	glPopMatrix();
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthMask(GL_TRUE);
+}
+
 using namespace std;
 int main(int argc, char* argv[]) {
 
@@ -167,7 +275,7 @@ int main(int argc, char* argv[]) {
 
 	if (glewInit() != GLEW_OK)
 	{
-		// Manejar error de inicializaci�n de GLEW
+		// Manejar error de inicialización de GLEW
 		return -1;
 	}
 
@@ -211,6 +319,11 @@ int main(int argc, char* argv[]) {
 
 	setupLighting();
 
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
 	do {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
@@ -221,9 +334,13 @@ int main(int argc, char* argv[]) {
 		deltaTime *= gc->getSettings()->getGameSpeed();
 		lastTick = currentTick;
 		timeFromDown += deltaTime/gc->getSettings()->getGameSpeed();
+		
+		skyAngle += 1.0f * deltaTime;
 
 		//son 3 vector3, donde me paro, donde miro, y donde est[a arriba
 		gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z, center.x, center.y, center.z, 0, 1, 0);
+		
+		drawSkybox(0.5f);
 
 		gc->processFrame(deltaTime);
 
