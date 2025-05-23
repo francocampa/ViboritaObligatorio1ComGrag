@@ -473,11 +473,11 @@ void MainMenu::process(float deltaTime)
 		}
 		else if (this->cameraPosTime >= 7.6f && this->cameraPosTime < 7.8f) {
 
-			this->move[0] = { 0,0,-1 };
+			this->move[0] = { 1,0,0 };
 			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
 		}
 		else if (this->cameraPosTime >= 7.8f && this->cameraPosTime < 8.0f) {
-			this->move[0] = { -1,0,0 };
+			this->move[0] = { 0,0,1 };
 			this->animationLevel[1]->getViborita()->processAnimation(move, deltaTime);
 
 		}
