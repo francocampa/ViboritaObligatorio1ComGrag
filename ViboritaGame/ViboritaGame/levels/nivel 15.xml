@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Level name="15" maxScore="9" nextLevel="">
+<Level name="nivel 15" maxScore="9" nextLevel="nivel 16">
 	<Grid>
 		<GameEntity type="apple" x="0" y="1" z="3" />
 		<GameEntity type="block" x="0" y="2" z="1" />
