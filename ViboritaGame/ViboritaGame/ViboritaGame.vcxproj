@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL_mixer\include;C:\pugixml\src;C:\SDL_image\include;C:\SDL\include;C:\glm;C:\freetype\include;C:\SDL2_ttf\include;C:\glew\include;C:\assimp-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\libs\SDL_mixer\include;$(SolutionDir)$(ProjectName)\libs\pugixml\src;$(SolutionDir)$(ProjectName)\libs\SDL_image\include;$(SolutionDir)$(ProjectName)\libs\SDL\include;$(SolutionDir)$(ProjectName)\libs\glm;$(SolutionDir)$(ProjectName)\libs\freetype\include;$(SolutionDir)$(ProjectName)\libs\SDL2_ttf\include;$(SolutionDir)$(ProjectName)\libs\glew\include;$(SolutionDir)$(ProjectName)\libs\assimp-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SDL_mixer\lib\x64;C:\glew\lib\Release\x64;C:\assimp-master\build\lib\Debug;C:\freetype\objs\x64\Debug;C:\SDL_image\lib\x64;C:\SDL\lib\x64;C:\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(ProjectName)\libs\SDL_mixer\lib\x64;$(SolutionDir)$(ProjectName)\libs\glew\lib\Release\x64;$(SolutionDir)$(ProjectName)\libs\assimp-master\build\lib\Debug;$(SolutionDir)$(ProjectName)\libs\freetype\objs\x64\Debug;$(SolutionDir)$(ProjectName)\libs\SDL_image\lib\x64;$(SolutionDir)$(ProjectName)\libs\SDL\lib\x64;$(SolutionDir)$(ProjectName)\libs\SDL2_ttf\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;SDL2_ttf.lib;freetype.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies);assimp-vc143-mtd.lib;glew32.lib;glew32s.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL_mixer\include;C:\pugixml\src;C:\SDL_image\include;C:\SDL\include;C:\glm;C:\freetype\include;C:\SDL2_ttf\include;C:\glew\include;C:\assimp-master\include;C:\assimp-master\include;C:\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)$(ProjectName)\libs\SDL_mixer\include;$(SolutionDir)$(ProjectName)\libs\pugixml\src;$(SolutionDir)$(ProjectName)\libs\SDL_image\include;$(SolutionDir)$(ProjectName)\libs\SDL\include;$(SolutionDir)$(ProjectName)\libs\glm;$(SolutionDir)$(ProjectName)\libs\freetype\include;$(SolutionDir)$(ProjectName)\libs\SDL2_ttf\include;$(SolutionDir)$(ProjectName)\libs\glew\include;$(SolutionDir)$(ProjectName)\libs\assimp-master\include;C:\assimp-master\include;C:\glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\SDL_mixer\lib\x64;C:\glew\lib\Release\x64;C:\assimp-master\build\lib\Debug;C:\freetype\objs\x64\Debug;C:\SDL_image\lib\x64;C:\SDL\lib\x64;C:\SDL2_ttf\lib\x64;C:\assimp-master\build\lib\Debug;C:\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(ProjectName)\libs\SDL_mixer\lib\x64;$(SolutionDir)$(ProjectName)\libs\glew\lib\Release\x64;$(SolutionDir)$(ProjectName)\libs\assimp-master\build\lib\Debug;$(SolutionDir)$(ProjectName)\libs\freetype\objs\x64\Debug;$(SolutionDir)$(ProjectName)\libs\SDL_image\lib\x64;$(SolutionDir)$(ProjectName)\libs\SDL\lib\x64;$(SolutionDir)$(ProjectName)\libs\SDL2_ttf\lib\x64;C:\assimp-master\build\lib\Debug;C:\glew\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;opengl32.lib;glu32.lib;SDL2_ttf.lib;freetype.lib;SDL2_image.lib;SDL2_mixer.lib;assimp-vc143-mtd.lib;glew32.lib;%(AdditionalDependencies);assimp-vc143-mtd.lib;glew32.lib;glew32s.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
