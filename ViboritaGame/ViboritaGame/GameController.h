@@ -77,7 +77,7 @@ private:
 	CAMERA_ENUM cameraType = WORLD_CAMERA;
 	//World and free camera stuff
 	Vec3 cameraPos = { 0,0,0 };
-	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
+	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 40 }; //theta, phi, radius
 	//Free camera stuff
 	bool w = false;
 	bool s = false;
