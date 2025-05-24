@@ -68,29 +68,14 @@ void loadModelsAndTextures() {
 	cargarModelo(filePath, name, 11);
 	filePath = "models/worm_dead_head.obj";
 	cargarModelo(filePath, name, 12);
-	loadTexture(textureId, "textures/apple_texture.jpg");
 	loadTexture(grassTextureId, "textures/grass.png");
 	loadTexture(dirtTextureId, "textures/dirt.png");
 	loadTexture(portalTexId, "textures/portal_texture.jpg");
-	modelsInfo[0].textureId = textureId;
 	modelsInfo[4].textureId = portalTexId;
 	grassTexture = grassTextureId;
 	dirtTexture = dirtTextureId;
 
 	GLuint tId = 0;
-	loadTexture(tId, "textures/skybox/right.png");
-	skyboxTextures[0] = tId;
-	loadTexture(tId, "textures/skybox/left.png");
-	skyboxTextures[1] = tId;
-	loadTexture(tId, "textures/skybox/top.png");
-	skyboxTextures[2] = tId;
-	loadTexture(tId, "textures/skybox/bottom.png");
-	skyboxTextures[3] = tId;
-	loadTexture(tId, "textures/skybox/front.png");
-	skyboxTextures[4] = tId;
-	loadTexture(tId, "textures/skybox/back.png");
-	skyboxTextures[5] = tId;
-
 	loadTexture(tId, "textures/arrows/right.png");
 	arrowTextures[0] = tId;
 	loadTexture(tId, "textures/arrows/down.png");
@@ -190,7 +175,7 @@ int main(int argc, char* argv[]) {
 		exit(1);
 	}
 	
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); //	THE GOD LINE
 
 	Vec2 windowSize = { 640,480 };
 
