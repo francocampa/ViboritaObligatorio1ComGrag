@@ -24,6 +24,10 @@ private:
 	Button* firstPersonPerspective;
 	Button* levelPerspective;
 
+	bool showWarning = false;
+	Button* resetWarning;
+	float angle;
+
 	Button* tutorials[20];
 
 	LevelCreator* lc = NULL;

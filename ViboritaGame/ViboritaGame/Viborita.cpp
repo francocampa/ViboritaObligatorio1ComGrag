@@ -409,7 +409,7 @@ void Viborita::handleFall()
 		Vec3 positionUnderPart = { aux->position.x,aux->position.y - GameController::getInstance()->TILE_SIZE,aux->position.z};
 		Vec3 indexUnderPart = { aux->gridIndex.x,aux->gridIndex.y - 1,aux->gridIndex.z };
 		if (gameContext->hasSpikedApple(indexUnderPart)) { //Se cae en los pinchos :c
-			handleDeath();
+			dying = true;
 			return; 
 		}
 		aux->position = positionUnderPart;
@@ -455,6 +455,7 @@ void Viborita::handleDeath()
 	ps->setSizeRange(4, 8);
 	GameController::getInstance()->addParticles(ps);
 	this->dead = true;
+	this->gameContext->viboritaDied();
 }
 
 Viborita* Viborita::deepCopy()

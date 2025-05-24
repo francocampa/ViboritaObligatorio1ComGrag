@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Level name="tronet-1" maxScore="3" nextLevel="">
+<Level name="nivel 10" maxScore="3" nextLevel="nivel 11">
 	<Grid>
 		<GameEntity type="block" x="0" y="0" z="0" />
 		<GameEntity type="block" x="0" y="0" z="1" />

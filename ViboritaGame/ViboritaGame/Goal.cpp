@@ -19,8 +19,8 @@ void Goal::draw()
 	Material goalMaterial = { {0.8f, 0.8f, 0.8f, 1.0f} , {0.1f, 0.1f, 0.1f, 1.0f} ,  {0.4f, 0.4f, 0.4f, 1.0f}, {100.0f} };
 	applyMaterial(goalMaterial);
 	glTranslatef(position.x + 0.5, position.y-1.2f, position.z); //TODO sacar estos valores hardcodeados, que sean en base a TILE_SIZE
-	glScalef(0.5, 0.5, 0.5);
-	//glRotatef(this->angle, 1, 1 , 1);
+	float scale = cos(angle) * 0.1;
+	glScalef(0.5 + scale, 0.5, 0.5 + scale);
 	glRotatef(90, 0, 1, 0);
 	//glColor3f(0, 0, 0); //color negro
 	drawModel(GOAL_MODEL, GameController::getInstance()->getSettings()->hasTextures());
@@ -39,7 +39,7 @@ Goal::~Goal()
 }
 
 void Goal::process(float deltaTime){  
-	this->angle = this->angle + 20.0f * deltaTime; 
+	this->angle += 1.0f * deltaTime; 
 	if (ps == NULL) {
 		float TILESIZE = GameController::getInstance()->TILE_SIZE;
 		ps = new ParticleSystem(0.3f, 300.0f, 30);

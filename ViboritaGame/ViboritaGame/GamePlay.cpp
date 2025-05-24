@@ -27,6 +27,10 @@ GamePlay::GamePlay(Level* level)
 	scoreText = new Button(sText.c_str(), 10, 10);
 	timerText = new Button("00:00", 0, 10);
 	timerText->center(0, gc->getWindowSize().x);
+	resetWarning = new Button("R.I.P viborita, presiona R para reiniciar", 0, 0);
+	SDL_Rect* rect = resetWarning->getRect();
+	rect->x = gc->getWindowSize().x / 2 - rect->w / 2;
+	rect->y = gc->getWindowSize().y / 2 - rect->h / 2;
 
 	int btnSize = 20;
 	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40 , gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
@@ -137,6 +141,7 @@ void GamePlay::startLevel()
 
 void GamePlay::resetLevel()
 {
+	showWarning = false;
 	for (int x = 0; x < 8;x++) {
 		for (int y = 0; y < 8;y++) {
 			for (int z = 0; z < 8;z++) {
@@ -149,6 +154,7 @@ void GamePlay::resetLevel()
 
 void GamePlay::viboritaDied()
 {
+	showWarning = true;
 }
 
 void GamePlay::addSecond()
@@ -159,6 +165,7 @@ void GamePlay::addSecond()
 
 void GamePlay::process(float deltaTime)
 {
+	angle += 5.0f*deltaTime;
 	glEnable(GL_LIGHTING);
 	glNormal3f(0.0f, 1.0f, 0.0f);
 	for (int x = 0; x < GameController::getInstance()->GRID_SIZE;x++) {
@@ -201,6 +208,8 @@ std::vector<IHudElement*> GamePlay::getHudElements()
 	buttons.push_back(cameraIcon);
 	buttons.push_back(firstPersonPerspective);
 	buttons.push_back(levelPerspective);
+	if(showWarning && cos(angle) > 0)
+		buttons.push_back(resetWarning);
 	if (level->getNo() != NULL && level->getNo() < 10 && tutorials[level->getNo()] != NULL)
 		buttons.push_back(tutorials[level->getNo()]);
 	return buttons;
