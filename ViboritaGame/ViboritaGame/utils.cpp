@@ -631,6 +631,11 @@ Vec2 sumV2(Vec2 v, Vec2 u)
 	return { x,y };
 }
 
+Vec3 scalarProdV3(float scalar, Vec3 v)
+{
+	return {v.x * scalar, v.y * scalar, v.z * scalar};
+}
+
 bool equalsV3(Vec3 v, Vec3 u)
 {
 	return v.x == u.x && v.y == u.y && v.z == u.z;

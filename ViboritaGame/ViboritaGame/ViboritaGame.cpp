@@ -276,37 +276,47 @@ int main(int argc, char* argv[]) {
 
 		gc->processFrame(deltaTime);
 
-		if (gc->getGamePlay() != NULL && !gc->getFirstPerson()) {
-			gc->setNormalControl(true);
-			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
-			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
-			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
-			center.x = 0;
-			center.y = 0;
-			center.z = 0;
-			Vec3 v = { 0,0,0 };
-			Vec3 u = { 0,0,0 };
-			gc->getGamePlay()->getViborita()->getFPCamera(v, u); // to debug
-			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
+		if (gc->getGamePlay() != NULL) {
+			float vel = 0;
+			switch (gc->getCameraType()) {
+			case WORLD_CAMERA:
+				gc->setNormalControl(true);
+				cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
+				cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
+				cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
+				center.x = 0;
+				center.y = 0;
+				center.z = 0;
+				break;
+			case FREE_CAMERA:
+				cameraPos = gc->getCameraPos();
+				vel = 10;
+				Vec3 front = normalize(subtractV3(cameraPos,center));
+				Vec3 right = normalize(crossProduct(front, { 0,1,0 }));
+				if (gc->isWKey()) {
+					cameraPos = sumV3(cameraPos, scalarProdV3(-vel*deltaTime,front)); //Front is back...
+				}
+				if (gc->isSKey()) {
+					cameraPos = sumV3(cameraPos, scalarProdV3(vel * deltaTime, front));
+				}
+				if (gc->isAKey()) {
+					cameraPos = sumV3(cameraPos, scalarProdV3(vel * deltaTime, right)); //... and right is left???
+				}
+				if (gc->isDKey()) {
+					cameraPos = sumV3(cameraPos, scalarProdV3(-vel * deltaTime, right));
+				}
+
+				center.x = cameraPos.x + sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
+				center.y = cameraPos.y + cos(gc->getCameraProps().y);
+				center.z = cameraPos.z + sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
+				gc->setCameraPos(cameraPos);
+				break;
+			case WORM_CAMERA:
+				gc->getGamePlay()->getViborita()->getFPCamera(cameraPos, center);
+				break;
+			}
 		}
-		else if ((gc->getFirstPerson() && gc->getGamePlay() == NULL)) {
-			gc->setFirstPerson(false);
-			gc->setNormalControl(true);
-			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
-			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
-			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
-			center.x = 0;
-			center.y = 0;
-			center.z = 0;
-			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
-		}
-		else if(gc->getFirstPerson()){
-			gc->getGamePlay()->getViborita()->getFPCamera(cameraPos, center);
-			drawArrowKeys({ arrowKeysPos.x - 1.7f,arrowKeysPos.y,arrowKeysPos.z });
-		}
-		else if (gc->getGamePlay() == NULL && gc->getMainMenu() != NULL) {
-			gc->setFirstPerson(false);
-			gc->setNormalControl(true);
+		else {
 			cameraPos.x = gc->getCameraProps().z * sin(gc->getCameraProps().y) * cos(gc->getCameraProps().x);
 			cameraPos.y = gc->getCameraProps().z * cos(gc->getCameraProps().y);
 			cameraPos.z = gc->getCameraProps().z * sin(gc->getCameraProps().y) * sin(gc->getCameraProps().x);
@@ -327,7 +337,7 @@ int main(int argc, char* argv[]) {
 		gc->setMouseDown(false);
 		gc->setKeyPressed("");
 
-		if(gc->getGamePlay() == gc->getState())
+		if(gc->getGamePlay() == gc->getState() && gc->getCameraType() != WORM_CAMERA)
 			drawArrowKeys({ arrowKeysPos.x-1.7f,arrowKeysPos.y,arrowKeysPos.z });		
 	
 		while (SDL_PollEvent(&event)) {
@@ -377,11 +387,23 @@ int main(int argc, char* argv[]) {
 						gc->setShowFps(!gc->isShowFps());
 						break;
 					case SDLK_v:
-						gc->setFirstPerson(!gc->getFirstPerson());
+						gc->setCameraType(static_cast<CAMERA_ENUM>((gc->getCameraType() + 1) % CAMERA_COUNT));
 						break;
 					case SDLK_r:
 						if (gc->getGamePlay() == gc->getState())
 							gc->getGamePlay()->resetLevel();
+						break;
+					case SDLK_w:
+						gc->setWKey(false);
+						break;
+					case SDLK_s:
+						gc->setSKey(false);
+						break;
+					case SDLK_a:
+						gc->setAKey(false);
+						break;
+					case SDLK_d:
+						gc->setDKey(false);
 						break;
 				}
 				break;
@@ -419,6 +441,18 @@ int main(int argc, char* argv[]) {
 					gc->setSpaceKey(true);
 					alreadyMoved = true;
 					break;
+				case SDLK_w:
+					gc->setWKey(true);
+					break;
+				case SDLK_s:
+					gc->setSKey(true);
+					break;
+				case SDLK_a:
+					gc->setAKey(true);
+					break;
+				case SDLK_d:
+					gc->setDKey(true);
+					break;
 				}
 				break;
 			case SDL_MOUSEBUTTONDOWN:
@@ -451,13 +485,16 @@ int main(int argc, char* argv[]) {
 					if (phi < epsilon) phi = epsilon;
 					if (phi > M_PI - epsilon) phi = M_PI - epsilon;
 
-					cameraPos.x = cameraRadius * sin(phi) * cos(theta);
-					cameraPos.y = cameraRadius * cos(phi);
-					cameraPos.z = cameraRadius * sin(phi) * sin(theta);
+					if (gc->getCameraType() == WORLD_CAMERA) {
+						cameraPos.x = cameraRadius * sin(phi) * cos(theta);
+						cameraPos.y = cameraRadius * cos(phi);
+						cameraPos.z = cameraRadius * sin(phi) * sin(theta);
 
-					gc->setCameraPos(cameraPos);
+						gc->setCameraPos(cameraPos);
+						calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
+					}	
+
 					gc->setCameraCoordinates(theta,phi);
-					calculateArrowKeysPos(cameraPos, center, arrowKeysPos);
 				}
 
 				break;
@@ -477,7 +514,7 @@ int main(int argc, char* argv[]) {
 				break;
 			case SDL_MOUSEWHEEL:
 				int scrollY = event.wheel.y;
-				if (scrollY != 0) {
+				if (scrollY != 0 && gc->getCameraType() == WORLD_CAMERA) {
 					float sensitivity = gc->getSensitivity();
 					float theta = gc->getCameraProps().x;
 					float phi = gc->getCameraProps().y;

@@ -234,7 +234,7 @@ Vec3* Viborita::getMovementDirection()
 		}
 	}
 
-	if(GameController::getInstance()->getFirstPerson())
+	if(GameController::getInstance()->getCameraType() == WORM_CAMERA)
 		if (headDirection.x == 1 || this->body.head->orientationToFront.x == 1) {
 			GameController::getInstance()->setNormalControl(false);
 			if (GameController::getInstance()->isArrowUp())

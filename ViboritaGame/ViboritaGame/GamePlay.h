@@ -23,6 +23,7 @@ private:
 	Button* cameraIcon;
 	Button* firstPersonPerspective;
 	Button* levelPerspective;
+	Button* freePerspective;
 
 	bool showWarning = false;
 	Button* resetWarning;
@@ -58,6 +59,7 @@ public:
 
 	void setFirstPerson();
 	void setLevelPerspective();
+	void setFreePerspective();
 
 	std::vector<IHudElement*> getLevelTutorials();
 	

@@ -17,6 +17,10 @@ void levelPerspectiveCallback() {
 	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();
 	gp->setLevelPerspective();
 }
+void freePerspectiveCallback() {
+	GamePlay* gp = (GamePlay*)GameController::getInstance()->getState();
+	gp->setFreePerspective();
+}
 GamePlay::GamePlay(Level* level)
 {
 	GameController* gc = GameController::getInstance();
@@ -33,10 +37,11 @@ GamePlay::GamePlay(Level* level)
 	rect->y = gc->getWindowSize().y / 2 - rect->h / 2;
 
 	int btnSize = 20;
-	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40 , gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
+	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getCameraType() == WORM_CAMERA ? 10 : 40 , gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
 	btnSize = 30;
 	firstPersonPerspective = new Button("images/snake.png", 10, gc->getWindowSize().y - 10 - btnSize*1.5f, btnSize, btnSize, firstPersonCallback);
-	levelPerspective = new Button("images/global.png", 20 + btnSize, gc->getWindowSize().y - 10 - btnSize*1.5f, btnSize, btnSize, levelPerspectiveCallback);
+	levelPerspective = new Button("images/global.png", 20 + btnSize, gc->getWindowSize().y - 10 - btnSize * 1.5f, btnSize, btnSize, levelPerspectiveCallback);
+	freePerspective = new Button("images/bird.png", 20 + btnSize*2, gc->getWindowSize().y - 10 - btnSize*1.5f, btnSize, btnSize, freePerspectiveCallback);
 
 	for (int i = 0; i < 10;i++)
 		tutorials[i] = NULL;
@@ -69,7 +74,7 @@ GamePlay::GamePlay(Level* level, LevelCreator* levelCreator)
 	timerText->center(0, gc->getWindowSize().x);
 
 	int btnSize = 20;
-	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getFirstPerson() ? 10 : 40, gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
+	cameraIcon = new Button("images/camera.png", GameController::getInstance()->getCameraType() == WORM_CAMERA ? 10 : 40, gc->getWindowSize().y - 60 - btnSize, btnSize, btnSize, NULL);
 	btnSize = 30;
 	firstPersonPerspective = new Button("images/snake.png", 10, gc->getWindowSize().y - 10 - btnSize * 1.5f, btnSize, btnSize, firstPersonCallback);
 	levelPerspective = new Button("images/global.png", 20 + btnSize, gc->getWindowSize().y - 10 - btnSize * 1.5f, btnSize, btnSize, levelPerspectiveCallback);
@@ -181,6 +186,18 @@ void GamePlay::process(float deltaTime)
 	this->viborita->process(deltaTime);
 	this->viborita->draw();
 	glDisable(GL_LIGHTING);
+
+	switch (GameController::getInstance()->getCameraType()) {
+		case WORLD_CAMERA:
+			cameraIcon->getRect()->x = 40;
+			break;
+		case WORM_CAMERA:
+			cameraIcon->getRect()->x = 10;
+			break;
+		case FREE_CAMERA:
+			cameraIcon->getRect()->x = 70;
+			break;
+	}
 }
 
 void GamePlay::draw()
@@ -208,6 +225,7 @@ std::vector<IHudElement*> GamePlay::getHudElements()
 	buttons.push_back(cameraIcon);
 	buttons.push_back(firstPersonPerspective);
 	buttons.push_back(levelPerspective);
+	buttons.push_back(freePerspective);
 	if(showWarning && cos(angle) > 0)
 		buttons.push_back(resetWarning);
 	if (level->getNo() != NULL && level->getNo() < 10 && tutorials[level->getNo()] != NULL)
@@ -315,14 +333,20 @@ void GamePlay::ateApple()
 
 void GamePlay::setFirstPerson()
 {
-	GameController::getInstance()->setFirstPerson(true);
+	GameController::getInstance()->setCameraType(WORM_CAMERA);
 	cameraIcon->getRect()->x = 10;
 }
 
 void GamePlay::setLevelPerspective()
 {
-	GameController::getInstance()->setFirstPerson(false);
+	GameController::getInstance()->setCameraType(WORLD_CAMERA);
 	cameraIcon->getRect()->x = 40;
+}
+
+void GamePlay::setFreePerspective()
+{
+	GameController::getInstance()->setCameraType(FREE_CAMERA);
+	cameraIcon->getRect()->x = 70;
 }
 
 std::vector<IHudElement*> GamePlay::getLevelTutorials()
@@ -351,7 +375,7 @@ void GamePlay::resize()
 	timerText->center(0, gc->getWindowSize().x);
 
 	int btnSize = 20;
-	cameraIcon->getRect()->x = gc->getFirstPerson() ? 10 : 40;
+	cameraIcon->getRect()->x = gc->getCameraType() == WORM_CAMERA ? 10 : 40;
 	cameraIcon->getRect()->y = gc->getWindowSize().y - 60 - btnSize;
 	btnSize = 30;
 	firstPersonPerspective->getRect()->x = 10;

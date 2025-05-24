@@ -385,14 +385,15 @@ bool GameController::getSoundEnabled()
 	return soundEnabled;
 }
 
-bool GameController::getFirstPerson()
+CAMERA_ENUM GameController::getCameraType()
 {
-	return firstPerson;
+	return cameraType;
 }
 
-void GameController::setFirstPerson(bool fp)
+void GameController::setCameraType(CAMERA_ENUM type)
 {
-	this->firstPerson = fp;
+	this->cameraType = type;
+	this->moveCamera = type != WORM_CAMERA;
 }
 
 void GameController::setWindowSize(Vec2 size)

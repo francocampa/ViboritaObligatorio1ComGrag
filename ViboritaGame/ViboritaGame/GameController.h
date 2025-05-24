@@ -69,16 +69,26 @@ private:
 	bool moveCamera = true;
 	std::string keyPressed = "";
 
-	Vec3 cameraPos = { 0,0,0 };
-	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
+	
 	float sensitivity = 0.5f;
 
 	bool closeFlag = false;
 	bool soundEnabled = false;
-	bool firstPerson = false;
+	CAMERA_ENUM cameraType = WORLD_CAMERA;
+	//World and free camera stuff
+	Vec3 cameraPos = { 0,0,0 };
+	Vec3 cameraProps = { -M_PI / 2 , M_PI / 4 , 20 }; //theta, phi, radius
+	//Free camera stuff
+	bool w = false;
+	bool s = false;
+	bool a = false;
+	bool d = false;
+
+	//First person stuff
 	bool normalControl = true;
 	bool izqControl = false;
 	bool derControl = false;
+
 
 	Vec2 windowSize;
 	float widthScale;
@@ -105,7 +115,11 @@ public:
 	void setMouseUp(bool click);
 	void setShowFps(bool show);
 	void setKeyPressed(std::string key);
-	
+	void setWKey(bool x) { this->w = x; }
+	void setSKey(bool x) { this->s = x; }
+	void setDKey(bool x) { this->d = x; }
+	void setAKey(bool x) { this->a = x; }
+
 	Settings* getSettings();
 	void setSettings(Settings* settings);
 	IGameState* getState();
@@ -124,6 +138,10 @@ public:
 	bool isMouseDown();
 	bool isMouseUp();
 	bool isShowFps();
+	bool isWKey() { return w; }
+	bool isSKey() { return s; }
+	bool isDKey() { return d; }
+	bool isAKey() { return a; }
 	std::string getKeyPressed();
 	MainMenu* getMainMenu();
 
@@ -157,8 +175,8 @@ public:
 	void setSoundEnabled(bool);
 	bool getSoundEnabled();
 
-	bool getFirstPerson();
-	void setFirstPerson(bool fp);
+	CAMERA_ENUM getCameraType();
+	void setCameraType(CAMERA_ENUM cameraType);
 
 	void setWindowSize(Vec2 size);
 	Vec2 getWindowSize();

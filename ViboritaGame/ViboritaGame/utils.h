@@ -155,6 +155,9 @@ Vec2 subtractV2(Vec2 v, Vec2 u);
 
 Vec3 sumV3(Vec3 v, Vec3 u);
 Vec2 sumV2(Vec2 v, Vec2 u);
+
+Vec3 scalarProdV3(float scalar, Vec3 v);
+
 bool equalsV3(Vec3 v, Vec3 u);
 
 void calc3dCoordsForHud(Vec3 cameraPos, Vec3 center, float distance, float xOffset, float yOffset, Vec3& arrowKeyPos);
@@ -181,3 +184,10 @@ enum MESSAGES_ENUM {
 };
 
 extern GLuint skyboxTextures[6];
+
+enum CAMERA_ENUM {
+	WORLD_CAMERA,
+	WORM_CAMERA,
+	FREE_CAMERA,
+	CAMERA_COUNT
+};
