@@ -172,82 +172,12 @@ void updatePerspective(Vec2 windowSize) {
 float skyAngle = 0;
 void drawSkybox(float size) {
 	glDepthMask(GL_FALSE);
-	glDisable(GL_DEPTH_TEST); // optional
+	glDisable(GL_DEPTH_TEST);
 	glPushMatrix();
-
-	//glEnable(GL_LIGHTING);
 	glScalef(15, 15, 15);
 	glRotatef(skyAngle,0,1,0);
-	drawModel(WORLD_MODEL,false);
-	//glDisable(GL_LIGHTING);
-
-	//float camMatrix[16];
-	//glGetFloatv(GL_MODELVIEW_MATRIX, camMatrix);
-
-	//// Zero out translation part
-	//camMatrix[12] = camMatrix[13] = camMatrix[14] = 0.0f;
-	//glLoadMatrixf(camMatrix);
-
-	//glEnable(GL_TEXTURE_2D);
-	////glDisable(GL_LIGHTING);
-	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//// +X (right)
-	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[0]);
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(1, 1); glVertex3f(size, -size, -size);
-	//glTexCoord2f(0, 1); glVertex3f(size, -size, size);
-	//glTexCoord2f(0, 0); glVertex3f(size, size, size);
-	//glTexCoord2f(1, 0); glVertex3f(size, size, -size);
-	//glEnd();
-
-	//// -X (left)
-	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[1]);
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(0, 1); glVertex3f(-size, -size, -size);
-	//glTexCoord2f(1, 1); glVertex3f(-size, -size, size);
-	//glTexCoord2f(1, 0); glVertex3f(-size, size, size);
-	//glTexCoord2f(0, 0); glVertex3f(-size, size, -size);
-	//glEnd();
-
-	//// +Y (top)
-	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[2]);
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(1, 0); glVertex3f(-size, size, -size);  // bottom-left → bottom-right  
-	//glTexCoord2f(1, 1); glVertex3f(size, size, -size);   // bottom-right → top-right  
-	//glTexCoord2f(0, 1); glVertex3f(size, size, size);    // top-right → top-left  
-	//glTexCoord2f(0, 0); glVertex3f(-size, size, size);   // top-left → bottom-left
-
-	//glEnd();
-
-	//// -Y (bottom)
-	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[3]);
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(0, 0); glVertex3f(-size, -size, -size);
-	//glTexCoord2f(1, 0); glVertex3f(size, -size, -size);
-	//glTexCoord2f(1, 1); glVertex3f(size, -size, size);
-	//glTexCoord2f(0, 1); glVertex3f(-size, -size, size);
-	//glEnd();
-
-	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[4]); // Front
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(1, 1); glVertex3f(-size, -size, -size);
-	//glTexCoord2f(0, 1); glVertex3f(size, -size, -size);
-	//glTexCoord2f(0, 0); glVertex3f(size, size, -size);
-	//glTexCoord2f(1, 0); glVertex3f(-size, size, -size);
-	//glEnd();
-
-	//glBindTexture(GL_TEXTURE_2D, skyboxTextures[5]); // Back
-	//glBegin(GL_QUADS);
-	//glTexCoord2f(0, 1); glVertex3f(-size, -size, size);
-	//glTexCoord2f(1, 1); glVertex3f(size, -size, size);
-	//glTexCoord2f(1, 0); glVertex3f(size, size, size);
-	//glTexCoord2f(0, 0); glVertex3f(-size, size, size);
-	//glEnd();
-
-	//glDisable(GL_TEXTURE_2D);
+	drawModel(WORLD_MODEL,false); //Literally not a skybox
 	glPopMatrix();
-
 	glEnable(GL_DEPTH_TEST);
 	glDepthMask(GL_TRUE);
 }

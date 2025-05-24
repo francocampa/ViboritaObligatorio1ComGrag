@@ -68,7 +68,7 @@ MainMenu::MainMenu() {
 
 
 	leftArrowCarousel = new Button("images/carousel-left.png", "images/carousel-left-hover.png",10, gc->getWindowSize().y /2 - 30/2, 30 * gc->getWidthScale(),30 * gc->getHeightScale(),callbackCarouselLeft);
-	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", gc->getWindowSize().x - 10 - 30 / 2, gc->getWindowSize().y / 2 - gc->getWidthScale()* 30 / 2, 30 * gc->getWidthScale(), 30 * gc->getHeightScale(), callbackCarouselRight);
+	rightArrowCarousel = new Button("images/carousel-right.png", "images/carousel-right-hover.png", gc->getWindowSize().x - gc->getWidthScale() * (30 + 10) / 2, gc->getWindowSize().y / 2 - gc->getWidthScale()* 30 / 2, 30 * gc->getWidthScale(), 30 * gc->getHeightScale(), callbackCarouselRight);
 	closeCarouselBtn = new Button("X", gc->getWindowSize().x - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
 
 	loadLevels();
