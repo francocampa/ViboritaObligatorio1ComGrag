@@ -9,7 +9,7 @@ std::uniform_int_distribution<> cloudModel(1, 3);
 
 GameController::GameController() {
 	GRID_SIZE = 8;
-	TILE_SIZE = 2;
+	TILE_SIZE = 1;
 	for (int i = 0; i < 24;i++)
 		baseCubeVertices[i] = baseCubeVertices[i] * TILE_SIZE;
 	for (int i = 0; i < 12;i++)

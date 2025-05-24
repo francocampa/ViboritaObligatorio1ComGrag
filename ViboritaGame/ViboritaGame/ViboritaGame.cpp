@@ -189,6 +189,8 @@ int main(int argc, char* argv[]) {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		exit(1);
 	}
+	
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
 	Vec2 windowSize = { 640,480 };
 
