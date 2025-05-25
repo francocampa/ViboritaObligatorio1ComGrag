@@ -15,7 +15,6 @@
 #include "IGameEntity.h"
 #include "Block.h"
 #include "Apple.h"
-#include "Cloud.h"
 #include "Viborita.h"
 #include "Goal.h"
 #include "IGameState.h"
@@ -44,8 +43,6 @@ private:
 	LevelCreator* levelCreator;
 	IGameState* state;
 	SaveFile* saveFile;
-
-	Cloud* clouds[4];
 
 	std::list<ParticleSystem*> particles;
 

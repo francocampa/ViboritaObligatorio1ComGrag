@@ -25,10 +25,6 @@ GameController::GameController() {
 	fpsBtn = new Button("60", 10, 400);
 	
 	saveFile = NULL;
-
-	for (int i = 0; i < 4; i++) {
-		clouds[i] = new Cloud(cloudModel(generador), radios(generador), cloudModel(generador));
-	}
 }
 
 GameController* GameController::getInstance() {
@@ -51,17 +47,6 @@ void GameController::processFrame(float deltaTime) {
 
 	if (settings->isWireframe())
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-	//if (game != NULL) {
-	//	for (int i = 0; i < 4; i++) {
-	//		glEnable(GL_LIGHTING);
-	//		if (!paused) {
-	//			clouds[i]->process(deltaTime);
-	//		}
-	//		clouds[i]->draw();
-	//		glDisable(GL_LIGHTING);
-	//	}
-	//}
 	
 	state->process(deltaTime);
 

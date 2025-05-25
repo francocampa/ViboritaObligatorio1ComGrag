@@ -386,29 +386,20 @@ void drawModel(MODEL_TYPE modelType, bool textures) {
 	case GOAL_MODEL:
 		indexModel = 4;
 		break;
-	case CLOUD1_MODEL:
+	case SPIKED_APPLE_MODEL:
 		indexModel = 5;
 		break;
-	case CLOUD2_MODEL:
+	case TITLE_MODEL:
 		indexModel = 6;
 		break;
-	case CLOUD3_MODEL:
+	case ERASOR_MODEL:
 		indexModel = 7;
 		break;
-	case SPIKED_APPLE_MODEL:
+	case WORLD_MODEL:
 		indexModel = 8;
 		break;
-	case TITLE_MODEL:
-		indexModel = 9;
-		break;
-	case ERASOR_MODEL:
-		indexModel = 10;
-		break;
-	case WORLD_MODEL:
-		indexModel = 11;
-		break;
 	case WORM_DEAD_HEAD_MODEL:
-		indexModel = 12;
+		indexModel = 9;
 		break;
 	default:
 		break;

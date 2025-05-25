@@ -114,9 +114,6 @@
     <ClCompile Include="SpikedApple.cpp">
       <Filter>Classes\game_entities</Filter>
     </ClCompile>
-    <ClCompile Include="Cloud.cpp">
-      <Filter>Classes\game_entities</Filter>
-    </ClCompile>
     <ClCompile Include="Particle.cpp">
       <Filter>Classes\game_objects</Filter>
     </ClCompile>
@@ -196,9 +193,6 @@
     </ClInclude>
     <ClInclude Include="LevelButton.h">
       <Filter>Header Files\hud_element</Filter>
-    </ClInclude>
-    <ClInclude Include="Cloud.h">
-      <Filter>Header Files\game_entities</Filter>
     </ClInclude>
     <ClInclude Include="SpikedApple.h">
       <Filter>Header Files\game_entities</Filter>
