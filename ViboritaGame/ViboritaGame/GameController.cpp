@@ -199,11 +199,6 @@ bool GameController::isZKey()
 	return z;
 }
 
-MainMenu* GameController::getMainMenu()
-{
-	return (MainMenu*)state;
-}
-
 bool GameController::isXKey()
 {
 	return x;

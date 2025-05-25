@@ -151,7 +151,6 @@
     <ClCompile Include="LevelButton.cpp" />
     <ClCompile Include="LevelCreator.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="Message.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="SaveFile.cpp" />
@@ -182,7 +181,6 @@
     <ClInclude Include="LevelButton.h" />
     <ClInclude Include="LevelCreator.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Message.h" />
     <ClInclude Include="SaveFile.h" />
     <ClInclude Include="SpikedApple.h" />
     <ClInclude Include="Particle.h" />

@@ -376,7 +376,7 @@ void Viborita::handleEatApple(Vec3* lastTailPos, Vec3* lastTailGrid)
 	ViboritaPart* newTail = new ViboritaPart;
 	newTail->position = { lastTailPos->x,lastTailPos->y,lastTailPos->z };
 	newTail->gridIndex = { lastTailGrid->x,lastTailGrid->y,lastTailGrid->z };
-	newTail->dirToFront = subtractV3(newTail->gridIndex,this->body.tail->gridIndex);
+	newTail->dirToFront = subtractV3(this->body.tail->gridIndex, newTail->gridIndex);
 	newTail->orientationToFront = { this->body.tail->orientationToFront.x,this->body.tail->orientationToFront.y,this->body.tail->orientationToFront.z};
 	newTail->next = NULL;
 	this->body.tail->next = newTail;

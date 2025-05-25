@@ -114,7 +114,7 @@ void LevelCreator::process(float deltaTime)
 	glPopMatrix();
 	glPushMatrix();
 	glTranslatef(gc->getGridPosition(selectedGridIndex.x), gc->getGridPosition(selectedGridIndex.y), gc->getGridPosition(selectedGridIndex.z));
-	drawCube(baseCubeVertices, baseCubeColors, baseCubeIndices);
+	drawCubeWithNormals({0,0,0}, false, 0);
 	glPopMatrix();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 

@@ -39,8 +39,6 @@ private:
 	Settings* settings;
 	
 	GamePlay* game;
-	MainMenu* mainMenu;
-	LevelCreator* levelCreator;
 	IGameState* state;
 	SaveFile* saveFile;
 
@@ -142,7 +140,6 @@ public:
 	bool isDKey() { return d; }
 	bool isAKey() { return a; }
 	std::string getKeyPressed();
-	MainMenu* getMainMenu();
 
 	void setMoveCamera(bool move);
 	bool getMoveCamera();
