@@ -9,7 +9,6 @@
 #include <iostream>
 #include <filesystem>
 #include "LevelCreator.h"
-
 class LevelButton;
 
 class MainMenu :

@@ -129,6 +129,9 @@
     <ClCompile Include="Erasor.cpp">
       <Filter>Classes\game_entities</Filter>
     </ClCompile>
+    <ClCompile Include="SaveFile.cpp">
+      <Filter>Classes\game_objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -200,17 +203,20 @@
     <ClInclude Include="SpikedApple.h">
       <Filter>Header Files\game_entities</Filter>
     </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Message.h">
       <Filter>Header Files\hud_element</Filter>
     </ClInclude>
     <ClInclude Include="Erasor.h">
       <Filter>Header Files\game_entities</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveFile.h">
+      <Filter>Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files\game_objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files\game_objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

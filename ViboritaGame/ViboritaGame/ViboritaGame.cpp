@@ -84,6 +84,9 @@ void loadModelsAndTextures() {
 	arrowTextures[2] = tId;
 	loadTexture(tId, "textures/arrows/up.png");
 	arrowTextures[3] = tId;
+
+	loadTexture(tId, "images/levelCompleted.png");
+	loadTexture(tId, "images/levelNotCompleted.png");
 }
 
 void setupLighting() {

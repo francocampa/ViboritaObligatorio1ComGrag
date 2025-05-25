@@ -16,6 +16,11 @@ private:
 	float aProgress = 0;
 	Vec2 textSize;
 	GLuint levelTextId;
+	Vec2 timerSize;
+	GLuint timerTextId;
+	Vec2 scoreSize;
+	GLuint scoreTextId;
+	bool beat;
 	void (*callback)(std::string);
 public:
 	LevelButton(int x, Level* level, void (*callback)(std::string));

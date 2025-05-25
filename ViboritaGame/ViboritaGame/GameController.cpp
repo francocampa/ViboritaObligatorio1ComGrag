@@ -23,6 +23,8 @@ GameController::GameController() {
 	timeCounter = 0.0f;
 	fps = 0;
 	fpsBtn = new Button("60", 10, 400);
+	
+	saveFile = NULL;
 
 	for (int i = 0; i < 4; i++) {
 		clouds[i] = new Cloud(cloudModel(generador), radios(generador), cloudModel(generador));
@@ -416,6 +418,94 @@ float GameController::getWidthScale()
 float GameController::getHeightScale()
 {
 	return heightScale;
+}
+
+std::string readFileToString(FILE* file) {
+	std::string contents;
+	char buffer[1024];
+
+	while (fgets(buffer, sizeof(buffer), file)) {
+		contents += buffer;
+	}
+
+	return contents;
+}
+void GameController::setSaveFile(int levelCount)
+{
+	if (this->saveFile != NULL)
+		return;
+
+
+	this->saveFile = new SaveFile(levelCount);
+
+	std::string path = std::filesystem::current_path().string() + "/save.snaked";
+	FILE* fp = nullptr;
+	errno_t err = fopen_s(&fp, path.c_str(), "r");
+
+	if (err != 0 || fp == nullptr) { //Doesn't have a save file
+		return;
+	}
+	
+	std::string saveString = readFileToString(fp);
+	fclose(fp);
+
+	std::vector<std::string> lines;
+	int start = 0;
+	int end;
+
+	while ((end = saveString.find('\n', start)) != std::string::npos) {
+		lines.push_back(saveString.substr(start, end - start));
+		start = end + 1;
+	}
+	lines.push_back(saveString.substr(start, end - start));
+
+	for (int i = 0; i < lines.size();i++) {
+		std::string line = lines.at(i);
+		int j = 0;
+		start = 0;
+		end = 0;
+		while ((end = line.find(',', start)) != std::string::npos) {
+			try {
+				std::string val = line.substr(start, end - start);
+				start = end + 1;
+				switch (i) {
+				case 0:
+					if (val == "true")
+						saveFile->beatLevel(j);
+					break;
+				case 1:
+					saveFile->setLevelBestTime(j, std::stoi(val));
+					break;
+				case 2:
+					saveFile->setLevelBestScore(j, std::stoi(val));
+					break;
+				}
+				j++;
+			}
+			catch (const std::exception& ex) {
+				std::cerr << "Failed to load level no: "+std::to_string(j)+" in line "+std::to_string(i) << std::endl;
+				j++;
+			}
+		}
+	}
+}
+
+SaveFile* GameController::getSaveFile()
+{
+	return saveFile;
+}
+
+void GameController::saveSaveFile()
+{
+	std::string path = std::filesystem::current_path().string() + "/save.snaked";
+	std::ofstream file(path);
+	if (!file) {
+		std::cerr << "Failed to create the file." << std::endl;
+		return;
+	}
+	file << saveFile->toString();
+	file.close(); 
+	std::cout << "Saved progress correctly." << std::endl;
 }
 
 

@@ -26,6 +26,24 @@ LevelButton::LevelButton(int x, Level* level,void(*callback)(std::string))
 	resize();
 	this->callback = callback;
 	loadTextTexture(levelTextId,level->getName().c_str(),IHudElement::font,textSize.x,textSize.y);
+	loadTextTexture(timerTextId, "-", IHudElement::font, timerSize.x, timerSize.y);
+	loadTextTexture(scoreTextId, "-", IHudElement::font, scoreSize.x, scoreSize.y);
+	GameController* gc = GameController::getInstance();
+	SaveFile* sf = gc->getSaveFile();
+	beat = false;
+	if (level->getNo() <= 0 || !sf->hasBeatLevel(level->getNo()))
+		return;
+	
+	beat = true; // :D
+	int time = sf->getLevelTime(level->getNo());
+	int minutes = time / 60;
+	int seconds = time - minutes * 60;
+	std::string mString = minutes < 10 ? "0" + std::to_string(minutes) : std::to_string(minutes);
+	std::string sString = seconds < 10 ? "0" + std::to_string(seconds) : std::to_string(seconds);
+	std::string text = mString + ":" + sString;
+	loadTextTexture(timerTextId, text.c_str(), IHudElement::font, timerSize.x, timerSize.y);
+	loadTextTexture(scoreTextId, std::to_string(sf->getLevelScore(level->getNo())).c_str(), IHudElement::font, scoreSize.x, scoreSize.y);
+
 }
 
 void LevelButton::draw()
@@ -43,6 +61,7 @@ void LevelButton::draw()
 	glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
 			int offsetToCenterX = rect->w/2 - textSize.x/2;
+			int offsetY = 0;
 			int x0 = offsetToCenterX + rect->x;
 			int x1 = offsetToCenterX + rect->x + textSize.x;
 			int y0 = rect->y + rect->h;
@@ -53,7 +72,55 @@ void LevelButton::draw()
 			glTexCoord2f(1.0f, 1.0f); glVertex2i(x1, y1);
 			glTexCoord2f(0.0f, 1.0f); glVertex2i(x0,y1);
 		glEnd();
+	if (timerTextId != NULL) {
+		glBindTexture(GL_TEXTURE_2D, timerTextId);
+		glBegin(GL_QUADS);
+			offsetToCenterX = rect->w / 2 - timerSize.x / 2;
+			offsetY += textSize.y + 10;
+			x0 = offsetToCenterX + rect->x;
+			x1 = offsetToCenterX + rect->x + timerSize.x;
+			y0 = offsetY + rect->y + rect->h;
+			y1 = offsetY + rect->y + rect->h + timerSize.y;
+
+			glTexCoord2f(0.0f, 0.0f); glVertex2i(x0, y0);
+			glTexCoord2f(1.0f, 0.0f); glVertex2i(x1, y0);
+			glTexCoord2f(1.0f, 1.0f); glVertex2i(x1, y1);
+			glTexCoord2f(0.0f, 1.0f); glVertex2i(x0, y1);
+		glEnd();
+	}
+	if (scoreTextId != NULL) {
+		glBindTexture(GL_TEXTURE_2D, scoreTextId);
+		glBegin(GL_QUADS);
+			offsetToCenterX = rect->w / 2 - scoreSize.x / 2;
+			offsetY += timerSize.y + 10;
+			x0 = offsetToCenterX + rect->x;
+			x1 = offsetToCenterX + rect->x + scoreSize.x;
+			y0 = offsetY + rect->y + rect->h;
+			y1 = offsetY + rect->y + rect->h + scoreSize.y;
+
+			glTexCoord2f(0.0f, 0.0f); glVertex2i(x0, y0);
+			glTexCoord2f(1.0f, 0.0f); glVertex2i(x1, y0);
+			glTexCoord2f(1.0f, 1.0f); glVertex2i(x1, y1);
+			glTexCoord2f(0.0f, 1.0f); glVertex2i(x0, y1);
+		glEnd();
+	}
+	glBindTexture(GL_TEXTURE_2D, beat ? textures.at("images/levelCompleted.png") : textures.at("images/levelNotCompleted.png"));
+	glBegin(GL_QUADS);
+	glColor3f(beat ? 0 : 0.7,beat ? 0.7 : 0,0);
+	offsetToCenterX = rect->w / 2 - 15 / 2;
+	offsetY += scoreSize.y + 10;
+	x0 = offsetToCenterX + rect->x;
+	x1 = offsetToCenterX + rect->x + 15;
+	y0 = offsetY + rect->y + rect->h;
+	y1 = offsetY + rect->y + rect->h + 15;
+
+	glTexCoord2f(0.0f, 0.0f); glVertex2i(x0, y0);
+	glTexCoord2f(1.0f, 0.0f); glVertex2i(x1, y0);
+	glTexCoord2f(1.0f, 1.0f); glVertex2i(x1, y1);
+	glTexCoord2f(0.0f, 1.0f); glVertex2i(x0, y1);
+	glEnd();
 	glDisable(GL_TEXTURE_2D);
+	glColor3f(0,0,0);
 
 	GameController* gc = GameController::getInstance();
 	IHudElement::goBackTo3d();

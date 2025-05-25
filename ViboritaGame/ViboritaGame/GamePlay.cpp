@@ -54,6 +54,8 @@ GamePlay::GamePlay(Level* level)
 	tutorials[3]->center(0, gc->getWindowSize().x);
 	tutorials[4] = new Button("images/Level4Tutorial.png", 10, 60, "");
 	tutorials[4]->center(0, gc->getWindowSize().x);
+	tutorials[6] = new Button("images/Level6Tutorial.png", 10, 60, "");
+	tutorials[6]->center(0, gc->getWindowSize().x);
 	tutorials[8] = new Button("images/Level8Tutorial.png", 10, 60, "");
 	tutorials[8]->center(0, gc->getWindowSize().x);
 
@@ -117,9 +119,16 @@ void GamePlay::beatLevel()
 				}
 			}
 
-	if (nextLevelName != "") {
-		mm->startLevel(nextLevelName);
+	if (level->getNo() > 0) {
+		SaveFile* sf = GameController::getInstance()->getSaveFile();
+		sf->beatLevel(level->getNo());
+		sf->setLevelBestScore(level->getNo(), stats->getScore());
+		sf->setLevelBestTime(level->getNo(),stats->getTimer());
+		GameController::getInstance()->saveSaveFile();
 	}
+
+	if (nextLevelName != "") 
+		mm->startLevel(nextLevelName);
 }
 
 void GamePlay::startLevel()

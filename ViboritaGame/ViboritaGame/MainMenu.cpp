@@ -72,6 +72,7 @@ MainMenu::MainMenu() {
 	closeCarouselBtn = new Button("X", gc->getWindowSize().x - 10 - 30 / 2, 10, callbackCloseCarousel, "", false, false);
 
 	loadLevels();
+	gc->setSaveFile(levels.size() + 1);
 
 	std::vector<LevelButton*> btns;
 	int i = 0;

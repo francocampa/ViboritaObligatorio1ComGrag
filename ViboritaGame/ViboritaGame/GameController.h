@@ -26,6 +26,7 @@
 #include "ParticleSystem.h"
 #include "random"
 #include <ctime>
+#include "SaveFile.h"
 
 class LevelCreator;
 class MainMenu;
@@ -42,6 +43,7 @@ private:
 	MainMenu* mainMenu;
 	LevelCreator* levelCreator;
 	IGameState* state;
+	SaveFile* saveFile;
 
 	Cloud* clouds[4];
 
@@ -183,5 +185,9 @@ public:
 
 	float getWidthScale();
 	float getHeightScale();
+
+	void setSaveFile(int levelCount);
+	SaveFile* getSaveFile();
+	void saveSaveFile();
 };
 
