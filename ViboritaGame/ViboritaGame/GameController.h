@@ -183,5 +183,6 @@ public:
 	void setSaveFile(int levelCount);
 	SaveFile* getSaveFile();
 	void saveSaveFile();
+	void removeAllParticles();
 };
 

@@ -176,7 +176,7 @@ int main(int argc, char* argv[]) {
 
 	Vec2 windowSize = { 640,480 };
 
-	SDL_Window* win = SDL_CreateWindow("Viborita",
+	SDL_Window* win = SDL_CreateWindow("Snak3d",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		windowSize.x, windowSize.y,
@@ -529,7 +529,6 @@ int main(int argc, char* argv[]) {
 
 	SDL_GL_DeleteContext(context);
 	SDL_DestroyWindow(win);
-	//TTF_CloseFont(); TODO: que libere las fuentes
 	SDL_Quit();
 	return 0;
 }

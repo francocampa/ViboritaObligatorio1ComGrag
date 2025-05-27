@@ -54,6 +54,8 @@ GamePlay::GamePlay(Level* level)
 	tutorials[3]->center(0, gc->getWindowSize().x);
 	tutorials[4] = new Button("images/Level4Tutorial.png", 10, 60, "");
 	tutorials[4]->center(0, gc->getWindowSize().x);
+	tutorials[5] = new Button("images/Level5Tutorial.png", 10, 60, "");
+	tutorials[5]->center(0, gc->getWindowSize().x);
 	tutorials[6] = new Button("images/Level6Tutorial.png", 10, 60, "");
 	tutorials[6]->center(0, gc->getWindowSize().x);
 	tutorials[8] = new Button("images/Level8Tutorial.png", 10, 60, "");

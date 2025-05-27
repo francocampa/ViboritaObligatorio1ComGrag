@@ -346,12 +346,23 @@ void GameController::removeParticles(ParticleSystem* ps)
 	it = particles.begin();
 	while (!particles.empty() && it != particles.end()) {
 		ParticleSystem* toDel = (*it);
-		if(toDel != toDel)
+		if(toDel != ps)
 		{
 			it++;
 			continue;
 		}
 		delete ps;
+		particles.erase(it);
+		break;
+	}
+}
+
+void GameController::removeAllParticles() {
+	std::list<ParticleSystem*>::iterator it;
+	it = particles.begin();
+	while (!particles.empty() && it != particles.end()) {
+		ParticleSystem* toDel = (*it);
+		delete toDel;
 		particles.erase(it);
 		break;
 	}

@@ -292,6 +292,7 @@ void LevelCreator::toggleTryLevel()
 {
 	if (testGameplay != NULL) {
 		testGameplay = NULL;
+		GameController::getInstance()->removeAllParticles();
 		tryButton->updateText("Probar nivel");
 	}
 	else if(this->viborita != NULL){

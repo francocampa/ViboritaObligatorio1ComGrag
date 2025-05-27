@@ -423,7 +423,7 @@ void Viborita::handleFall()
 
 		aux = aux->next;
 	}
-	if (this->body.head->gridIndex.y <= 0 && this->gameContext != NULL) {
+	if (this->body.head->gridIndex.y < 0 && this->gameContext != NULL) {
 		GameController::getInstance()->setNormalControl(true);
 		this->gameContext->resetLevel();
 	}
